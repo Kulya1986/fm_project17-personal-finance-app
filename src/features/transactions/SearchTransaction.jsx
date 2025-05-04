@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router";
-import Input from "./Input";
+import Input from "../../ui/Input";
 import { useState } from "react";
 
 function SearchField() {

@@ -5,7 +5,7 @@ import RecurringBillsTableOperations from "./RecurringBillsTableOperations";
 function RecurringBillsTable({ bills }) {
   return (
     <Table
-      columns={"1fr 7.5rem 6.25rem"}
+      columns={"1fr 8.5rem 6.25rem"}
       tablecolor={"var(--color-white)"}
       bordercolor={"var(--color-grey-100)"}
       spacing={{

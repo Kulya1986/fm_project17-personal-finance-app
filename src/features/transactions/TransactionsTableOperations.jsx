@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Input from "../../ui/Input";
 import Select from "../../ui/Select";
 import { useSearchParams } from "react-router";
-import SearchField from "../../ui/SearchField";
-import SortBy from "../../ui/SortBy";
+import SearchField from "./SearchTransaction";
+import SortBy from "./SortByTransaction";
 import CategoryFilter from "../../ui/CategoryFilter";
 
 const SelectsGroup = styled.div`

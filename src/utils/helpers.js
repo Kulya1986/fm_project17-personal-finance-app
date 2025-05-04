@@ -1,5 +1,8 @@
 // Removes hyphen in colors names for select
 
+import { addDays, getQuarter, getDayOfYear } from "date-fns";
+import { DAYS_PER_QUARTER } from "./constants";
+
 export const removeHyphen = (str) => {
   return str.replace("-", " ");
 };
@@ -60,4 +63,103 @@ export function convertCreatedAt(date) {
     .concat(dateParts[3]);
 
   return convertedDate;
+}
+
+// COnvert dueDate for Recurring bills if paid quarterly or yearly
+export function convertDueDate(day, period) {
+  const current = new Date();
+  let dayOfYear;
+
+  if (period === 4) {
+    const quarter = getQuarter(current);
+    dayOfYear =
+      day +
+      DAYS_PER_QUARTER.reduce(
+        (acc, curr, i) => (i < quarter - 1 ? acc + curr : acc),
+        0
+      );
+  }
+
+  const due = addDays(
+    current.setMonth(0, 1),
+    period === 1 ? day - 1 : dayOfYear - 1
+  );
+
+  const dateParts = due.toDateString().split(" ");
+  const convertedDate = dateParts[2].concat(" ").concat(dateParts[1]);
+
+  return convertedDate;
+}
+
+export function compareStrings(a, b, direction) {
+  const nameA = a.toLowerCase(); // ignore upper and lowercase
+  const nameB = b.toLowerCase(); // ignore upper and lowercase
+  if (nameA < nameB) {
+    return direction ? -1 : 1;
+  }
+  if (nameA > nameB) {
+    return direction ? 1 : -1;
+  }
+  // names must be equal
+  return 0;
+}
+
+export function sortBillsByTypeAsc(a, b) {
+  if (a === "paid" && (b === "due" || b === "upcoming")) {
+    return -1;
+  }
+  if ((a === "due" || a === "upcoming") && b === "paid") {
+    return 1;
+  }
+  return 0;
+}
+
+export function sortBillsByTypeDesc(a, b) {
+  if (a === "upcoming" && (b === "due" || b === "paid")) {
+    return -1;
+  }
+  if ((a === "due" || a === "paid") && b === "upcoming") {
+    return 1;
+  }
+  if (a === "due" && b === "paid") {
+    return -1;
+  }
+  if (a === "paid" && b === "due") {
+    return 1;
+  }
+  return 0;
+}
+
+export function sortBillsByFrequencyDueDate(
+  frequencyA,
+  frequencyB,
+  dueDayA,
+  dueDayB,
+  direction
+) {
+  const startDate = new Date();
+  const dayNumberInYearA =
+    frequencyA === 1
+      ? dueDayA
+      : frequencyA === 12
+      ? getDayOfYear(startDate.setDate(dueDayA))
+      : dueDayA +
+        DAYS_PER_QUARTER.reduce(
+          (acc, curr, i) => (i < getQuarter(startDate) - 1 ? acc + curr : acc),
+          0
+        );
+  const dayNumberInYearB =
+    frequencyB === 1
+      ? dueDayB
+      : frequencyB === 12
+      ? getDayOfYear(startDate.setDate(dueDayB))
+      : dueDayB +
+        DAYS_PER_QUARTER.reduce(
+          (acc, curr, i) => (i < getQuarter(startDate) - 1 ? acc + curr : acc),
+          0
+        );
+
+  return direction
+    ? dayNumberInYearA - dayNumberInYearB
+    : dayNumberInYearB - dayNumberInYearA;
 }

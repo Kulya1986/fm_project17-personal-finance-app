@@ -1,22 +1,23 @@
 import styled from "styled-components";
-import Select from "./Select";
+import Select from "../../ui/Select";
 import { useSearchParams } from "react-router";
 
 const sortByOptions = [
   {
-    value: "created_at-desc",
+    value: "frequency-desc",
     label: "Latest",
   },
   {
-    value: "created_at-asc",
+    // Type:paid, due, upcoming; Frequency:yearly,quarterly,monthly; dueDay: from 1 to highest
+    value: "frequency-asc",
     label: "Oldest",
   },
   {
-    value: "agents-fullName-asc",
+    value: "agentName-asc",
     label: "A to Z",
   },
   {
-    value: "agents-fullName-desc",
+    value: "agentName-desc",
     label: "Z to A",
   },
   {
@@ -38,7 +39,7 @@ const SelectLabel = styled.span`
 function SortBy() {
   const [searchParams, setSearchParams] = useSearchParams();
   const sortOptions = sortByOptions.map((item) => item.label);
-  const sortType = searchParams.get("sortBy");
+  const sortType = searchParams.get("sortByBills");
 
   const sortOption = sortType
     ? sortByOptions.filter((option) => option.value === sortType)[0].label
@@ -47,7 +48,7 @@ function SortBy() {
   function handleSortChange(label) {
     const option = sortByOptions.filter((opt) => opt.label === label)[0].value;
 
-    searchParams.set("sortBy", option);
+    searchParams.set("sortByBills", option);
     setSearchParams(searchParams);
   }
 

@@ -63,14 +63,14 @@ function RecurringBillsSummary({ bills }) {
     style: "currency",
     currency: "USD",
   });
-  const currentDay = new Date().getDate() + 10;
+
   const billsTotal = bills.reduce(
     (acc, bill) => acc + Math.abs(bill.amount),
     0
   );
   const paidBills = bills.reduce(
     (acc, bill) =>
-      bill.dueDay < currentDay
+      bill.type === "paid"
         ? { ...acc, count: acc.count + 1, amount: acc.amount + bill.amount }
         : acc,
     { count: 0, amount: 0 }
@@ -78,7 +78,7 @@ function RecurringBillsSummary({ bills }) {
 
   const totalUpcomingBills = bills.reduce(
     (acc, bill) =>
-      bill.dueDay >= currentDay
+      bill.type === "due" || bill.type === "upcoming"
         ? { ...acc, count: acc.count + 1, amount: acc.amount + bill.amount }
         : acc,
     { count: 0, amount: 0 }
@@ -86,7 +86,7 @@ function RecurringBillsSummary({ bills }) {
 
   const dueSoonBills = bills.reduce(
     (acc, bill) =>
-      bill.dueDay <= currentDay + 10 && bill.dueDay >= currentDay
+      bill.type === "due"
         ? { ...acc, count: acc.count + 1, amount: acc.amount + bill.amount }
         : acc,
     { count: 0, amount: 0 }
