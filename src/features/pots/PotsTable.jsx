@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { usePots } from "./usePots";
 import Spinner from "../../ui/Spinner";
 import Pot from "./Pot";
+import NoDataYet from "../../ui/NoDataYet";
 
 const StyledPotsTable = styled.div`
   display: grid;
@@ -11,9 +12,16 @@ const StyledPotsTable = styled.div`
 
 function PotsTable() {
   const { isLoading, error, pots } = usePots();
-  console.log(pots);
 
   if (isLoading) return <Spinner />;
+  console.log(pots);
+
+  if (!pots.length)
+    return (
+      <>
+        <NoDataYet section={"pots"} />
+      </>
+    );
 
   return (
     <StyledPotsTable>

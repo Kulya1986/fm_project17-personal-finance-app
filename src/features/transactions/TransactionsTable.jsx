@@ -8,6 +8,7 @@ import TransactionsTableOperations from "./TransactionsTableOperations";
 import TransactionsPagination from "./TransactionsPagination";
 import { PAGE_SIZE } from "../../utils/constants";
 import { useSearchParams } from "react-router";
+import NoDataYet from "../../ui/NoDataYet";
 
 function TransactionsTable() {
   const { isLoading, error, transactions, count } = useTransactions();
@@ -15,8 +16,10 @@ function TransactionsTable() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
-
   console.log(transactions);
+
+  if (count === 0) return <NoDataYet section={"transactions"} />;
+
   const pagesCount = searchParams.get("searchedTransaction")
     ? Math.ceil(
         transactions.reduce(

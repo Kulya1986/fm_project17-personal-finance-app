@@ -1,10 +1,10 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getTransactionsForBudgets } from "../../services/apiTransactions";
+import { getTransactionsByMonth } from "../../services/apiTransactions";
 
-export function useTransactionsForBudgets({
+export function useTransactionsByMonth({
   year = null,
   month = null,
-  categoryId = null,
+  limit = null,
 }) {
   const queryClient = useQueryClient();
 
@@ -17,12 +17,12 @@ export function useTransactionsForBudgets({
     error,
     data: { transactions } = {},
   } = useQuery({
-    queryKey: ["transactions", year, month, categoryId],
+    queryKey: ["transactions", year, month, limit],
     queryFn: () =>
-      getTransactionsForBudgets({
+      getTransactionsByMonth({
         year,
         month,
-        categoryId,
+        limit,
       }),
   });
 

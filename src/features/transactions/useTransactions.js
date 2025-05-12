@@ -1,11 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getTransactionsWithAgents } from "../../services/apiTransactions";
-import { useSearchParams } from "react-router";
+import { useLocation, useSearchParams } from "react-router";
 import { PAGE_SIZE } from "../../utils/constants";
 
 export function useTransactions() {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
+  let location = useLocation();
 
   // 1. SEARCH FOR TRANSACTION
 
@@ -41,7 +42,10 @@ export function useTransactions() {
 
   //4. PAGINATION
 
-  const page = search ? null : searchParams.get("page") || 1;
+  const page =
+    search || location.pathname === "/overview"
+      ? null
+      : searchParams.get("page") || 1;
 
   const {
     isLoading,

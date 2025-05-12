@@ -15,6 +15,12 @@ const StyledButtonArrow = styled.button`
   &:hover {
     color: var(--color-grey-900);
   }
+
+  &:active,
+  :focus,
+  :focus-visible {
+    outline: unset;
+  }
 `;
 
 function ButtonArrow({ handleClick, children }) {

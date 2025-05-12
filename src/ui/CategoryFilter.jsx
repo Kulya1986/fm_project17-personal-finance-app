@@ -3,10 +3,16 @@ import { useSearchParams } from "react-router";
 import { useCategories } from "../hooks/useCatgeoris";
 import Select from "./Select";
 
-const SelectLabel = styled.span`
+const SelectLabel = styled.label`
   color: var(--color-grey-500);
   font-size: var(--text-preset-4);
   margin-right: var(--spacing-100);
+`;
+
+const StyledCategoryFilter = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 function CategoryFilter() {
@@ -40,15 +46,14 @@ function CategoryFilter() {
   const categoriesOptions = selectInitial.concat(selectOptions);
 
   return (
-    <div>
+    <StyledCategoryFilter>
       <SelectLabel>Category</SelectLabel>
       <Select
         options={categoriesOptions}
         value={selectedCategory}
         onChange={handleCategoryChange}
-        selectwidth={"177px"}
       />
-    </div>
+    </StyledCategoryFilter>
   );
 }
 

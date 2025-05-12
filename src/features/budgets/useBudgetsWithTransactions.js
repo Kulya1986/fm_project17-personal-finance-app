@@ -1,6 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBudgetsWithTransactions } from "../../services/apiBudgets";
 
+// NOT USED IN PROJECT
+
 export function useBudgetsWithTransactions() {
   const queryClient = useQueryClient();
   const year = 2025;

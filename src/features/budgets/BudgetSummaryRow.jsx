@@ -16,7 +16,6 @@ const StyledAmount = styled(GeneralCell)`
 `;
 
 const StyledBorder = styled.div`
-  margin-left: var(--spacing-50);
   margin-right: var(--spacing-200);
   width: 4px;
   border-radius: 8px;

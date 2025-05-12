@@ -15,6 +15,7 @@ export async function getBudgets() {
 
   return { budgets, error };
 }
+
 // NOT USED FOR NOW, NEED to CHANGE TABLE for FETCH to 'Categories'
 export async function getBudgetsWithTransactions(year, month) {
   let query = supabase

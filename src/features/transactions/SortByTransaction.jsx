@@ -29,10 +29,16 @@ const sortByOptions = [
   },
 ];
 
-const SelectLabel = styled.span`
+const SelectLabel = styled.label`
   color: var(--color-grey-500);
   font-size: var(--text-preset-4);
   margin-right: var(--spacing-100);
+`;
+
+const StyledSortBy = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 function SortBy() {
@@ -52,15 +58,14 @@ function SortBy() {
   }
 
   return (
-    <div>
+    <StyledSortBy>
       <SelectLabel>Sort by</SelectLabel>
       <Select
         options={sortOptions}
         value={sortOption}
         onChange={handleSortChange}
-        selectwidth={"114px"}
       />
-    </div>
+    </StyledSortBy>
   );
 }
 

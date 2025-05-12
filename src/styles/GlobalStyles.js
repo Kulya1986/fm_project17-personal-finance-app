@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle`
 :root{
     --color-beige-500:#98908B;
-    --color-beige-100:#F8F4F0;
+    --color-beige-100: #F8F4F0;
     --color-grey-900:#201F24;
     --color-grey-500:#696868;
     --color-grey-300:#B3B3B3;
@@ -80,6 +80,7 @@ button {
 input:hover, textarea:hover, select:hover{
     outline: 1px solid var(--color-grey-500);
     outline-offset: -1px;
+    cursor: pointer;
 }
 
 input:focus, textarea:focus,button:focus, select:focus{

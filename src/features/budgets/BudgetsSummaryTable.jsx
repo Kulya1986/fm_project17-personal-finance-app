@@ -17,6 +17,7 @@ function BudgetsSummaryTable({ budgets }) {
         columns={"1fr 1fr"}
         tablecolor={"var(--color-white)"}
         bordercolor={"var(--color-grey-100)"}
+        borderradius={true}
         spacing={{
           tableGap: 300,
           columnsGap: 10,

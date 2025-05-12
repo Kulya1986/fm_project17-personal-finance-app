@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useBudgets } from "./useBudgets";
 import Spinner from "../../ui/Spinner";
 import Budget from "./Budget";
+import NoDataYet from "../../ui/NoDataYet";
 
 const StyledBudgetsTable = styled.section`
   display: flex;
@@ -16,6 +17,7 @@ function BudgetsTable() {
   if (isLoading) return <Spinner />;
 
   // console.log(budgets);
+  if (!budgets.length) return <NoDataYet section={"budgets"} />;
 
   return (
     <StyledBudgetsTable>

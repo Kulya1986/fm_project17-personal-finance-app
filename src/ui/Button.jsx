@@ -40,6 +40,32 @@ const variations = {
       background-color: rgba(201, 71, 54, 0.8);
     }
   `,
+  context: css`
+    background-color: inherit;
+    border: none;
+    padding: 0;
+
+    &:hover {
+      background-color: inherit;
+    }
+
+    &:focus,
+    :active {
+      outline: none;
+    }
+  `,
+  plaintext: css`
+    background-color: inherit;
+    border: none;
+    padding: 0;
+    font-weight: normal;
+    color: var(--color-grey-500);
+
+    &:hover {
+      background-color: inherit;
+      color: var(--color-grey-900);
+    }
+  `,
 };
 
 const Button = styled.button`

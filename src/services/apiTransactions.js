@@ -134,7 +134,43 @@ export async function getTransactionsForBudgets({
 
   if (error) {
     console.error(error);
-    throw new Error("Budgets could not be loaded");
+    throw new Error("Transactions could not be loaded");
+  }
+
+  return { transactions, error };
+}
+
+export async function getTransactionsByMonth({ year, month, limit }) {
+  let query = supabase
+    .from("transactions")
+    .select(
+      "id, amount, created_at, income,  categoryId, agents(fullName, avatar)"
+    );
+
+  if (year && month) {
+    // Select transactions for specified period(month)
+    query = query
+      .gte("created_at", getBoundaryDate({ year, month }))
+      .lte("created_at", getBoundaryDate({ year, month, end: true }));
+  }
+  // Select transactions for current month
+  else
+    query = query
+      .gte("created_at", getBoundaryDate({}))
+      .lte("created_at", getBoundaryDate({ end: true }));
+
+  query = query.order("created_at", {
+    ascending: false,
+  });
+
+  //Limit returned number of transactions
+  if (limit) query = query.range(0, limit - 1);
+
+  let { data: transactions, error } = await query;
+
+  if (error) {
+    console.error(error);
+    throw new Error("Transactions could not be loaded");
   }
 
   return { transactions, error };

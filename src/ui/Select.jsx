@@ -6,24 +6,29 @@ import { removeHyphen } from "../utils/helpers";
 const StyledSelect = styled.div`
   /* margin-top: 3rem; */
   position: relative;
-  display: inline-block;
-  width: ${(props) => props.$selectwidth};
-  max-width: 100%;
+  display: flex;
+  height: 45px;
   color: var(--color-grey-900);
+
+  &:disabled {
+    opacity: 0.8;
+    pointer-events: none;
+  }
 `;
 
 const SelectButton = styled.button`
   font-size: var(--text-preset-4);
   display: flex;
   justify-content: space-between;
+  gap: var(--spacing-200);
+  height: 45px;
+
   align-items: center;
   text-transform: capitalize;
-  width: 100%;
   padding: var(--spacing-150) var(--spacing-250);
   border: 1px solid var(--color-beige-500);
   border-radius: var(--spacing-100);
   background-color: var(--color-white);
-  cursor: pointer;
 
   &:hover,
   :focus,
@@ -44,10 +49,10 @@ const SelectDropdown = styled.ul`
   padding: var(--spacing-150) var(--spacing-250);
   margin: var(--spacing-200) 0 0;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
-  max-height: 300px;
+  max-height: 270px;
   overflow-y: auto;
   transition: all ease-out 0.3s;
-  z-index: 2;
+  z-index: 10;
 
   &.hidden {
     display: none;
@@ -58,9 +63,7 @@ const DropdownOption = styled.li`
   padding: var(--spacing-150) 0;
   font-size: var(--text-preset-4);
   cursor: pointer;
-  /* text-transform: capitalize; */
   border-bottom: 1px solid var(--color-grey-100);
-  /* font-weight: ${(props) => (props.all ? "bold" : "normal")}; */
 
   &.color {
     display: flex;
@@ -92,18 +95,26 @@ const DropdownOption = styled.li`
   }
 `;
 
-const Arrow = styled.img`
+const Arrow = styled.div`
   transition: transform ease-in-out 0.3s;
+  width: 16px;
+  height: 16px;
+  max-width: 16px;
 
-  &.up {
+  & img {
+    width: 100%;
+    height: 100%;
+  }
+
+  & img.up {
     transform: rotateX(180deg);
   }
 `;
 
 const ColorIcon = styled.div`
+  max-width: var(--spacing-200);
   width: var(--spacing-200);
   height: var(--spacing-200);
-  display: inline-block;
   border-radius: 50%;
   border: none;
   background-color: var(${(props) => props.color});
@@ -116,10 +127,11 @@ const Used = styled.span`
   text-transform: none;
 `;
 
-const Color = styled.div`
+const OptionName = styled.div`
   display: flex;
   align-items: center;
   text-transform: capitalize;
+  text-align: left;
 `;
 
 function Select({
@@ -133,7 +145,9 @@ function Select({
 }) {
   const [showDropdown, setShowDropDown] = useState(false);
 
-  const close = () => setShowDropDown(false);
+  const close = (e) => {
+    setShowDropDown(false);
+  };
   const ref = useOutsideClick(close, false);
 
   function handleOptionSelect(value) {
@@ -141,36 +155,44 @@ function Select({
     setShowDropDown(false);
   }
 
+  function dropdownToggle(e) {
+    e.preventDefault();
+    setShowDropDown((curr) => !curr);
+  }
+
   return (
-    <StyledSelect ref={ref} {...props} $selectwidth={selectwidth}>
+    <StyledSelect ref={ref} {...props}>
       <SelectButton
-        onClick={() => setShowDropDown((curr) => !curr)}
+        onClick={(e) => dropdownToggle(e)}
         role="combobox"
-        aria-label="select button"
+        aria-label="select-button"
         aria-haspopup="listbox"
         aria-expanded="false"
         aria-controls="select-dropdown"
       >
-        {color ? (
-          <Color>
-            <ColorIcon color={`--color-${value}`} />
-            <span className="selected-value">{removeHyphen(value)}</span>
-          </Color>
-        ) : (
-          <span className="selected-value">{value}</span>
-        )}
-
-        <Arrow
-          className={showDropdown ? "up" : ""}
-          src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//icon-caret-down.svg"
-          alt={showDropdown ? "close dropdown" : "open dropdown"}
-        />
+        <OptionName>
+          {color ? (
+            <>
+              <ColorIcon color={`--color-${value}`} />
+              <span className="selected-value">{removeHyphen(value)}</span>
+            </>
+          ) : (
+            <span className="selected-value">{value}</span>
+          )}
+        </OptionName>
+        <Arrow style={{ textAlign: "right" }}>
+          <img
+            className={showDropdown ? "up" : ""}
+            src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//icon-caret-down.svg"
+            alt={showDropdown ? "close dropdown" : "open dropdown"}
+          />
+        </Arrow>
       </SelectButton>
       <SelectDropdown
         className={showDropdown ? "" : "hidden"}
         role="listbox"
         id="select-dropdown"
-        aria-labelledby="dropdown-button"
+        aria-labelledby="select-button"
       >
         {/* {allOption && <DropdownOption all>All Transactions</DropdownOption>} */}
         {!color &&
@@ -190,15 +212,15 @@ function Select({
               className={used.includes(option) ? "used color" : "color"}
               onClick={() => handleOptionSelect(option)}
             >
-              <Color>
+              <OptionName>
                 <ColorIcon
                   color={`--color-${option}`}
                   $used={used.includes(option).toString()}
                 ></ColorIcon>
                 <span>{removeHyphen(option)}</span>
-              </Color>
+              </OptionName>
 
-              <div>
+              <div style={{ textAlign: "right" }}>
                 {option === value && (
                   <img
                     src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//icon-selected.svg"

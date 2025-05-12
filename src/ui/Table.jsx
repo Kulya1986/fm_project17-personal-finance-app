@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledTable = styled.div`
   background-color: ${(props) => props.$tablecolor};
-  border-radius: 12px;
+  border-radius: ${(props) => (props.$borderradius ? "unset" : "12px")};
   padding: ${(props) => props.$tablepadding};
   font-size: var(--text-preset-4);
   overflow: scroll;
@@ -69,7 +69,14 @@ const TableContext = createContext(null);
 
 // spacing={tablePadding: 400, tableGap:400, columnsGap:400, headerYPadding:150, headerXPadding:200, rowPadding:200}
 
-function Table({ columns, tablecolor, bordercolor, spacing, children }) {
+function Table({
+  columns,
+  tablecolor,
+  bordercolor,
+  borderradius,
+  spacing,
+  children,
+}) {
   const tablePadding = spacing.tablePadding
     ? `var(--spacing-${spacing.tablePadding})`
     : 0;
@@ -96,6 +103,7 @@ function Table({ columns, tablecolor, bordercolor, spacing, children }) {
         columnsGap,
         headerPadding,
         rowPadding,
+        borderradius,
       }}
     >
       <StyledTable
@@ -103,6 +111,7 @@ function Table({ columns, tablecolor, bordercolor, spacing, children }) {
         $tablecolor={tablecolor}
         $tablegap={tableGap}
         $tablepadding={tablePadding}
+        $borderradius={borderradius}
       >
         {children}
       </StyledTable>

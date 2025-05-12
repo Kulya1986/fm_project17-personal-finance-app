@@ -96,7 +96,8 @@ function RecurringBillsSummary({ bills }) {
     <StyledRecurringBillsSummary>
       <Card
         $variation="pot"
-        style={{ backgroundColor: "var(--color-grey-900)" }}
+        $mode="dark"
+        // style={{ backgroundColor: "var(--color-grey-900)" }}
       >
         <Icon>
           <PiReceipt />

@@ -9,6 +9,7 @@ import Pots from "./pages/Pots";
 import RecurringBills from "./pages/RecurringBills";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,30 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={12}
+        containerClassName=""
+        containerStyle={{ margin: "16px" }}
+        toastOptions={{
+          style: {
+            backgroundColor: "#F8F4F0",
+            color: "#201F24",
+            fontSize: "16px",
+            maxWidth: "400px",
+            padding: "20px",
+          },
+
+          // Default options for specific types
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }

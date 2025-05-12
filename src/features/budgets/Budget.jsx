@@ -9,33 +9,19 @@ import ButtonArrow from "../../ui/ButtonArrow";
 import BudgetTransactionRow from "./BudgetTransactionRow";
 import Heading from "../../ui/Heading";
 import { useNavigate } from "react-router";
+import CopyWithColorBar from "../../ui/CopyWithColorBar";
+import Modal from "../../ui/Modal";
+import Button from "../../ui/Button";
+import { PiDotsThreeOutlineFill } from "react-icons/pi";
 
-const LegendBox = styled.div`
+const CardTitle = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: stretch;
-  flex-grow: 1;
-  gap: var(--spacing-200);
-`;
+  justify-content: space-between;
+  align-items: center;
 
-const BoxBorder = styled.div`
-  width: 4px;
-  border-radius: 8px;
-  background-color: ${(props) => props.$boxcolor};
-`;
-
-const BoxContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-50);
-  font-size: var(--text-preset-5);
-  line-height: 1.5;
-  color: var(--color-grey-500);
-
-  & p:last-child {
-    font-size: var(--text-preset-4);
-    font-weight: bold;
-    color: var(--color-grey-900);
+  & svg {
+    color: var(--color-grey-300);
   }
 `;
 
@@ -75,8 +61,28 @@ function Budget({ budget }) {
       : ((totalSpending / budgetLimit) * 100).toFixed(2);
 
   return (
-    <Card $variation="budget">
-      <CardHeading color={budgetColor} title={budgetTitle} />
+    <Card $variation="budget" $mode="light">
+      <CardTitle>
+        <CardHeading
+          color={budgetColor}
+          title={budgetTitle}
+          section={"budget"}
+        />
+        <Modal>
+          <Modal.Open opens={"delete"}>
+            <Button $variation="context">
+              <PiDotsThreeOutlineFill />
+            </Button>
+          </Modal.Open>
+          {/* <Modal.Window heading={`Delete '${title}'?`} name={"delete"}>
+            <ConfirmDelete
+              section={"budget"}
+              disabled={isDeleting}
+              onConfirm={() => removeBudget(id)}
+            />
+          </Modal.Window> */}
+        </Modal>
+      </CardTitle>
       <Range
         rangeColor={budgetColor}
         completeness={budgetCompleteness}
@@ -87,26 +93,20 @@ function Budget({ budget }) {
         </Range.Heading>
         <Range.Bar />
         <Range.Legend>
-          <LegendBox>
-            <BoxBorder $boxcolor={budgetColor} />
-            <BoxContent>
-              <p>Spent</p>
-              <p>{USDollar.format(totalSpending)}</p>
-            </BoxContent>
-          </LegendBox>
-          <LegendBox>
-            <BoxBorder $boxcolor={"var(--color-beige-100)"} />
-            <BoxContent>
-              <p>Remaining</p>
-              <p>
-                {USDollar.format(
-                  budgetLimit - totalSpending > 0
-                    ? budgetLimit - totalSpending
-                    : 0
-                )}
-              </p>
-            </BoxContent>
-          </LegendBox>
+          <CopyWithColorBar rectColor={budgetColor}>
+            <p>Spent</p>
+            <p>{USDollar.format(totalSpending)}</p>
+          </CopyWithColorBar>
+          <CopyWithColorBar rectColor={"var(--color-beige-100)"}>
+            <p>Remaining</p>
+            <p>
+              {USDollar.format(
+                budgetLimit - totalSpending > 0
+                  ? budgetLimit - totalSpending
+                  : 0
+              )}
+            </p>
+          </CopyWithColorBar>
         </Range.Legend>
       </Range>
       <Table

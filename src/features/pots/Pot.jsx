@@ -3,7 +3,23 @@ import Button from "../../ui/Button";
 import Card from "../../ui/Card";
 import CardHeading from "../../ui/CardHeading";
 import Range from "../../ui/Range";
+import { useDeletePot } from "./useDeletePot";
+import Modal from "../../ui/Modal";
+import { PiDotsThreeOutlineFill } from "react-icons/pi";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Menus from "../../ui/Menus";
+import AddPotForm from "./AddPotForm";
 
+const CardTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  & svg {
+    color: var(--color-grey-300);
+  }
+`;
 const TotalAmount = styled.p`
   color: var(--color-grey-900);
   font-size: var(--text-preset-1);
@@ -45,7 +61,8 @@ const LegendTotal = styled.p`
 `;
 
 function Pot({ pot }) {
-  const { title, targetAmount, potAmount, theme } = pot;
+  const { id, title, targetAmount, potAmount, theme } = pot;
+  const { isDeleting, removePot } = useDeletePot();
 
   let USDollar = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -58,8 +75,51 @@ function Pot({ pot }) {
       : ((potAmount / targetAmount) * 100).toFixed(2);
 
   return (
-    <Card $variation="pot">
-      <CardHeading color={potColor} title={title} />
+    <Card $variation="pot" $mode="light">
+      <CardTitle>
+        <CardHeading color={potColor} title={title} />
+        <Menus>
+          <Modal>
+            <Menus.Menu>
+              <Menus.Toggle id={id} />
+              <Menus.List id={id}>
+                <Modal.Open opens={"edit"}>
+                  <Menus.Item>Edit pot</Menus.Item>
+                </Modal.Open>
+                <Modal.Open opens={"delete"}>
+                  <Menus.Item $isDelete={true}>Delete pot</Menus.Item>
+                </Modal.Open>
+              </Menus.List>
+
+              <Modal.Window name={"edit"} heading={"Edit Pot"}>
+                <AddPotForm potToEdit={pot} />
+              </Modal.Window>
+              <Modal.Window heading={`Delete '${title}'?`} name={"delete"}>
+                <ConfirmDelete
+                  section={"pot"}
+                  disabled={isDeleting}
+                  onConfirm={() => removePot(id)}
+                />
+              </Modal.Window>
+            </Menus.Menu>
+          </Modal>
+        </Menus>
+
+        {/* <Modal>
+          <Modal.Open opens={"delete"}>
+            <Button $variation="context">
+              <PiDotsThreeOutlineFill />
+            </Button>
+          </Modal.Open>
+          <Modal.Window heading={`Delete '${title}'?`} name={"delete"}>
+            <ConfirmDelete
+              section={"pot"}
+              disabled={isDeleting}
+              onConfirm={() => removePot(id)}
+            />
+          </Modal.Window>
+        </Modal> */}
+      </CardTitle>
       <Range
         rangeColor={potColor}
         completeness={potCompleteness}

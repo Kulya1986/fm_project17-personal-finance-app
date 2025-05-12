@@ -9,6 +9,21 @@ const variations = {
     padding: var(--spacing-400);
     gap: var(--spacing-250);
   `,
+  total: css`
+    padding: var(--spacing-300);
+    gap: var(--spacing-150);
+  `,
+};
+
+const modes = {
+  dark: css`
+    background-color: var(--color-grey-900);
+    color: var(--color-white);
+  `,
+  light: css`
+    background-color: var(--color-white);
+    color: var(--color-grey-900);
+  `,
 };
 
 const Card = styled.div`
@@ -16,8 +31,8 @@ const Card = styled.div`
   flex-direction: column;
 
   border-radius: var(--spacing-150);
-  background-color: var(--color-white);
   ${(props) => variations[props.$variation]}
+  ${(props) => modes[props.$mode]}
 `;
 
 export default Card;
