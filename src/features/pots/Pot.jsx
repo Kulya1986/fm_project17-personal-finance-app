@@ -5,10 +5,10 @@ import CardHeading from "../../ui/CardHeading";
 import Range from "../../ui/Range";
 import { useDeletePot } from "./useDeletePot";
 import Modal from "../../ui/Modal";
-import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Menus from "../../ui/Menus";
 import AddPotForm from "./AddPotForm";
+import PotOperationsForm from "./PotOperationsForm";
 
 const CardTitle = styled.div`
   display: flex;
@@ -37,14 +37,6 @@ const PotButtons = styled.div`
   .pot-button {
     flex-grow: 1;
   }
-`;
-
-const RangeLegend = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  flex-grow: 1;
 `;
 
 const LegendPercentage = styled.p`
@@ -104,21 +96,6 @@ function Pot({ pot }) {
             </Menus.Menu>
           </Modal>
         </Menus>
-
-        {/* <Modal>
-          <Modal.Open opens={"delete"}>
-            <Button $variation="context">
-              <PiDotsThreeOutlineFill />
-            </Button>
-          </Modal.Open>
-          <Modal.Window heading={`Delete '${title}'?`} name={"delete"}>
-            <ConfirmDelete
-              section={"pot"}
-              disabled={isDeleting}
-              onConfirm={() => removePot(id)}
-            />
-          </Modal.Window>
-        </Modal> */}
       </CardTitle>
       <Range
         rangeColor={potColor}
@@ -131,21 +108,38 @@ function Pot({ pot }) {
         </Range.Heading>
         <Range.Bar />
         <Range.Legend>
-          <LegendPercentage>{`${((potAmount / targetAmount) * 100).toFixed(
-            2
-          )}%`}</LegendPercentage>
+          <LegendPercentage>{`${
+            potAmount < targetAmount
+              ? ((potAmount / targetAmount) * 100).toFixed(2)
+              : parseFloat(100).toFixed(2)
+          }%`}</LegendPercentage>
           <LegendTotal>{`Total of ${USDollar.format(
             targetAmount
           )}`}</LegendTotal>
         </Range.Legend>
       </Range>
       <PotButtons>
-        <Button $variation="secondary" className={"pot-button"}>
-          + Add Money
-        </Button>
-        <Button $variation="secondary" className={"pot-button"}>
-          Withdraw
-        </Button>
+        <Modal>
+          <Modal.Open opens={"addMoney"}>
+            <Button $variation="secondary" className={"pot-button"}>
+              + Add Money
+            </Button>
+          </Modal.Open>
+          <Modal.Open opens={"withdrawMoney"}>
+            <Button $variation="secondary" className={"pot-button"}>
+              Withdraw
+            </Button>
+          </Modal.Open>
+          <Modal.Window name={"addMoney"} heading={`Add to '${title}'`}>
+            <PotOperationsForm potToEdit={pot} addMoney={true} />
+          </Modal.Window>
+          <Modal.Window
+            name={"withdrawMoney"}
+            heading={`Withdraw from '${title}'`}
+          >
+            <PotOperationsForm potToEdit={pot} addMoney={false} />
+          </Modal.Window>
+        </Modal>
       </PotButtons>
     </Card>
   );

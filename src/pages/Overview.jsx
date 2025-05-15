@@ -5,24 +5,10 @@ import { SYSTEM_COLORS } from "../utils/constants";
 import Select from "../ui/Select";
 
 function Overview() {
-  const potsColors = ["cyan", "navy", "brown", "blue"];
-
-  const [selectedColor, setSelectedColor] = useState(SYSTEM_COLORS[1]);
-
   return (
     <>
       <Heading as="h1">Overview</Heading>
       <SummaryInfo />
-
-      <div style={{ marginTop: "24px" }}>
-        <Select
-          options={SYSTEM_COLORS}
-          value={selectedColor}
-          onChange={setSelectedColor}
-          used={potsColors}
-          color={true}
-        />
-      </div>
     </>
   );
 }
@@ -62,6 +48,17 @@ export default Overview;
 //           onChange={setSelectValue}
 //         />
 //       </div>
+{
+  /* <div style={{ marginTop: "24px" }}>
+        <Select
+          options={SYSTEM_COLORS}
+          value={selectedColor}
+          onChange={setSelectedColor}
+          used={potsColors}
+          color={true}
+        />
+      </div> */
+}
 //       <div style={{ marginTop: "24px" }}>
 //         <Select
 //           options={SYSTEM_COLORS}

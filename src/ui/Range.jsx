@@ -26,6 +26,10 @@ const StyledHeading = styled.div`
   color: var(--color-grey-500);
   font-size: var(--text-preset-4);
   line-height: 1.5;
+
+  & *:last-child {
+    text-align: right;
+  }
 `;
 
 const StyledBar = styled.div`
@@ -43,6 +47,19 @@ const BarColored = styled.div`
   width: ${(props) => props.$rangewidth};
 `;
 
+const SubArea = styled.div`
+  border-right: 1px solid var(--color-beige-100);
+  background-color: var(--color-grey-900);
+  width: ${(props) => props.$rangewidth};
+  height: var(--spacing-100);
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+  border-top-right-radius: ${(props) =>
+    props.$rangewidth === "100.00%" ? "inherit" : "unset"};
+  border-bottom-right-radius: ${(props) =>
+    props.$rangewidth === "100.00%" ? "inherit" : "unset"};
+`;
+
 const BarBlank = styled.div`
   width: ${(props) => props.$rangewidth};
 `;
@@ -52,17 +69,22 @@ const StyledLegend = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  flex-grow: 1;
+
+  & *:last-child {
+    text-align: right;
+  }
+  /* flex-grow: 1; */
 `;
 
 const RangeContext = createContext(null);
 
-function Range({ rangeColor, completeness, section, children }) {
+function Range({ rangeColor, completeness, section, subarea = 0, children }) {
   return (
     <RangeContext.Provider
       value={{
         rangeColor,
         completeness,
+        subarea,
         section,
       }}
     >
@@ -75,14 +97,14 @@ function Heading({ children }) {
   return <StyledHeading>{children}</StyledHeading>;
 }
 function Bar() {
-  const { rangeColor, completeness, section } = useContext(RangeContext);
+  const { rangeColor, completeness, section, subarea } =
+    useContext(RangeContext);
 
   return (
     <StyledBar $section={section}>
-      <BarColored
-        $color={rangeColor}
-        $rangewidth={`${completeness}%`}
-      ></BarColored>
+      <BarColored $color={rangeColor} $rangewidth={`${completeness}%`}>
+        {subarea > 0 && <SubArea $rangewidth={`${subarea}%`}></SubArea>}
+      </BarColored>
       <BarBlank $rangewidth={`${100.0 - completeness}%`}></BarBlank>
     </StyledBar>
   );

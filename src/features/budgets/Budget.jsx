@@ -13,6 +13,10 @@ import CopyWithColorBar from "../../ui/CopyWithColorBar";
 import Modal from "../../ui/Modal";
 import Button from "../../ui/Button";
 import { PiDotsThreeOutlineFill } from "react-icons/pi";
+import Menus from "../../ui/Menus";
+import AddBudgetForm from "./AddBudgetForm";
+import { useDeleteBudget } from "./useDeleteBudget";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const CardTitle = styled.div`
   display: flex;
@@ -40,6 +44,7 @@ function Budget({ budget }) {
     categoryId: id,
   });
   const navigate = useNavigate();
+  const { removeBudget, isDeleting } = useDeleteBudget();
 
   if (isLoading) return <SpinnerMini />;
   //   console.log("Budget transactions:", transactions);
@@ -68,20 +73,49 @@ function Budget({ budget }) {
           title={budgetTitle}
           section={"budget"}
         />
-        <Modal>
+        <Menus>
+          <Modal>
+            <Menus.Menu>
+              <Menus.Toggle id={id} />
+              <Menus.List id={id}>
+                <Modal.Open opens={"edit"}>
+                  <Menus.Item>Edit budget</Menus.Item>
+                </Modal.Open>
+                <Modal.Open opens={"delete"}>
+                  <Menus.Item $isDelete={true}>Delete budget</Menus.Item>
+                </Modal.Open>
+              </Menus.List>
+
+              <Modal.Window name={"edit"} heading={"Edit Budget"}>
+                <AddBudgetForm budgetToEdit={budget} />
+              </Modal.Window>
+              <Modal.Window
+                heading={`Delete '${budgetTitle}'?`}
+                name={"delete"}
+              >
+                <ConfirmDelete
+                  section={"budget"}
+                  disabled={isDeleting}
+                  onConfirm={() => removeBudget(id)}
+                />
+              </Modal.Window>
+            </Menus.Menu>
+          </Modal>
+        </Menus>
+        {/* <Modal>
           <Modal.Open opens={"delete"}>
             <Button $variation="context">
               <PiDotsThreeOutlineFill />
             </Button>
           </Modal.Open>
-          {/* <Modal.Window heading={`Delete '${title}'?`} name={"delete"}>
+          <Modal.Window heading={`Delete '${title}'?`} name={"delete"}>
             <ConfirmDelete
               section={"budget"}
               disabled={isDeleting}
               onConfirm={() => removeBudget(id)}
             />
-          </Modal.Window> */}
-        </Modal>
+          </Modal.Window>
+        </Modal> */}
       </CardTitle>
       <Range
         rangeColor={budgetColor}

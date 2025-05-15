@@ -14,12 +14,13 @@ const StyledButtonArrow = styled.button`
 
   &:hover {
     color: var(--color-grey-900);
+    outline: none;
   }
 
   &:active,
   :focus,
   :focus-visible {
-    outline: unset;
+    outline: none;
   }
 `;
 

@@ -8,6 +8,7 @@ const Heading = styled.h1`
       font-weight: bold;
       line-height: 1.2;
       text-transform: capitalize;
+      word-wrap: break-word;
     `}
 
   ${(props) =>

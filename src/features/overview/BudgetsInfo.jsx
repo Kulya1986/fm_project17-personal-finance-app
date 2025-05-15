@@ -25,7 +25,9 @@ function BudgetsInfo({ transactionsForMonth }) {
   if (isLoading) return <Spinner />;
 
   const budgetsTransactions = budgets.map((budget) =>
-    transactionsForMonth.filter((item) => item.categoryId === budget.id)
+    transactionsForMonth.filter(
+      (item) => item.categoryId === budget.id && !item.income
+    )
   );
 
   if (!budgetsTransactions) return;

@@ -9,6 +9,7 @@ const StyledSelect = styled.div`
   display: flex;
   height: 45px;
   color: var(--color-grey-900);
+  width: ${(props) => props.$selectwidth};
 
   &:disabled {
     opacity: 0.8;
@@ -22,6 +23,7 @@ const SelectButton = styled.button`
   justify-content: space-between;
   gap: var(--spacing-200);
   height: 45px;
+  width: inherit;
 
   align-items: center;
   text-transform: capitalize;
@@ -35,6 +37,11 @@ const SelectButton = styled.button`
   :active {
     outline: 1px solid var(--color-grey-500);
     outline-offset: -1px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
 `;
 
@@ -138,9 +145,10 @@ function Select({
   options,
   value,
   onChange,
-  selectwidth,
+  selectwidth = "auto",
   color = false,
   used = [],
+  disabled,
   ...props
 }) {
   const [showDropdown, setShowDropDown] = useState(false);
@@ -161,9 +169,10 @@ function Select({
   }
 
   return (
-    <StyledSelect ref={ref} {...props}>
+    <StyledSelect ref={ref} {...props} $selectwidth={selectwidth}>
       <SelectButton
         onClick={(e) => dropdownToggle(e)}
+        disabled={disabled}
         role="combobox"
         aria-label="select-button"
         aria-haspopup="listbox"
@@ -221,13 +230,14 @@ function Select({
               </OptionName>
 
               <div style={{ textAlign: "right" }}>
-                {option === value && (
+                {used.includes(option) ? (
+                  <Used>Already used</Used>
+                ) : option === value ? (
                   <img
                     src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//icon-selected.svg"
                     alt="selected option"
                   />
-                )}
-                {used.includes(option) && <Used>Already used</Used>}
+                ) : null}
               </div>
             </DropdownOption>
           ))}

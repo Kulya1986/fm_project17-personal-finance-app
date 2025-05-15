@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useCategories } from "../../hooks/useCatgeoris";
+import { useCategories } from "../../hooks/useCatgeories";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import TransactionRow from "./TransactionRow";

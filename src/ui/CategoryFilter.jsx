@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useSearchParams } from "react-router";
-import { useCategories } from "../hooks/useCatgeoris";
+import { useCategories } from "../hooks/useCatgeories";
 import Select from "./Select";
 
 const SelectLabel = styled.label`
@@ -52,6 +52,7 @@ function CategoryFilter() {
         options={categoriesOptions}
         value={selectedCategory}
         onChange={handleCategoryChange}
+        selectwidth="180px"
       />
     </StyledCategoryFilter>
   );

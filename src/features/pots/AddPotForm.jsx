@@ -50,19 +50,14 @@ function AddPotForm({ potToEdit = {}, onCloseModal }) {
   const isProcessed = isCreating || isEditing;
 
   function onSubmit(data) {
-    console.log({
-      ...data,
-      target: parseFloat(data.target),
-      theme: selectedColor,
-      userFinId: 1,
-    });
+    console.log(data);
     if (editingSession) {
       editPot(
         {
           updatedPotData: {
             ...editValues,
             title: data.title,
-            targetAmount: parseFloat(data.targetAmount),
+            targetAmount: data.targetAmount,
             theme: selectedColor,
           },
           id: editId,
@@ -78,7 +73,7 @@ function AddPotForm({ potToEdit = {}, onCloseModal }) {
       addPot(
         {
           title: data.title,
-          targetAmount: parseFloat(data.targetAmount),
+          targetAmount: data.targetAmount,
           theme: selectedColor,
           userFinId: 1,
         },
@@ -108,17 +103,22 @@ function AddPotForm({ potToEdit = {}, onCloseModal }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
-      <p>
-        Create a pot to set savings targets. These can help keep you on track as
-        you save for special purchases.
-      </p>
+      {editingSession ? (
+        <p>If your saving targets change, feel free to update your pots.</p>
+      ) : (
+        <p>
+          Create a pot to set savings targets. These can help keep you on track
+          as you save for special purchases.
+        </p>
+      )}
+
       <FormBody>
         <FormRow
           fieldLabel={"pot name"}
           error={errors?.title?.message}
           tip={`${
-            titleChange.length <= 30 && titleChange.length > 0
-              ? `${30 - titleChange.length} of`
+            titleChange?.length <= 30 && titleChange?.length > 0
+              ? `${30 - titleChange?.length} of`
               : ""
           } 30 characters left`}
         >
@@ -138,17 +138,27 @@ function AddPotForm({ potToEdit = {}, onCloseModal }) {
             })}
           />
         </FormRow>
-        <FormRow fieldLabel={"target"} error={errors?.target?.message} tip={""}>
+        <FormRow
+          fieldLabel={"target"}
+          error={errors?.targetAmount?.message}
+          tip={""}
+        >
           <Input
             disabled={isProcessed}
             placeholder="e.g. 2000"
-            name="target"
+            name="targetAmount"
             type="text"
             id="targetAmount"
             $variation="iconCurrency"
             {...register("targetAmount", {
               required: "This field is required",
               valueAsNumber: true,
+              validate: (value) => {
+                return (
+                  value.toString().match(/^\d+(\.\d{1,2})?$/) === null &&
+                  "Only numbers allowed with max. 2 decimal places"
+                );
+              },
             })}
           />
         </FormRow>

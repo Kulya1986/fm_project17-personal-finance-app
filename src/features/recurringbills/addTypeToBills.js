@@ -2,8 +2,8 @@ import { getDayOfYear, getQuarter } from "date-fns";
 import { DAYS_PER_QUARTER } from "../../utils/constants";
 
 export function addTypeFieldToRecurringBills(bills) {
-  const currentDay = new Date().getDate();
-  const tempCurrentDay = currentDay + 10; //Remove and update to currentDay
+  const tempCurrentDay = new Date().getDate();
+  // const tempCurrentDay = currentDay + 10; //Remove and update to currentDay
 
   const updatedBills = bills.map((bill) => {
     if (bill.frequency === 12) {

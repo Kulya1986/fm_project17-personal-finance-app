@@ -46,3 +46,44 @@ export async function getBudgetsWithTransactions(year, month) {
 
   return { budgets, error };
 }
+
+export async function addEditBudget(newBudget, id) {
+  //1. Create budget
+
+  // let query = supabase.from("categories");
+
+  //1.A). Create budget
+  // if (!id) query = query.update(newBudget).eq("id", id);
+
+  //1.B). Edit existing budget
+  // if (id) query = query.update(newBudget).eq("id", id);
+
+  console.log(newBudget, id);
+  const { data: budgets, error } = await supabase
+    .from("categories")
+    .update(newBudget)
+    .eq("id", id);
+  // .select("id, budgetLimit, theme, categoryName")
+  // .not("budgetLimit", "is", null);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Budget could not be created");
+  }
+
+  return { budgets, error };
+}
+
+export async function deleteBudget(id) {
+  const { data, error } = await supabase
+    .from("categories")
+    .update({ budgetLimit: null, theme: null })
+    .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Pot could not be deleted");
+  }
+
+  return { data };
+}

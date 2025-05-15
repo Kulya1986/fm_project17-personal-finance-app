@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Heading from "../ui/Heading";
 import Button from "../ui/Button";
 import BudgetsTable from "../features/budgets/BudgetsTable";
+import AddBudgetForm from "../features/budgets/AddBudgetForm";
+import Modal from "../ui/Modal";
 
 const BudgetsHeading = styled.div`
   display: flex;
@@ -22,7 +24,14 @@ function Budgets() {
     <>
       <BudgetsHeading>
         <Heading as="h1">Budgets</Heading>
-        <Button $variation={"primary"}>+ Add New Budget</Button>
+        <Modal>
+          <Modal.Open opens={"add"}>
+            <Button $variation={"primary"}>+ Add New Budget</Button>
+          </Modal.Open>
+          <Modal.Window name={"add"} heading={"Add New Budget"}>
+            <AddBudgetForm />
+          </Modal.Window>
+        </Modal>
       </BudgetsHeading>
 
       <BudgetsInfo>

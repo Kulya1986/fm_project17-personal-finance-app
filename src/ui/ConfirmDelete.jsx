@@ -26,7 +26,7 @@ function ConfirmDelete({ section, onConfirm, disabled, onCloseModal }) {
       <Button $variation="danger" disabled={disabled} onClick={onConfirm}>
         Yes, Confirm Deletion
       </Button>
-      <Button $variation="plaintext" onClick={onCloseModal}>
+      <Button $variation="plaintext" disabled={disabled} onClick={onCloseModal}>
         No, Go Back
       </Button>
     </StyledConfirmDelete>

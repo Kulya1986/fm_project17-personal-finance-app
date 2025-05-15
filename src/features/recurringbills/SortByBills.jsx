@@ -65,6 +65,7 @@ function SortBy() {
         options={sortOptions}
         value={sortOption}
         onChange={handleSortChange}
+        selectwidth="125px"
       />
     </StyledSortBy>
   );

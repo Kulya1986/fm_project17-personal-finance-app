@@ -19,3 +19,17 @@ export async function getRecurringBillsWithAgents() {
 
   return { recurringBills, error, count };
 }
+
+export async function addRecurringBill(newBill) {
+  const { data: recurringBills, error } = await supabase
+    .from("recurringBills")
+    .insert([newBill]);
+
+  if (error) {
+    //   console.log(data);
+    console.error(error);
+    throw new Error("Recurring Bill could not be added");
+  }
+
+  return { recurringBills, error };
+}

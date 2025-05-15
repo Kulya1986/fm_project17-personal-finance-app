@@ -47,6 +47,10 @@ const StyledItem = styled.button`
 
   display: flex;
   align-items: center;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const MenusContext = createContext(null);
@@ -79,13 +83,10 @@ function Toggle({ id }) {
       y: `${Math.floor(rect.height) + 16}px`,
       x: "0px",
     });
-    console.log(rect);
 
     // shownId === ""?open(id):shownId===id?close():
 
     if (shownId === "" || shownId !== id) {
-      //   close();
-      //   console.log("close");
       open(id);
     } else close();
   }

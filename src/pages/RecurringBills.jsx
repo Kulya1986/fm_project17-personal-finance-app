@@ -9,10 +9,12 @@ import {
   compareStrings,
   sortBillsByFrequencyDueDate,
   sortBillsByTypeAsc,
-  sortBillsByTypeDesc,
 } from "../utils/helpers";
 import { addTypeFieldToRecurringBills } from "../features/recurringbills/addTypeToBills";
 import NoDataYet from "../ui/NoDataYet";
+import AddBillForm from "../features/recurringbills/AddBillForm";
+import Modal from "../ui/Modal";
+import Button from "../ui/Button";
 
 const RecurringBillsInfo = styled.div`
   display: flex;
@@ -23,6 +25,13 @@ const RecurringBillsInfo = styled.div`
   & > div:last-child {
     flex-grow: 1;
   }
+`;
+
+const BillsHeading = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 function RecurringBills() {
@@ -111,7 +120,17 @@ function RecurringBills() {
 
   return (
     <>
-      <Heading as="h1">Recurring Bills</Heading>
+      <BillsHeading>
+        <Heading as="h1">Recurring Bills</Heading>
+        <Modal>
+          <Modal.Open opens={"add"}>
+            <Button $variation={"primary"}>+ Add New Bill</Button>
+          </Modal.Open>
+          <Modal.Window name={"add"} heading={"Add New Bill"}>
+            <AddBillForm />
+          </Modal.Window>
+        </Modal>
+      </BillsHeading>
 
       <RecurringBillsInfo>
         <RecurringBillsSummary bills={refactoredBills} />

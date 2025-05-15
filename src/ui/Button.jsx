@@ -85,6 +85,11 @@ const Button = styled.button`
   pointer-events: ${(props) => (props.$current === true ? "none" : "auto")};
 
   ${(props) => variations[props.$variation]}
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 `;
 
 export default Button;

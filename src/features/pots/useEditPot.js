@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addEditPot } from "../../services/apiPots";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export function useEditPot() {
   const queryClient = useQueryClient();

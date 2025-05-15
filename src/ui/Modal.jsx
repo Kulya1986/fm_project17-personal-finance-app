@@ -9,6 +9,7 @@ const StyledModal = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--spacing-250);
+  width: 560px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -35,23 +36,9 @@ const Overlay = styled.div`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   color: var(--color-grey-900);
-
-  /* background: none;
-  border: none;
-  padding: 0.4rem;
-  border-radius: var(--border-radius-sm);
-  transform: translateX(0.8rem);
-  transition: all 0.2s;
-  position: absolute;
-  top: 1.2rem;
-  right: 1.9rem; */
-
-  /* &:hover {
-    background-color: var(--color-grey-100);
-  } */
 `;
 
 const Button = styled.button`
