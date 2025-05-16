@@ -2,7 +2,10 @@ import { createContext, useContext, useState } from "react";
 import Button from "./Button";
 import styled from "styled-components";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import { PiDotsThreeOutlineFill } from "react-icons/pi";
+import {
+  PiDotsThreeOutlineFill,
+  PiDotsThreeOutlineVerticalFill,
+} from "react-icons/pi";
 
 const Menu = styled.div`
   position: relative;
@@ -71,7 +74,7 @@ function Menus({ children }) {
   );
 }
 
-function Toggle({ id }) {
+function Toggle({ id, table = false }) {
   const { shownId, open, close, setPosition } = useContext(MenusContext);
 
   function handleToggleClick(e) {
@@ -93,7 +96,8 @@ function Toggle({ id }) {
 
   return (
     <Button $variation="context" onClick={(e) => handleToggleClick(e)}>
-      <PiDotsThreeOutlineFill />
+      {table && <PiDotsThreeOutlineVerticalFill />}
+      {!table && <PiDotsThreeOutlineFill />}
     </Button>
   );
 }

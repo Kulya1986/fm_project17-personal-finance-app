@@ -1,17 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { addEditRecurringBill } from "../../services/apiRecurringBills";
+import { deleteBill } from "../../services/apiRecurringBills";
 
-export function useAddBill() {
+export function useDeleteBill() {
   const queryClient = useQueryClient();
-  const { mutate: addBill, isLoading: isCreating } = useMutation({
-    mutationFn: addEditRecurringBill,
+  const { mutate: removeBill, isLoading: isDeleting } = useMutation({
+    mutationFn: deleteBill,
     onSuccess: () => {
-      toast.success("New bill successfully created");
+      toast.success("Bill successfully removed");
       queryClient.invalidateQueries({ queryKey: ["recurringBills"] });
     },
     onError: (err) => toast.error(err.message),
   });
 
-  return { isCreating, addBill };
+  return { isDeleting, removeBill };
 }

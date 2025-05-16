@@ -70,6 +70,7 @@ const DropdownOption = styled.li`
   padding: var(--spacing-150) 0;
   font-size: var(--text-preset-4);
   cursor: pointer;
+  text-transform: capitalize;
   border-bottom: 1px solid var(--color-grey-100);
 
   &.color {

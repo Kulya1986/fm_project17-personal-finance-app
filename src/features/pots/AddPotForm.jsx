@@ -23,11 +23,9 @@ const PotsLimitMsg = styled.h2`
 `;
 
 function AddPotForm({ potToEdit = {}, onCloseModal }) {
-  //   console.log("Pot to edit", potToEdit);
   const { id: editId, ...editValues } = potToEdit;
   const { isLoading, error, pots } = usePots();
   const editingSession = Boolean(editId);
-  //   console.log("Edit values", editValues);
 
   const { register, handleSubmit, reset, getValues, formState, watch } =
     useForm({
@@ -50,7 +48,6 @@ function AddPotForm({ potToEdit = {}, onCloseModal }) {
   const isProcessed = isCreating || isEditing;
 
   function onSubmit(data) {
-    console.log(data);
     if (editingSession) {
       editPot(
         {
@@ -155,7 +152,7 @@ function AddPotForm({ potToEdit = {}, onCloseModal }) {
               valueAsNumber: true,
               validate: (value) => {
                 return (
-                  value.toString().match(/^\d+(\.\d{1,2})?$/) === null &&
+                  value.toString().match(/^\d+(\.\d{1,2})?$/) !== null ||
                   "Only numbers allowed with max. 2 decimal places"
                 );
               },

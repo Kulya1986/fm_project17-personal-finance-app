@@ -49,7 +49,7 @@ function AddBudgetForm({ budgetToEdit = {}, onCloseModal }) {
     editingSession ? editValues.theme : firstAvailableColor
   );
   const [selectedCategory, setSelectedCategory] = useState(
-    editingSession ? editValues.categoryName : availableCategories?.[0]
+    editingSession ? editValues.categoryName : "Select budget category"
   );
   const { isEditing, updateBudget } = useUpdateBudget();
 
@@ -60,7 +60,7 @@ function AddBudgetForm({ budgetToEdit = {}, onCloseModal }) {
       !editingSession &&
       categories.filter(
         (cat) => cat.categoryName.localeCompare(selectedCategory) === 0
-      )[0].id;
+      )[0]?.id;
     updateBudget(
       {
         newBudgetData: {

@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { SUPABASE_URL } from "../../utils/constants";
 import { convertDueDate } from "../../utils/helpers";
 import { PiCheckCircleFill, PiWarningCircleFill } from "react-icons/pi";
+import Menus from "../../ui/Menus";
+import Modal from "../../ui/Modal";
+import AddBillForm from "./AddBillForm";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useDeleteBill } from "./useDeleteBill";
 
 const GeneralCell = styled.div`
   align-self: center;
@@ -57,6 +62,7 @@ const StyledName = styled.span`
 
 function RecurringBillsRow({ bill }) {
   const {
+    id,
     amount,
     dueDay,
     frequency,
@@ -97,6 +103,8 @@ function RecurringBillsRow({ bill }) {
 
   const due = type === "due" ? true : false;
 
+  const { isDeleting, removeBill } = useDeleteBill();
+
   return (
     <>
       <StyledAgent>
@@ -116,6 +124,32 @@ function RecurringBillsRow({ bill }) {
       <StyledAmount $due={due}>{`${USDollar.format(
         Math.abs(amount)
       )}`}</StyledAmount>
+      <Menus>
+        <Modal>
+          <Menus.Menu>
+            <Menus.Toggle id={id} table={true}></Menus.Toggle>
+            <Menus.List id={id}>
+              <Modal.Open opens={"edit"}>
+                <Menus.Item>Edit bill</Menus.Item>
+              </Modal.Open>
+              <Modal.Open opens={"delete"}>
+                <Menus.Item $isDelete={true}>Delete bill</Menus.Item>
+              </Modal.Open>
+            </Menus.List>
+
+            <Modal.Window name={"edit"} heading={"Edit Bill"}>
+              <AddBillForm billToEdit={bill} />
+            </Modal.Window>
+            <Modal.Window heading={`Delete bill?`} name={"delete"}>
+              <ConfirmDelete
+                section={"bill"}
+                disabled={isDeleting}
+                onConfirm={() => removeBill(id)}
+              />
+            </Modal.Window>
+          </Menus.Menu>
+        </Modal>
+      </Menus>
     </>
   );
 }

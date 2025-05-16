@@ -11,7 +11,6 @@ function CustomLegend({ payload }) {
     currency: "USD",
   });
 
-  console.log("Payload", payload);
   const legendLength = payload.length / 2 < 6 ? payload.length / 2 : 5;
 
   return (

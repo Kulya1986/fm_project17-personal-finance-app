@@ -23,8 +23,6 @@ function CategoryFilter() {
 
   if (isLoading) return;
 
-  console.log(categories);
-
   const selectedCategory =
     !catId || catId === "all"
       ? "All Transactions"

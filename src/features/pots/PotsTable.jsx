@@ -14,7 +14,6 @@ function PotsTable() {
   const { isLoading, error, pots } = usePots();
 
   if (isLoading) return <Spinner />;
-  console.log(pots);
 
   if (!pots.length)
     return (

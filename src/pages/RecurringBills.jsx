@@ -15,6 +15,7 @@ import NoDataYet from "../ui/NoDataYet";
 import AddBillForm from "../features/recurringbills/AddBillForm";
 import Modal from "../ui/Modal";
 import Button from "../ui/Button";
+import { useEffect, useState } from "react";
 
 const RecurringBillsInfo = styled.div`
   display: flex;
@@ -39,7 +40,6 @@ function RecurringBills() {
   const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
-  // console.log(recurringBills);
 
   if (!recurringBills.length)
     return (

@@ -14,10 +14,10 @@ export function useBudgets() {
     queryFn: () => getBudgets(),
   });
 
-  queryClient.prefetchQuery({
-    queryKey: ["categories_no_budgets"],
-    queryFn: () => getCategoriesWithoutBudgets(),
-  });
+  // queryClient.prefetchQuery({
+  //   queryKey: ["categories_no_budgets"],
+  //   queryFn: () => getCategoriesWithoutBudgets(),
+  // });
 
   return { isLoading, error, budgets };
 }

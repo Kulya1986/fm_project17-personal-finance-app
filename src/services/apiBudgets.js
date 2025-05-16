@@ -68,7 +68,8 @@ export async function addEditBudget(newBudget, id) {
 
   if (error) {
     console.error(error);
-    throw new Error("Budget could not be created");
+    if (!id) throw new Error("Select budget category");
+    else throw new Error("Budget could not be created");
   }
 
   return { budgets, error };

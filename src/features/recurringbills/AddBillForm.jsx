@@ -10,71 +10,89 @@ import Select from "../../ui/Select";
 import Spinner from "../../ui/Spinner";
 import { useAddBill } from "./useAddBill";
 import { useForm } from "react-hook-form";
+import { useEditBill } from "./useEditBill";
 
 function AddBillForm({ billToEdit = {}, onCloseModal }) {
   const { id: editId, ...editValues } = billToEdit;
+
   const editingSession = Boolean(editId);
   const { isLoading: loading1, error: error1, agents } = useAgents();
   const { isLoading: loading2, error: error2, categories } = useCategories();
   const { isCreating, addBill } = useAddBill();
+  const { isEditing, editBill } = useEditBill();
   const { register, handleSubmit, reset, getValues, formState, watch } =
     useForm({
       defaultValues: editingSession ? editValues : {},
     });
 
   const { errors } = formState;
+  const editFrequency =
+    editValues.frequency === 12
+      ? "monthly"
+      : editValues.frequency === 4
+      ? "quarterly"
+      : "yearly";
   const [selectedAgent, setSelectedAgent] = useState(
-    editingSession ? editValues.agents.fullName : agents?.[0].fullName
+    editingSession ? editValues.agents.fullName : "Select agent"
   );
   const [selectedFrequency, setSelectedFrequency] = useState(
-    editingSession ? editValues.frequency : "monthly"
+    editingSession ? editFrequency : "monthly"
   );
   const [selectedCategory, setSelectedCategory] = useState(
-    editingSession
-      ? editValues.categories.categoryName
-      : categories?.[0].categoryName
+    editingSession ? editValues.categories.categoryName : "Select category"
   );
+
   if (loading1 || loading2) return <Spinner />;
-  console.log(agents);
 
   const agentsNames = agents.map((item) => item.fullName);
   const categoriesNames = categories.map((item) => item.categoryName);
 
-  const isProcessed = isCreating;
+  const isProcessed = isCreating || isEditing;
 
   function onSubmit(data) {
-    console.log(data);
+    const newAgentId = agents.filter(
+      (agent) => agent.fullName === selectedAgent
+    )?.[0]?.id;
+    const newCatId = categories.filter(
+      (cat) => cat.categoryName === selectedCategory
+    )?.[0]?.id;
     if (editingSession) {
-      //   editPot(
-      //     {
-      //       updatedPotData: {
-      //         ...editValues,
-      //         title: data.title,
-      //         targetAmount: data.targetAmount,
-      //         theme: selectedColor,
-      //       },
-      //       id: editId,
-      //     },
-      //     {
-      //       onSuccess: () => {
-      //         reset();
-      //         onCloseModal?.();
-      //       },
-      //     }
-      //   );
+      editBill(
+        {
+          newBill: {
+            frequency:
+              selectedFrequency === "monthly"
+                ? 12
+                : selectedFrequency === "quarterly"
+                ? 4
+                : 1,
+            amount: data.amount,
+            categoryId: newCatId,
+            agentId: newAgentId,
+            dueDay: data.dueDay,
+          },
+          id: editId,
+        },
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        }
+      );
     } else {
       addBill(
         {
           frequency:
-            data.frequency === "monthly"
+            selectedFrequency === "monthly"
               ? 12
-              : data.frequency === "quarterly"
+              : selectedFrequency === "quarterly"
               ? 4
               : 1,
           amount: data.amount,
-          categoryId: data.categoryId, //insert logic to assign id by category name
-          agentId: data.agentId, //insert logic to assign id by category name
-          dueDay: data.dueDate,
+          categoryId: newCatId,
+          agentId: newAgentId,
+          dueDay: data.dueDay,
           userFinId: 1,
         },
         {
@@ -125,31 +143,31 @@ function AddBillForm({ billToEdit = {}, onCloseModal }) {
         <FormRow fieldLabel={"frequency"} error={""} tip={""}>
           <Select
             disabled={isProcessed}
-            options={["Monthly", "Quarterly", "Yearly"]}
+            options={["monthly", "quarterly", "yearly"]}
             value={selectedFrequency}
             onChange={setSelectedFrequency}
           />
         </FormRow>
         <FormRow
-          fieldLabel={"due date"}
+          fieldLabel={"due day"}
           error={errors?.dueDate?.message}
           tip={""}
         >
           <Input
             disabled={isProcessed}
-            // placeholder="e.g. Rainy Days"
-            // maxLength={30}
             type="number"
-            name="dueDate"
-            id="dueDate"
-            max={31}
-            min={1}
-            {...register("dueDate", {
+            name="dueDay"
+            id="dueDay"
+            {...register("dueDay", {
               required: "This field is required",
-              //   max: {
-              //     value: 31,
-              //     message: "Pot name should not exceed 30 symbols",
-              //   },
+              max: {
+                value: 31,
+                message: "Due date could not be greater than 31",
+              },
+              min: {
+                value: 1,
+                message: "Due date could not be less than 1",
+              },
             })}
           />
         </FormRow>
@@ -166,7 +184,7 @@ function AddBillForm({ billToEdit = {}, onCloseModal }) {
               valueAsNumber: true,
               validate: (value) => {
                 return (
-                  value.toString().match(/^\d+(\.\d{1,2})?$/) === null &&
+                  value.toString().match(/^\d+(\.\d{1,2})?$/) !== null ||
                   "Only numbers allowed with max. 2 decimal places"
                 );
               },

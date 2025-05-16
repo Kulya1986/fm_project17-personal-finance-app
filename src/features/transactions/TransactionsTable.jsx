@@ -16,7 +16,6 @@ function TransactionsTable() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
-  console.log(transactions);
 
   if (count === 0) return <NoDataYet section={"transactions"} />;
 
@@ -28,8 +27,6 @@ function TransactionsTable() {
         ) / PAGE_SIZE
       )
     : Math.ceil(count / PAGE_SIZE);
-  // console.log(pagesCount);
-  // console.log(categories);
 
   // setSelectedCategory(categoriesOptions[categoriesOptions.length - 1]);
 

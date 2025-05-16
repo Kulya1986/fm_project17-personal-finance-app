@@ -30,9 +30,8 @@ const LegendTotal = styled.p`
 `;
 
 function PotOperationsForm({ potToEdit = {}, onCloseModal, addMoney = true }) {
-  //   console.log("Pot to edit", potToEdit);
   const { id: editId, ...editValues } = potToEdit;
-  // console.log("Edit values", editValues);
+
   let USDollar = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -83,7 +82,6 @@ function PotOperationsForm({ potToEdit = {}, onCloseModal, addMoney = true }) {
   const { isEditing, editPot } = useEditPot();
 
   function onSubmit(data) {
-    // console.log("On submit", data);
     const newAmount = addMoney
       ? editValues.potAmount + data.amount
       : editValues.potAmount - data.amount;
