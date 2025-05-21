@@ -14,7 +14,7 @@ function BudgetsSummaryTable({ budgets }) {
   return (
     <>
       <Table
-        columns={"1fr 1fr"}
+        columns={"1fr 1.5fr"}
         tablecolor={"var(--color-white)"}
         bordercolor={"var(--color-grey-100)"}
         borderradius={true}

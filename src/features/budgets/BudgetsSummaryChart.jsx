@@ -8,6 +8,7 @@ import { useTransactionsByMonth } from "../transactions/useTransactionsByMonth";
 
 const ChartContainer = styled.div`
   position: relative;
+  flex-grow: 1;
 `;
 
 function BudgetsSummaryChart({ budgets }) {

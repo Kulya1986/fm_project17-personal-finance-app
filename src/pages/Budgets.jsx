@@ -5,6 +5,7 @@ import Button from "../ui/Button";
 import BudgetsTable from "../features/budgets/BudgetsTable";
 import AddBudgetForm from "../features/budgets/AddBudgetForm";
 import Modal from "../ui/Modal";
+import { DEVICE } from "../styles/screenBreakpoints";
 
 const BudgetsHeading = styled.div`
   display: flex;
@@ -13,10 +14,15 @@ const BudgetsHeading = styled.div`
   align-items: center;
 `;
 const BudgetsInfo = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 5fr 7fr;
   gap: var(--spacing-300);
+
+  @media ${DEVICE.md} {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+  }
 `;
 
 function Budgets() {

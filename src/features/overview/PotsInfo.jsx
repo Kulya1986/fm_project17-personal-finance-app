@@ -7,6 +7,7 @@ import { usePots } from "../pots/usePots";
 import styled from "styled-components";
 import CopyWithColorBar from "../../ui/CopyWithColorBar";
 import { PiTipJar } from "react-icons/pi";
+import { DEVICE } from "../../styles/screenBreakpoints";
 
 const Header = styled.div`
   display: flex;
@@ -19,6 +20,10 @@ const Info = styled.div`
   flex-direction: row;
   justify-content: space-between;
   gap: var(--spacing-250);
+
+  @media ${DEVICE.sm} {
+    flex-direction: column;
+  }
 `;
 
 const Saved = styled.div`
@@ -26,7 +31,7 @@ const Saved = styled.div`
   flex-direction: row;
   align-items: center;
   gap: var(--spacing-200);
-  min-width: 240px;
+  /* min-width: 240px; */
   background-color: var(--color-beige-100);
   padding: var(--spacing-250) var(--spacing-200);
   border-radius: var(--spacing-150);
@@ -35,6 +40,10 @@ const Saved = styled.div`
     color: var(--color-green);
     width: 40px;
     height: 40px;
+  }
+
+  @media ${DEVICE.sm} {
+    padding: var(--spacing-200);
   }
 `;
 

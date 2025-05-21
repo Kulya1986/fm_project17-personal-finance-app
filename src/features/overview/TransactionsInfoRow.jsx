@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { SUPABASE_URL } from "../../utils/constants";
 import { convertCreatedAt } from "../../utils/helpers";
+import { DEVICE } from "../../styles/screenBreakpoints";
 
 const GeneralCell = styled.div`
   align-self: center;
@@ -40,6 +41,11 @@ const Avatar = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
+
+  @media ${DEVICE.sm} {
+    width: 32px;
+    height: 32px;
+  }
 `;
 
 const StyledName = styled.span`
@@ -59,7 +65,7 @@ function TransactionsInfoRow({ transaction }) {
   return (
     <>
       <StyledAgent>
-        <Avatar src={avatarURL} />
+        <Avatar src={avatarURL} alt={agents?.fullName} />
         <StyledName>{agents?.fullName}</StyledName>
       </StyledAgent>
       <StyledDetails>

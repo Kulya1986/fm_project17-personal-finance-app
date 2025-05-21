@@ -17,6 +17,7 @@ import Menus from "../../ui/Menus";
 import AddBudgetForm from "./AddBudgetForm";
 import { useDeleteBudget } from "./useDeleteBudget";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import { SIZES } from "../../styles/screenBreakpoints";
 
 const CardTitle = styled.div`
   display: flex;
@@ -65,6 +66,8 @@ function Budget({ budget }) {
       ? 100
       : ((totalSpending / budgetLimit) * 100).toFixed(2);
 
+  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+
   return (
     <Card $variation="budget" $mode="light">
       <CardTitle>
@@ -102,20 +105,6 @@ function Budget({ budget }) {
             </Menus.Menu>
           </Modal>
         </Menus>
-        {/* <Modal>
-          <Modal.Open opens={"delete"}>
-            <Button $variation="context">
-              <PiDotsThreeOutlineFill />
-            </Button>
-          </Modal.Open>
-          <Modal.Window heading={`Delete '${title}'?`} name={"delete"}>
-            <ConfirmDelete
-              section={"budget"}
-              disabled={isDeleting}
-              onConfirm={() => removeBudget(id)}
-            />
-          </Modal.Window>
-        </Modal> */}
       </CardTitle>
       <Range
         rangeColor={budgetColor}
@@ -148,11 +137,11 @@ function Budget({ budget }) {
         tablecolor={"var(--color-beige-100)"}
         bordercolor={"var(--color-grey-300)"}
         spacing={{
-          tablePadding: 250,
+          tablePadding: mobileScreen ? 200 : 250,
           tableGap: 250,
-          columnsGap: 50,
+          columnsGap: mobileScreen ? 10 : 50,
           rowXPadding: 10,
-          rowYPadding: 200,
+          rowYPadding: mobileScreen ? 150 : 200,
         }}
       >
         <StyledHeader>

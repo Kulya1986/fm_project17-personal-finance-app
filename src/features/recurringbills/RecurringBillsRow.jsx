@@ -108,7 +108,7 @@ function RecurringBillsRow({ bill }) {
   return (
     <>
       <StyledAgent>
-        <Avatar src={avatarURL} />
+        <Avatar src={avatarURL} alt={agentName} />
         <StyledName>{agentName}</StyledName>
       </StyledAgent>
       <DueDate $status={type}>

@@ -9,6 +9,7 @@ import TransactionsPagination from "./TransactionsPagination";
 import { PAGE_SIZE } from "../../utils/constants";
 import { useSearchParams } from "react-router";
 import NoDataYet from "../../ui/NoDataYet";
+import { SIZES } from "../../styles/screenBreakpoints";
 
 function TransactionsTable() {
   const { isLoading, error, transactions, count } = useTransactions();
@@ -28,32 +29,42 @@ function TransactionsTable() {
       )
     : Math.ceil(count / PAGE_SIZE);
 
+  const deviceScreen = window.screen.width;
+
   // setSelectedCategory(categoriesOptions[categoriesOptions.length - 1]);
 
   return (
     <Table
-      columns={"1fr 7.5rem 7.5rem 12.5rem"}
+      columns={
+        deviceScreen <= SIZES.sm
+          ? "1fr 7rem"
+          : deviceScreen <= SIZES.md
+          ? "1fr 5.5rem 5.5rem 6.5rem"
+          : "1fr 7.5rem 7.5rem 12.5rem"
+      }
       tablecolor={"var(--color-white)"}
       bordercolor={"var(--color-grey-100)"}
       spacing={{
-        tablePadding: 400,
+        tablePadding: deviceScreen <= SIZES.sm ? 250 : 400,
         tableGap: 300,
-        columnsGap: 400,
+        columnsGap: deviceScreen <= SIZES.sm ? 50 : 400,
         headerYPadding: 150,
-        headerXPadding: 200,
-        rowXPadding: 200,
+        headerXPadding: deviceScreen <= SIZES.md ? 10 : 200,
+        rowXPadding: deviceScreen <= SIZES.md ? 10 : 200,
         rowYPadding: 200,
       }}
     >
       <Table.Operations>
         <TransactionsTableOperations />
       </Table.Operations>
-      <Table.Header>
-        <div>Recipient / Sender</div>
-        <div>Category</div>
-        <div>Transaction date</div>
-        <div style={{ textAlign: "right" }}>Amount</div>
-      </Table.Header>
+      {deviceScreen > SIZES.sm && (
+        <Table.Header>
+          <div>Recipient / Sender</div>
+          <div>Category</div>
+          <div>Transaction date</div>
+          <div style={{ textAlign: "right" }}>Amount</div>
+        </Table.Header>
+      )}
       <Table.Body>
         {!transactions ? (
           <Table.Row>No transactions to display</Table.Row>

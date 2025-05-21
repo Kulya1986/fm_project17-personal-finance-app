@@ -12,6 +12,7 @@ import { NavLink } from "react-router";
 import styled, { css } from "styled-components";
 import Logo from "./Logo";
 import { useState } from "react";
+import { DEVICE } from "../styles/screenBreakpoints";
 
 const iconsStorage =
   "https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//";
@@ -22,9 +23,10 @@ const StyledMenu = styled.nav`
   justify-content: space-between;
   width: 300px;
   background-color: var(--color-grey-900);
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-top-right-radius: var(--spacing-200);
+  border-bottom-right-radius: var(--spacing-200);
   transition: all 0.5s;
+
   /* height: 100vh; */
 
   ${(props) =>
@@ -32,6 +34,23 @@ const StyledMenu = styled.nav`
     css`
       width: 88px;
     `}
+
+  @media ${DEVICE.md} {
+    position: sticky;
+    bottom: 0;
+    flex-direction: row;
+    border-top-right-radius: var(--spacing-100);
+    border-bottom-right-radius: unset;
+    border-top-left-radius: var(--spacing-100);
+    width: 100%;
+    z-index: 10;
+  }
+`;
+
+const LinksSection = styled.div`
+  @media ${DEVICE.md} {
+    flex-grow: 1;
+  }
 `;
 
 const MenuList = styled.ul`
@@ -44,9 +63,23 @@ const MenuList = styled.ul`
     css`
       margin-right: 0;
     `}
+
+  @media ${DEVICE.md} {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(104px, 1fr));
+    margin: var(--spacing-100) var(--spacing-500) 0;
+    justify-content: space-between;
+  }
+  @media ${DEVICE.sm} {
+    grid-template-columns: repeat(5, 1fr);
+    margin: var(--spacing-100) var(--spacing-200) 0;
+  }
 `;
 
 const MinimizeButton = styled.button`
+  position: fixed;
+  bottom: 0;
+  left: 0;
   display: flex;
   align-items: center;
   gap: var(--spacing-200);
@@ -71,6 +104,10 @@ const MinimizeButton = styled.button`
       gap: 0;
       justify-content: center;
     `}
+
+  @media ${DEVICE.md} {
+    display: none;
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -95,8 +132,8 @@ const StyledNavLink = styled(NavLink)`
     border-left: 4px solid var(--color-green);
     color: var(--color-grey-900);
     background-color: var(--color-beige-100);
-    border-top-right-radius: 16px;
-    border-bottom-right-radius: 16px;
+    border-top-right-radius: var(--spacing-200);
+    border-bottom-right-radius: var(--spacing-200);
   }
 
   & svg {
@@ -129,6 +166,32 @@ const StyledNavLink = styled(NavLink)`
         border-radius: 0;
       }
     `}
+
+  @media ${DEVICE.md} {
+    &:link,
+    &:visited {
+      font-size: var(--text-preset-5);
+      padding: var(--spacing-100) 0 var(--spacing-150);
+      flex-direction: column;
+      gap: var(--spacing-50);
+    }
+
+    &:active,
+    &.active:link,
+    &.active:visited {
+      border-bottom: 4px solid var(--color-green);
+      border-left: none;
+      border-top-right-radius: var(--spacing-100);
+      border-top-left-radius: var(--spacing-100);
+      border-bottom-right-radius: unset;
+    }
+  }
+
+  @media ${DEVICE.sm} {
+    & span {
+      display: none;
+    }
+  }
 `;
 
 function MainNav() {
@@ -136,7 +199,7 @@ function MainNav() {
 
   return (
     <StyledMenu size={`${minimized ? "min" : ""}`}>
-      <div>
+      <LinksSection>
         <Logo small={minimized} />
         <MenuList size={`${minimized ? "min" : ""}`}>
           <li>
@@ -177,7 +240,7 @@ function MainNav() {
             </StyledNavLink>
           </li>
         </MenuList>
-      </div>
+      </LinksSection>
       <MinimizeButton
         onClick={() => setMinimized((curr) => !curr)}
         size={`${minimized ? "min" : ""}`}

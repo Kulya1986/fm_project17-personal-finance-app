@@ -9,6 +9,7 @@ import {
 import CustomTooltip from "./CustomTooltip";
 import CustomLegend from "./CustomLegend";
 import styled from "styled-components";
+import { DEVICE, SIZES } from "../styles/screenBreakpoints";
 
 const ChartTotals = styled.div`
   display: flex;
@@ -17,10 +18,17 @@ const ChartTotals = styled.div`
   align-items: center;
   /* Position in the center of bounded area of box with dynamic dimensions */
   position: absolute;
-  top: ${(props) => (props.$legend ? "calc(50% + 10px)" : "50%")};
+  top: 50%;
   left: ${(props) => (props.$legend ? "calc(50% - 50px)" : "50%")};
 
   transform: translate(-50%, -50%);
+  @media ${DEVICE.sm} {
+    left: 50%;
+    /* left: ${(props) => (props.$legend ? "50%" : "50%")}; */
+    transform: ${(props) =>
+      props.$legend ? "translate(-50%, -100%)" : "translate(-50%, -50%)"};
+    top: ${(props) => (props.$legend ? "45%" : "50%")};
+  }
 `;
 
 const TotalSpent = styled.p`
@@ -37,10 +45,15 @@ const TotalLimit = styled.p`
 `;
 
 function Chart({ legendOn = false, chartData, limit, spent }) {
+  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
   return (
     <>
-      <ResponsiveContainer width="100%" height={280}>
-        <PieChart>
+      <ResponsiveContainer
+        width="100%"
+        height={mobileScreen && legendOn ? 380 : 240}
+        minWidth={240}
+      >
+        <PieChart height={240}>
           <Pie
             data={chartData}
             cx="50%"
@@ -79,7 +92,8 @@ function Chart({ legendOn = false, chartData, limit, spent }) {
           {legendOn && (
             <Legend
               align="right"
-              layout="vertical"
+              verticalAlign={mobileScreen ? "bottom" : "middle"}
+              layout={mobileScreen ? "horizontal" : "vertical"}
               iconType="rect"
               content={<CustomLegend />}
               // iconSize={4}

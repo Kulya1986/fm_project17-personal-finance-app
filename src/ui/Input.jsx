@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { DEVICE } from "../styles/screenBreakpoints";
 
 const variations = {
   iconCurrency: css`
@@ -15,6 +16,14 @@ const variations = {
     background-size: 16px;
     width: 320px;
     background-color: var(--color-white);
+
+    @media ${DEVICE.md} {
+      width: 160px;
+    }
+
+    @media ${DEVICE.sm} {
+      width: auto;
+    }
   `,
 };
 
@@ -25,13 +34,18 @@ const Input = styled.input`
   border: 1px solid var(--color-beige-500);
   color: var(--color-grey-900);
 
-  ${(props) => variations[props.$variation]}/* &:hover {
+  ${(props) => variations[props.$variation]} /* &:hover {
     border-color: var(--color-grey-500);
   } */
 
   /* &:focus {
     border-color: var(--color-grey-900);
   } */
+
+    @media ${DEVICE.md} {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
 
 export default Input;

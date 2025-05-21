@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "./Button";
+import { DEVICE } from "../styles/screenBreakpoints";
 
 const StyledConfirmDelete = styled.div`
   display: flex;
@@ -10,6 +11,10 @@ const StyledConfirmDelete = styled.div`
 
   & button:last-child {
     align-self: center;
+  }
+
+  @media ${DEVICE.sm} {
+    width: 328px;
   }
 `;
 

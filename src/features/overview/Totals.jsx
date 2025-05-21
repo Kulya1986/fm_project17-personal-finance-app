@@ -1,10 +1,17 @@
 import styled from "styled-components";
 import Card from "../../ui/Card";
+import { DEVICE } from "../../styles/screenBreakpoints";
 
 const StyledTotals = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: var(--spacing-300);
+
+  @media ${DEVICE.sm} {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
 `;
 
 const Title = styled.p`

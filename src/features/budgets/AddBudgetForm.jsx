@@ -14,6 +14,7 @@ import Button from "../../ui/Button";
 import { useUpdateBudget } from "./useUpdateBudget";
 import { useBudgets } from "./useBudgets";
 import { useCategoriesWithoutBudgets } from "../../hooks/useCatgeoriesWithoutBudgets";
+import { DEVICE } from "../../styles/screenBreakpoints";
 
 const BudgetsLimitMsg = styled.h2`
   width: 496px;
@@ -22,6 +23,10 @@ const BudgetsLimitMsg = styled.h2`
   color: var(--color-grey-500);
   text-align: center;
   font-weight: normal;
+
+  @media ${DEVICE.sm} {
+    width: 360px;
+  }
 `;
 
 function AddBudgetForm({ budgetToEdit = {}, onCloseModal }) {

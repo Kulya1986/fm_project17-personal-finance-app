@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DEVICE } from "../styles/screenBreakpoints";
 
 const Form = styled.form`
   width: 496px;
@@ -13,6 +14,11 @@ const Form = styled.form`
 
   & * {
     flex-grow: 1;
+  }
+
+  @media ${DEVICE.sm} {
+    width: 328px;
+    max-width: 328px;
   }
 `;
 

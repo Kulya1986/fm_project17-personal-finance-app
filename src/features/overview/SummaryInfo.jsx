@@ -10,6 +10,7 @@ import Spinner from "../../ui/Spinner";
 import { useTransactions } from "../transactions/useTransactions";
 import { useFinAccount } from "./useFinAccount";
 import { useBudgets } from "../budgets/useBudgets";
+import { DEVICE } from "../../styles/screenBreakpoints";
 
 const StyledSummaryInfo = styled.div`
   display: flex;
@@ -19,8 +20,17 @@ const StyledSummaryInfo = styled.div`
 
 const SummaryPerSection = styled.div`
   display: grid;
-  grid-template-columns: 7fr 5fr;
+  grid-template-columns: 6fr 6fr;
   gap: var(--spacing-300);
+
+  @media ${DEVICE.md} {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media ${DEVICE.sm} {
+    gap: var(--spacing-200);
+  }
 `;
 
 const Column = styled.div`

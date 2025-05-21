@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { SUPABASE_URL } from "../../utils/constants";
 import { convertCreatedAt } from "../../utils/helpers";
+import { DEVICE, SIZES } from "../../styles/screenBreakpoints";
 
 const GeneralCell = styled.div`
   align-self: center;
@@ -37,6 +38,10 @@ const Avatar = styled.img`
 const StyledName = styled.span`
   font-weight: bold;
   margin-left: var(--spacing-200);
+
+  @media ${DEVICE.sm} {
+    margin-left: 0;
+  }
 `;
 
 function BudgetTransactionRow({ transaction }) {
@@ -48,10 +53,11 @@ function BudgetTransactionRow({ transaction }) {
     currency: "USD",
   });
 
+  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
   return (
     <>
       <StyledAgent>
-        <Avatar src={avatarURL} />
+        {!mobileScreen && <Avatar src={avatarURL} alt={agents?.fullName} />}
         <StyledName>{agents?.fullName}</StyledName>
       </StyledAgent>
       <StyledInfo>

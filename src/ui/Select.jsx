@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import styled from "styled-components";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { removeHyphen } from "../utils/helpers";
+import { PiSortAscendingFill } from "react-icons/pi";
+import { DEVICE, SIZES } from "../styles/screenBreakpoints";
 
 const StyledSelect = styled.div`
   /* margin-top: 3rem; */
@@ -23,19 +25,25 @@ const SelectButton = styled.button`
   justify-content: space-between;
   gap: var(--spacing-200);
   height: 45px;
-  width: inherit;
+  width: ${(props) => (props.$mobileImg ? "inherit" : "inherit")};
 
   align-items: center;
   text-transform: capitalize;
-  padding: var(--spacing-150) var(--spacing-250);
-  border: 1px solid var(--color-beige-500);
-  border-radius: var(--spacing-100);
+  padding: ${(props) =>
+    props.$mobileImg ? "0px" : "var(--spacing-150) var(--spacing-250)"};
+  border: ${(props) =>
+    props.$mobileImg ? "none" : "1px solid var(--color-beige-500)"};
+  border-radius: ${(props) =>
+    props.$mobileImg ? "unset" : "var(--spacing-100)"};
   background-color: var(--color-white);
+
+  /* ${(props) => props.$mobileImg} */
 
   &:hover,
   :focus,
   :active {
-    outline: 1px solid var(--color-grey-500);
+    outline: ${(props) =>
+      props.$mobileImg ? "none" : "1px solid var(--color-grey-500)"};
     outline-offset: -1px;
   }
 
@@ -48,8 +56,9 @@ const SelectButton = styled.button`
 const SelectDropdown = styled.ul`
   position: absolute;
   top: 100%;
-  left: 0;
-  width: 100%;
+  left: ${(props) => (props.$mobileImg ? "unset" : "0")};
+  right: ${(props) => (props.$mobileImg ? "0" : "unset")};
+  width: ${(props) => (props.$mobileImg ? "max-content" : "100%")};
   border-radius: var(--spacing-100);
   background-color: var(--color-white);
   list-style: none;
@@ -63,6 +72,10 @@ const SelectDropdown = styled.ul`
 
   &.hidden {
     display: none;
+  }
+
+  @media ${DEVICE.sm} {
+    max-height: 180px;
   }
 `;
 
@@ -150,6 +163,7 @@ function Select({
   color = false,
   used = [],
   disabled,
+  mobileImg = "",
   ...props
 }) {
   const [showDropdown, setShowDropDown] = useState(false);
@@ -169,6 +183,8 @@ function Select({
     setShowDropDown((curr) => !curr);
   }
 
+  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+
   return (
     <StyledSelect ref={ref} {...props} $selectwidth={selectwidth}>
       <SelectButton
@@ -179,30 +195,37 @@ function Select({
         aria-haspopup="listbox"
         aria-expanded="false"
         aria-controls="select-dropdown"
+        $mobileImg={mobileImg.length > 0 ? true : false}
       >
-        <OptionName>
-          {color ? (
-            <>
-              <ColorIcon color={`--color-${value}`} />
-              <span className="selected-value">{removeHyphen(value)}</span>
-            </>
-          ) : (
-            <span className="selected-value">{value}</span>
-          )}
-        </OptionName>
-        <Arrow style={{ textAlign: "right" }}>
-          <img
-            className={showDropdown ? "up" : ""}
-            src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//icon-caret-down.svg"
-            alt={showDropdown ? "close dropdown" : "open dropdown"}
-          />
-        </Arrow>
+        {mobileImg.length > 0 && <img src={mobileImg} />}
+        {mobileImg.length === 0 && (
+          <>
+            <OptionName>
+              {color ? (
+                <>
+                  <ColorIcon color={`--color-${value}`} />
+                  <span className="selected-value">{removeHyphen(value)}</span>
+                </>
+              ) : (
+                <span className="selected-value">{value}</span>
+              )}
+            </OptionName>
+            <Arrow style={{ textAlign: "right" }}>
+              <img
+                className={showDropdown ? "up" : ""}
+                src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//icon-caret-down.svg"
+                alt={showDropdown ? "close dropdown" : "open dropdown"}
+              />
+            </Arrow>
+          </>
+        )}
       </SelectButton>
       <SelectDropdown
         className={showDropdown ? "" : "hidden"}
         role="listbox"
         id="select-dropdown"
         aria-labelledby="select-button"
+        $mobileImg={mobileImg.length > 0 ? true : false}
       >
         {/* {allOption && <DropdownOption all>All Transactions</DropdownOption>} */}
         {!color &&

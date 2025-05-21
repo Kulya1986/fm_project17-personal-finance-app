@@ -30,7 +30,7 @@ function TransactionsInfo({ transactions }) {
         spacing={{
           tablePadding: 10,
           tableGap: 10,
-          columnsGap: 10,
+          columnsGap: 100,
           headerYPadding: 10,
           headerXPadding: 10,
           rowXPadding: 10,

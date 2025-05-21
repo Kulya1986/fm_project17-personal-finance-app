@@ -163,3 +163,24 @@ export function sortBillsByFrequencyDueDate(
     ? dayNumberInYearA - dayNumberInYearB
     : dayNumberInYearB - dayNumberInYearA;
 }
+
+export function resortDueAndUpcomingBillsByDueDate(
+  typeA,
+  typeB,
+  frequencyA,
+  frequencyB,
+  dueDayA,
+  dueDayB
+) {
+  if (
+    (typeA === "upcoming" || typeA === "due") &&
+    (typeB === "upcoming" || typeB === "due")
+  )
+    return sortBillsByFrequencyDueDate(
+      frequencyA,
+      frequencyB,
+      dueDayA,
+      dueDayB,
+      true
+    );
+}

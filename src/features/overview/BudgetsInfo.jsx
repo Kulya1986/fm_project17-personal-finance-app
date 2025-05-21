@@ -15,7 +15,6 @@ const Header = styled.div`
 `;
 const ChartContainer = styled.div`
   position: relative;
-  padding-top: var(--spacing-250);
 `;
 
 function BudgetsInfo({ transactionsForMonth }) {

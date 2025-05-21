@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { DEVICE } from "../styles/screenBreakpoints";
 
 const variations = {
   pot: css`
@@ -8,10 +9,23 @@ const variations = {
   budget: css`
     padding: var(--spacing-400);
     gap: var(--spacing-250);
+
+    &.tab {
+      align-items: center;
+      gap: var(--spacing-400);
+    }
+
+    @media ${DEVICE.sm} {
+      padding: var(--spacing-300) var(--spacing-250);
+    }
   `,
   total: css`
     padding: var(--spacing-300);
     gap: var(--spacing-150);
+
+    @media ${DEVICE.sm} {
+      padding: var(--spacing-250);
+    }
   `,
 };
 
@@ -30,9 +44,16 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
 
+  &.tab {
+    flex-direction: row;
+  }
   border-radius: var(--spacing-150);
   ${(props) => variations[props.$variation]}
-  ${(props) => modes[props.$mode]}
+  ${(props) => modes[props.$mode]} /* @media ${DEVICE.sm} {
+    &.tab {
+      flex-direction: column;
+    }
+  } */
 `;
 
 export default Card;

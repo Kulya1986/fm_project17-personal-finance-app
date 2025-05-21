@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useSearchParams } from "react-router";
 import { useCategories } from "../hooks/useCatgeories";
 import Select from "./Select";
+import { SIZES } from "../styles/screenBreakpoints";
 
 const SelectLabel = styled.label`
   color: var(--color-grey-500);
@@ -42,15 +43,21 @@ function CategoryFilter() {
   const selectInitial = ["All Transactions"];
   const selectOptions = categories.map((item) => item.categoryName);
   const categoriesOptions = selectInitial.concat(selectOptions);
+  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
 
   return (
     <StyledCategoryFilter>
-      <SelectLabel>Category</SelectLabel>
+      {!mobileScreen && <SelectLabel>Category</SelectLabel>}
       <Select
         options={categoriesOptions}
         value={selectedCategory}
         onChange={handleCategoryChange}
-        selectwidth="180px"
+        selectwidth={mobileScreen ? "20px" : "180px"}
+        mobileImg={
+          mobileScreen
+            ? "https://rxdbotqqmsdjwbnfyykl.supabase.co/storage/v1/object/public/icons//icon-filter-mobile.svg"
+            : ""
+        }
       />
     </StyledCategoryFilter>
   );

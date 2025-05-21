@@ -16,6 +16,7 @@ const StyledOperations = styled.div`
   height: 45px;
   display: flex;
   justify-content: space-between;
+  gap: var(--spacing-300);
   align-items: center;
 `;
 

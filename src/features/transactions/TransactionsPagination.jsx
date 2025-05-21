@@ -2,6 +2,7 @@ import { PiCaretLeftFill, PiCaretRightFill } from "react-icons/pi";
 import Button from "../../ui/Button";
 import styled from "styled-components";
 import { useSearchParams } from "react-router";
+import { SIZES } from "../../styles/screenBreakpoints";
 
 const Pages = styled.div`
   display: flex;
@@ -28,6 +29,8 @@ function TransactionsPagination({ pagesCount }) {
     setSearchParams(searchParams);
   }
 
+  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+
   return (
     <>
       <Button
@@ -39,7 +42,7 @@ function TransactionsPagination({ pagesCount }) {
         onClick={(e) => handleButtons(e.target.innerText)}
       >
         <PiCaretLeftFill />
-        <span>Prev</span>
+        {!mobileScreen && <span>Prev</span>}
       </Button>
       <Pages>
         {Array(pagesCount)
@@ -65,7 +68,7 @@ function TransactionsPagination({ pagesCount }) {
         disabled={parseInt(currentPage) === pagesCount}
         onClick={(e) => handleButtons(e.target.innerText)}
       >
-        <span>Next</span>
+        {!mobileScreen && <span>Next</span>}
         <PiCaretRightFill />
       </Button>
     </>

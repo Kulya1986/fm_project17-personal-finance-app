@@ -69,11 +69,6 @@ const StyledLegend = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-  & *:last-child {
-    text-align: right;
-  }
-  /* flex-grow: 1; */
 `;
 
 const RangeContext = createContext(null);

@@ -9,6 +9,7 @@ import {
   compareStrings,
   sortBillsByFrequencyDueDate,
   sortBillsByTypeAsc,
+  resortDueAndUpcomingBillsByDueDate,
 } from "../utils/helpers";
 import { addTypeFieldToRecurringBills } from "../features/recurringbills/addTypeToBills";
 import NoDataYet from "../ui/NoDataYet";
@@ -66,12 +67,16 @@ function RecurringBills() {
   const sortByValue = searchParams.get("sortByBills");
   const sortByValueComponents = sortByValue ? sortByValue.split("-") : null;
 
+  console.log(sortByValueComponents);
   const sortBy = sortByValueComponents
     ? {
         field: sortByValueComponents[0],
         direction: sortByValueComponents[1],
       }
-    : null;
+    : {
+        field: "frequency",
+        direction: "desc",
+      };
 
   const sortedBills = searchedBills.map((bill) => ({ ...bill }));
   if (sortBy) {
@@ -114,7 +119,17 @@ function RecurringBills() {
               false
             )
           )
-          .sort((a, b) => sortBillsByTypeAsc(a.type, b.type));
+          .sort((a, b) => sortBillsByTypeAsc(a.type, b.type))
+          .sort((a, b) =>
+            resortDueAndUpcomingBillsByDueDate(
+              a.type,
+              b.type,
+              a.frequency,
+              b.frequency,
+              a.dueDay,
+              b.dueDay
+            )
+          );
     }
   }
 

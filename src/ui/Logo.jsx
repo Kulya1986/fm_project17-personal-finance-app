@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { DEVICE } from "../styles/screenBreakpoints";
 
 const StyledLogo = styled.div`
   display: flex;
@@ -10,6 +11,9 @@ const StyledLogo = styled.div`
       padding-left: 0;
       justify-content: center;
     `}
+  @media ${DEVICE.md} {
+    display: none;
+  }
 `;
 
 function Logo({ small }) {

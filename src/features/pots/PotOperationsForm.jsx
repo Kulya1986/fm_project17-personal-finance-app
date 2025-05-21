@@ -27,6 +27,7 @@ const LegendTotal = styled.p`
   color: var(--color-grey-500);
   font-size: var(--text-preset-5);
   line-height: 1.5;
+  text-align: right;
 `;
 
 function PotOperationsForm({ potToEdit = {}, onCloseModal, addMoney = true }) {

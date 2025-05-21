@@ -26,6 +26,9 @@ const variations = {
       props.$current === true ? "var(--color-white)" : "var(--color-grey-900)"};
     min-height: 40px;
     min-width: 40px;
+    font-weight: normal;
+    border: 1px solid var(--color-beige-500);
+    padding: 9.5px var(--spacing-200);
 
     &:hover {
       background-color: var(--color-beige-500);
@@ -69,19 +72,15 @@ const variations = {
 };
 
 const Button = styled.button`
-  padding: ${(props) =>
-    props.$pagination === true
-      ? "9.5px var(--spacing-200)"
-      : "var(--spacing-200)"};
+  padding: var(--spacing-200);
   border-radius: var(--spacing-100);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-200);
-  border: ${(props) =>
-    props.$pagination === true ? "1px solid var(--color-beige-500)" : "none"};
+  border: none;
   font-size: var(--text-preset-4);
-  font-weight: ${(props) => (props.$pagination === true ? "normal" : "bold")};
+  font-weight: bold;
   pointer-events: ${(props) => (props.$current === true ? "none" : "auto")};
 
   ${(props) => variations[props.$variation]}

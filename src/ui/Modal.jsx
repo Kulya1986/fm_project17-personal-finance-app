@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { PiXCircle } from "react-icons/pi";
 import Heading from "./Heading";
+import { useEscPress } from "../hooks/useEscPress";
+import { DEVICE } from "../styles/screenBreakpoints";
 
 const StyledModal = styled.div`
   display: flex;
@@ -19,6 +21,11 @@ const StyledModal = styled.div`
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.05);
   padding: var(--spacing-400);
   transition: all 0.5s;
+
+  @media ${DEVICE.sm} {
+    padding: var(--spacing-200);
+    width: 360px;
+  }
 `;
 
 const Overlay = styled.div`
@@ -76,6 +83,7 @@ function Window({ children, name, heading }) {
   const { openName, close } = useContext(ModalContext);
 
   const ref = useOutsideClick(close);
+  useEscPress(close);
 
   if (name !== openName) return null;
 
