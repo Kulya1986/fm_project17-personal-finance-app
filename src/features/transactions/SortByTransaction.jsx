@@ -58,7 +58,7 @@ function SortBy() {
     setSearchParams(searchParams);
   }
 
-  const mobileScreen = window.screen.width <=SIZES.sm ? true : false;
+  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
 
   return (
     <StyledSortBy>
@@ -67,7 +67,7 @@ function SortBy() {
         options={sortOptions}
         value={sortOption}
         onChange={handleSortChange}
-        selectwidth={mobileScreen ? "20px" : "125px"}
+        $selectwidth={mobileScreen ? "20px" : "125px"}
         mobileImg={
           mobileScreen
             ? "https://rxdbotqqmsdjwbnfyykl.supabase.co/storage/v1/object/public/icons//icon-sort-mobile.svg"

@@ -18,11 +18,11 @@ const variations = {
     background-color: var(--color-white);
 
     @media ${DEVICE.md} {
-      width: 160px;
+      width: ${(props) => (props.$tabWidth ? props.$tabWidth : "60%")};
     }
 
     @media ${DEVICE.sm} {
-      width: auto;
+      width: 100%;
     }
   `,
 };

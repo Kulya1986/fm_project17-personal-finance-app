@@ -17,8 +17,8 @@ const Form = styled.form`
   }
 
   @media ${DEVICE.sm} {
-    width: 328px;
-    max-width: 328px;
+    width: 295px;
+    max-width: 295px;
   }
 `;
 

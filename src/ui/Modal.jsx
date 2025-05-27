@@ -23,8 +23,8 @@ const StyledModal = styled.div`
   transition: all 0.5s;
 
   @media ${DEVICE.sm} {
-    padding: var(--spacing-200);
-    width: 360px;
+    padding: var(--spacing-300) var(--spacing-250);
+    width: 335px;
   }
 `;
 

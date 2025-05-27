@@ -14,7 +14,7 @@ const StyledConfirmDelete = styled.div`
   }
 
   @media ${DEVICE.sm} {
-    width: 328px;
+    width: 295px;
   }
 `;
 

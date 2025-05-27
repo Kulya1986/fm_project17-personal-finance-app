@@ -4,6 +4,7 @@ const StyledFormRow = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  gap: var(--spacing-50);
 `;
 
 const Label = styled.label`
@@ -18,6 +19,11 @@ const Tip = styled.p`
   line-height: 1.5;
   text-align: right;
   min-width: 120px;
+
+  &:only-child {
+    flex-grow: 1;
+    text-align: right;
+  }
 `;
 
 const Error = styled.p`

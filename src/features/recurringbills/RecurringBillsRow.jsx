@@ -7,6 +7,7 @@ import Modal from "../../ui/Modal";
 import AddBillForm from "./AddBillForm";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBill } from "./useDeleteBill";
+import { SIZES } from "../../styles/screenBreakpoints";
 
 const GeneralCell = styled.div`
   align-self: center;
@@ -60,6 +61,20 @@ const StyledName = styled.span`
   margin-left: var(--spacing-200);
 `;
 
+const StackedCells = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const RightCell = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: var(--spacing-150);
+  align-items: center;
+`;
+
 function RecurringBillsRow({ bill }) {
   const {
     id,
@@ -105,12 +120,10 @@ function RecurringBillsRow({ bill }) {
 
   const { isDeleting, removeBill } = useDeleteBill();
 
-  return (
+  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+
+  const dueDateCell = (
     <>
-      <StyledAgent>
-        <Avatar src={avatarURL} alt={agentName} />
-        <StyledName>{agentName}</StyledName>
-      </StyledAgent>
       <DueDate $status={type}>
         {`${dueFrequency} - ${
           frequency === 12 ? newDueDay : convertDueDate(dueDay, frequency)
@@ -121,6 +134,11 @@ function RecurringBillsRow({ bill }) {
           <PiWarningCircleFill status={type} />
         ) : null}
       </DueDate>
+    </>
+  );
+
+  const amountAndMenusCell = (
+    <>
       <StyledAmount $due={due}>{`${USDollar.format(
         Math.abs(amount)
       )}`}</StyledAmount>
@@ -150,6 +168,26 @@ function RecurringBillsRow({ bill }) {
           </Menus.Menu>
         </Modal>
       </Menus>
+    </>
+  );
+
+  return (
+    <>
+      <StyledAgent>
+        <Avatar src={avatarURL} alt={agentName} />
+        <StyledName>{agentName}</StyledName>
+      </StyledAgent>
+      {mobileScreen ? (
+        <StackedCells>
+          {dueDateCell}
+          <RightCell>{amountAndMenusCell}</RightCell>
+        </StackedCells>
+      ) : (
+        <>
+          {dueDateCell}
+          {amountAndMenusCell}
+        </>
+      )}
     </>
   );
 }

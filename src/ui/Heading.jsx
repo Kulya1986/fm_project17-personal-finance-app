@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 const Heading = styled.h1`
+  color: var(--color-grey-900);
   ${(props) =>
     props.as === "h1" &&
     css`

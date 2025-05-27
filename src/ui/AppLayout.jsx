@@ -2,6 +2,8 @@ import styled from "styled-components";
 import MainNav from "./MainNav";
 import { Outlet } from "react-router";
 import { DEVICE } from "../styles/screenBreakpoints";
+import { useUser } from "../features/authentication/useUser";
+import UserAccountNavLink from "../features/authentication/UserAccountNavLink";
 
 const StyledAppLayout = styled.div`
   display: flex;
@@ -18,8 +20,14 @@ const StyledMain = styled.main`
   flex-direction: column;
   flex-grow: 1;
   padding: var(--spacing-500) var(--spacing-500) var(--spacing-400);
-  gap: var(--spacing-400);
+  gap: var(--spacing-200);
   background-color: var(--color-beige-100);
+
+  & > div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
 
   @media ${DEVICE.md} {
     padding: var(--spacing-400) var(--spacing-500);
@@ -30,11 +38,15 @@ const StyledMain = styled.main`
 `;
 
 function AppLayout() {
+  const { isAuthenticated } = useUser();
   return (
     <StyledAppLayout>
       <MainNav />
       <StyledMain>
-        <Outlet />
+        {isAuthenticated && <UserAccountNavLink />}
+        <div>
+          <Outlet />
+        </div>
       </StyledMain>
     </StyledAppLayout>
   );

@@ -27,6 +27,7 @@ function SearchField() {
     <Input
       placeholder="Search transaction"
       $variation="iconSearch"
+      $tabWidth="160px"
       onChange={(e) => handleSearchedTransaction(e.target.value)}
       onKeyUp={(e) => handleSearch(e)}
       maxLength={"100"}

@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  // ProtectedRoute,
+} from "react-router";
 import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
 import Overview from "./pages/Overview";
@@ -10,6 +16,9 @@ import RecurringBills from "./pages/RecurringBills";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import Login from "./pages/Login";
+import ProtectedRoute from "./ui/ProtectedRoute";
+import PageNotFound from "./pages/PageNotFound";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +29,13 @@ function App() {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route element={<AppLayout />}>
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<Navigate replace to="overview" />} />
             <Route path="overview" element={<Overview />} />
             <Route path="transactions" element={<Transactions />} />
@@ -28,6 +43,8 @@ function App() {
             <Route path="pots" element={<Pots />} />
             <Route path="recurrings-bills" element={<RecurringBills />} />
           </Route>
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
       <Toaster

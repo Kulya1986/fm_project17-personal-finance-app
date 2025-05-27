@@ -83,7 +83,7 @@ input:hover, textarea:hover, select:hover{
     cursor: pointer;
 }
 
-input:focus, textarea:focus,button:focus, select:focus{
+input:focus, textarea:focus, select:focus{
     outline: 1px solid var(--color-grey-900);
     outline-offset: -1px;
 }

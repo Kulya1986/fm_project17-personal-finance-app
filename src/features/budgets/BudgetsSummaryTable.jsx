@@ -26,9 +26,7 @@ function BudgetsSummaryTable({ budgets }) {
         }}
       >
         <StyledHeader>
-          <Heading as="h2" style={{ color: "var(--color-grey-900)" }}>
-            Spending Summary
-          </Heading>
+          <Heading as="h2">Spending Summary</Heading>
         </StyledHeader>
         <Table.Body>
           {!budgets ? (

@@ -25,7 +25,7 @@ const BudgetsLimitMsg = styled.h2`
   font-weight: normal;
 
   @media ${DEVICE.sm} {
-    width: 360px;
+    width: 295px;
   }
 `;
 

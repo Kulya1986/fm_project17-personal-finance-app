@@ -17,6 +17,7 @@ import AddBillForm from "../features/recurringbills/AddBillForm";
 import Modal from "../ui/Modal";
 import Button from "../ui/Button";
 import { useEffect, useState } from "react";
+import { DEVICE } from "../styles/screenBreakpoints";
 
 const RecurringBillsInfo = styled.div`
   display: flex;
@@ -26,6 +27,10 @@ const RecurringBillsInfo = styled.div`
 
   & > div:last-child {
     flex-grow: 1;
+  }
+
+  @media ${DEVICE.md} {
+    flex-direction: column;
   }
 `;
 

@@ -3,6 +3,7 @@ import Card from "../../ui/Card";
 import Heading from "../../ui/Heading";
 import Table from "../../ui/Table";
 import { PiReceipt } from "react-icons/pi";
+import { DEVICE, SIZES } from "../../styles/screenBreakpoints";
 
 const StyledRecurringBillsSummary = styled.div`
   display: flex;
@@ -10,6 +11,23 @@ const StyledRecurringBillsSummary = styled.div`
   align-items: stretch;
   gap: var(--spacing-300);
   width: 340px;
+
+  @media ${DEVICE.md} {
+    flex-direction: row;
+    width: 100%;
+
+    & * {
+      flex-grow: 1;
+    }
+  }
+
+  @media ${DEVICE.sm} {
+    flex-direction: column;
+
+    & * {
+      flex-grow: unset;
+    }
+  }
 `;
 
 const StyledCell = styled.div`
@@ -36,6 +54,10 @@ const Icon = styled.div`
     width: 100%;
     height: 100%;
     color: var(--color-white);
+  }
+
+  @media ${DEVICE.sm} {
+    text-align: left;
   }
 `;
 
@@ -92,11 +114,14 @@ function RecurringBillsSummary({ bills }) {
     { count: 0, amount: 0 }
   );
 
+  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+
   return (
     <StyledRecurringBillsSummary>
       <Card
         $variation="pot"
         $mode="dark"
+        className={mobileScreen ? "tab" : ""}
         // style={{ backgroundColor: "var(--color-grey-900)" }}
       >
         <Icon>
@@ -119,9 +144,7 @@ function RecurringBillsSummary({ bills }) {
           rowYPadding: 200,
         }}
       >
-        <Heading as="h3" style={{ color: "var(--color-grey-900)" }}>
-          Summary
-        </Heading>
+        <Heading as="h3">Summary</Heading>
         <Table.Body>
           <Table.Row>
             <StyledCell>Paid Bills</StyledCell>

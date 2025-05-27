@@ -68,6 +68,14 @@ const variations = {
       background-color: inherit;
       color: var(--color-grey-900);
     }
+
+    &:active,
+    :focus,
+    :focus-visible,
+    :focus-within {
+      outline: none;
+      outline-offset: unset;
+    }
   `,
 };
 

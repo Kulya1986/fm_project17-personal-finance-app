@@ -3,11 +3,16 @@ import { usePots } from "./usePots";
 import Spinner from "../../ui/Spinner";
 import Pot from "./Pot";
 import NoDataYet from "../../ui/NoDataYet";
+import { DEVICE } from "../../styles/screenBreakpoints";
 
 const StyledPotsTable = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-300);
+
+  @media ${DEVICE.md} {
+    grid-template-columns: 1fr;
+  }
 `;
 
 function PotsTable() {

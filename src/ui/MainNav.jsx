@@ -13,6 +13,8 @@ import styled, { css } from "styled-components";
 import Logo from "./Logo";
 import { useState } from "react";
 import { DEVICE } from "../styles/screenBreakpoints";
+import { useUser } from "../features/authentication/useUser";
+import UserAccountNavLink from "../features/authentication/UserAccountNavLink";
 
 const iconsStorage =
   "https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//";
@@ -48,6 +50,9 @@ const StyledMenu = styled.nav`
 `;
 
 const LinksSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   @media ${DEVICE.md} {
     flex-grow: 1;
   }
@@ -201,6 +206,7 @@ function MainNav() {
     <StyledMenu size={`${minimized ? "min" : ""}`}>
       <LinksSection>
         <Logo small={minimized} />
+
         <MenuList size={`${minimized ? "min" : ""}`}>
           <li>
             <StyledNavLink to="/overview" size={`${minimized ? "min" : ""}`}>

@@ -11,8 +11,7 @@ import Heading from "../../ui/Heading";
 import { useNavigate } from "react-router";
 import CopyWithColorBar from "../../ui/CopyWithColorBar";
 import Modal from "../../ui/Modal";
-import Button from "../../ui/Button";
-import { PiDotsThreeOutlineFill } from "react-icons/pi";
+
 import Menus from "../../ui/Menus";
 import AddBudgetForm from "./AddBudgetForm";
 import { useDeleteBudget } from "./useDeleteBudget";
@@ -145,9 +144,7 @@ function Budget({ budget }) {
         }}
       >
         <StyledHeader>
-          <Heading as="h3" style={{ color: "var(--color-grey-900)" }}>
-            Latest Spending
-          </Heading>
+          <Heading as="h3">Latest Spending</Heading>
           <ButtonArrow
             handleClick={() => navigate(`/transactions?category=${id}`)}
           >

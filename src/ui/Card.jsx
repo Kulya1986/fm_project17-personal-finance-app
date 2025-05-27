@@ -5,6 +5,15 @@ const variations = {
   pot: css`
     padding: var(--spacing-300);
     gap: var(--spacing-400);
+
+    @media ${DEVICE.sm} {
+      padding: var(--spacing-300) var(--spacing-250);
+
+      &.tab {
+        align-items: center;
+        gap: var(--spacing-250);
+      }
+    }
   `,
   budget: css`
     padding: var(--spacing-400);

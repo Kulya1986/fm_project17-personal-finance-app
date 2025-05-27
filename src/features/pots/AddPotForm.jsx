@@ -12,6 +12,7 @@ import { useState } from "react";
 import Button from "../../ui/Button";
 import { useAddPot } from "./useAddPot";
 import { useEditPot } from "./useEditPot";
+import { DEVICE } from "../../styles/screenBreakpoints";
 
 const PotsLimitMsg = styled.h2`
   width: 496px;
@@ -20,6 +21,10 @@ const PotsLimitMsg = styled.h2`
   color: var(--color-grey-500);
   text-align: center;
   font-weight: normal;
+
+  @media ${DEVICE.sm} {
+    width: 295px;
+  }
 `;
 
 function AddPotForm({ potToEdit = {}, onCloseModal }) {
