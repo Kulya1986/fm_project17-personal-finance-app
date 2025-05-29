@@ -72,17 +72,17 @@ function TransactionRow({ transaction }) {
   return (
     <>
       <StyledAgent>
-        <Avatar src={avatarURL} alt={agents?.fullName} />
+        <Avatar src={avatarURL} alt={agents?.full_name} />
         {mobileScreen ? (
           <StackedCells>
-            <StyledName>{agents?.fullName}</StyledName>
-            <GeneralCell>{categories?.categoryName}</GeneralCell>
+            <StyledName>{agents?.full_name}</StyledName>
+            <GeneralCell>{categories?.category_name}</GeneralCell>
           </StackedCells>
         ) : (
-          <StyledName>{agents?.fullName}</StyledName>
+          <StyledName>{agents?.full_name}</StyledName>
         )}
       </StyledAgent>
-      {!mobileScreen && <GeneralCell>{categories?.categoryName}</GeneralCell>}
+      {!mobileScreen && <GeneralCell>{categories?.category_name}</GeneralCell>}
       {!mobileScreen && (
         <GeneralCell>{convertCreatedAt(created_at)}</GeneralCell>
       )}

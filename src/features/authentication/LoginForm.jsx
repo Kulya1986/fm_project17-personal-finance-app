@@ -61,33 +61,12 @@ function LoginForm() {
     setShowRepeatPassword((curr) => !curr);
   }
 
-  function onSubmit({ userName: fullName, email, password }) {
-    console.log(fullName, email, password);
-    console.log(isSignedUp);
+  function onSubmit({ userName: user_name, email, password }) {
+    console.log(user_name, email, password);
+
     if (!isSignedUp)
-      signup({ fullName, email, password }, { onSettled: () => reset() });
+      signup({ user_name, email, password }, { onSettled: () => reset() });
     else login({ email, password });
-    //     const newBudgetId =
-    //       !editingSession &&
-    //       categories.filter(
-    //         (cat) => cat.categoryName.localeCompare(selectedCategory) === 0
-    //       )[0]?.id;
-    //     updateBudget(
-    //       {
-    //         newBudgetData: {
-    //           ...editValues,
-    //           budgetLimit: parseFloat(data.budgetLimit),
-    //           theme: selectedColor,
-    //         },
-    //         id: editingSession ? updateId : newBudgetId,
-    //       },
-    //       {
-    //         onSuccess: () => {
-    //           reset();
-    //           onCloseModal?.();
-    //         },
-    //       }
-    //     );
   }
 
   function onError(errors) {

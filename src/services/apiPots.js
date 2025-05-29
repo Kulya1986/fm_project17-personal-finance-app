@@ -1,10 +1,11 @@
 import supabase from "./supabase";
 
-export async function getPots() {
+export async function getPots(userId) {
+  if (!userId) return;
   let { data: pots, error } = await supabase
     .from("pots")
-    .select("id, title,targetAmount, potAmount,  theme, userFinId");
-  //   console.log(budgets);
+    .select("id, title,targetAmount, potAmount,  theme, userId")
+    .eq("userId", userId);
 
   if (error) {
     console.error(error);

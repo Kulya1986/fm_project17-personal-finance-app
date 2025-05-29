@@ -65,8 +65,8 @@ function TransactionsInfoRow({ transaction }) {
   return (
     <>
       <StyledAgent>
-        <Avatar src={avatarURL} alt={agents?.fullName} />
-        <StyledName>{agents?.fullName}</StyledName>
+        <Avatar src={avatarURL} alt={agents?.full_name} />
+        <StyledName>{agents?.full_name}</StyledName>
       </StyledAgent>
       <StyledDetails>
         <StyledAmount $income={`${amount >= 0 ? true : false}`}>{`${

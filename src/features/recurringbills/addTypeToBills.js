@@ -11,21 +11,21 @@ export function addTypeFieldToRecurringBills(bills) {
         return {
           ...bill,
           type: "paid",
-          agentName: bill.agents.fullName,
+          agentName: bill.agents.full_name,
           avatar: bill.agents.avatar,
         };
       else if (bill.dueDay - tempCurrentDay <= 10)
         return {
           ...bill,
           type: "due",
-          agentName: bill.agents.fullName,
+          agentName: bill.agents.full_name,
           avatar: bill.agents.avatar,
         };
       else
         return {
           ...bill,
           type: "upcoming",
-          agentName: bill.agents.fullName,
+          agentName: bill.agents.full_name,
           avatar: bill.agents.avatar,
         };
     }
@@ -35,21 +35,21 @@ export function addTypeFieldToRecurringBills(bills) {
         return {
           ...bill,
           type: "paid",
-          agentName: bill.agents.fullName,
+          agentName: bill.agents.full_name,
           avatar: bill.agents.avatar,
         };
       else if (bill.dueDay - dayOfYearCurrent <= 10)
         return {
           ...bill,
           type: "due",
-          agentName: bill.agents.fullName,
+          agentName: bill.agents.full_name,
           avatar: bill.agents.avatar,
         };
       else
         return {
           ...bill,
           type: "upcoming",
-          agentName: bill.agents.fullName,
+          agentName: bill.agents.full_name,
           avatar: bill.agents.avatar,
         };
     }
@@ -66,7 +66,7 @@ export function addTypeFieldToRecurringBills(bills) {
         return {
           ...bill,
           type: "paid",
-          agentName: bill.agents.fullName,
+          agentName: bill.agents.full_name,
           avatar: bill.agents.avatar,
         };
       else if (bill.dueDay - currentForCompare <= 10)
@@ -80,7 +80,7 @@ export function addTypeFieldToRecurringBills(bills) {
         return {
           ...bill,
           type: "upcoming",
-          agentName: bill.agents.fullName,
+          agentName: bill.agents.full_name,
           avatar: bill.agents.avatar,
         };
     }

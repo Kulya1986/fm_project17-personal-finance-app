@@ -21,6 +21,10 @@ const Info = styled.div`
   justify-content: space-between;
   gap: var(--spacing-250);
 
+  & h2 {
+    text-align: center;
+  }
+
   @media ${DEVICE.sm} {
     flex-direction: column;
   }
@@ -94,21 +98,27 @@ function PotsInfo() {
         </ButtonArrow>
       </Header>
       <Info>
-        <Saved>
-          <PiTipJar />
-          <SavedCopy>
-            <p>Total Saved</p>
-            <p>{`$${Math.floor(totalSaved)}`}</p>
-          </SavedCopy>
-        </Saved>
-        <AmountPerPot>
-          {pots.slice(0, 4).map((pot, ind) => (
-            <CopyWithColorBar rectColor={potsColors[ind]} key={pot.title}>
-              <p>{pot.title}</p>
-              <p>{`$${Math.floor(pot.potAmount)}`}</p>
-            </CopyWithColorBar>
-          ))}
-        </AmountPerPot>
+        {pots.length === 0 ? (
+          <Heading as="h2">No data to display</Heading>
+        ) : (
+          <>
+            <Saved>
+              <PiTipJar />
+              <SavedCopy>
+                <p>Total Saved</p>
+                <p>{`$${Math.floor(totalSaved)}`}</p>
+              </SavedCopy>
+            </Saved>
+            <AmountPerPot>
+              {pots.slice(0, 4).map((pot, ind) => (
+                <CopyWithColorBar rectColor={potsColors[ind]} key={pot.title}>
+                  <p>{pot.title}</p>
+                  <p>{`$${Math.floor(pot.potAmount)}`}</p>
+                </CopyWithColorBar>
+              ))}
+            </AmountPerPot>
+          </>
+        )}
       </Info>
     </Card>
   );

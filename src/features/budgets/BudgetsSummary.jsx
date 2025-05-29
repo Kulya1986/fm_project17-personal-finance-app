@@ -20,7 +20,6 @@ function BudgetsSummary() {
 
   if (isLoading) return <Spinner />;
 
-  if (!budgets.length) return <NoDataYet section={"budgets"} />;
   const tabScreen =
     window.screen.width <= SIZES.md && window.screen.width > SIZES.sm
       ? true
@@ -28,14 +27,20 @@ function BudgetsSummary() {
 
   return (
     <StyledBudgetSummary>
-      <Card
-        $variation="budget"
-        $mode="light"
-        className={tabScreen ? "tab" : ""}
-      >
-        <BudgetsSummaryChart budgets={budgets} />
-        <BudgetsSummaryTable budgets={budgets} />
-      </Card>
+      {!budgets.length ? (
+        <NoDataYet section={"budgets"} />
+      ) : (
+        <Card
+          $variation="budget"
+          $mode="light"
+          className={tabScreen ? "tab" : ""}
+        >
+          <>
+            <BudgetsSummaryChart budgets={budgets} />
+            <BudgetsSummaryTable budgets={budgets} />
+          </>
+        </Card>
+      )}
     </StyledBudgetSummary>
   );
 }

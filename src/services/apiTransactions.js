@@ -2,24 +2,25 @@ import { PAGE_SIZE } from "../utils/constants";
 import { getBoundaryDate } from "../utils/helpers";
 import supabase from "./supabase";
 
-export async function getTransactionsWithAgents({
-  search,
-  filter,
-  sortBy,
-  page,
-}) {
+export async function getTransactionsWithAgents(
+  { search, filter, sortBy, page },
+  userId
+) {
+  if (!userId) return;
+
   let query = supabase
     .from("transactions")
     .select(
-      "id, amount, created_at, income, categoryId, agentId, categories(categoryName), agents(fullName, avatar)",
+      "id, amount, created_at, income, categoryId, agentId, categories(category_name), agents(full_name, avatar)",
       { count: "exact" }
-    );
+    )
+    .eq("userId", userId);
 
   //SEARCH BY AGENT
 
   if (search) {
     // console.log(search);
-    query = query.textSearch("agents.fullName", search, {
+    query = query.textSearch("agents.full_name", search, {
       type: "plain",
       config: "english",
     });
@@ -75,13 +76,15 @@ export async function getTransactionsWithAgents({
   return { transactions, error, count };
 }
 
-export async function getTransactionsByCategory(categoryId, num) {
+export async function getTransactionsByCategory(categoryId, num, userId) {
+  if (!userId) return;
   let query = supabase
     .from("transactions")
     .select(
-      "id, amount, created_at, income,  categoryId, agents(fullName, avatar)"
+      "id, amount, created_at, income,  categoryId, agents(full_name, avatar)"
     )
     .eq("categoryId", categoryId)
+    .eq("userId", userId)
     .order("created_at");
 
   if (num) query = query.range(0, num - 1);
@@ -96,17 +99,22 @@ export async function getTransactionsByCategory(categoryId, num) {
   return { transactionsByCategory, error };
 }
 
-export async function getTransactionsForBudgets({
-  year,
-  month,
-  categoryId,
-  //   num,
-}) {
+export async function getTransactionsForBudgets(
+  {
+    year,
+    month,
+    categoryId,
+    //   num,
+  },
+  userId
+) {
+  if (!userId) return;
   let query = supabase
     .from("transactions")
     .select(
-      "id, amount, created_at, income,  categoryId, agents(fullName, avatar)"
+      "id, amount, created_at, income,  categoryId, agents(full_name, avatar)"
     )
+    .eq("userId", userId)
     .eq("income", false);
 
   if (categoryId) query = query.eq("categoryId", categoryId);
@@ -140,12 +148,14 @@ export async function getTransactionsForBudgets({
   return { transactions, error };
 }
 
-export async function getTransactionsByMonth({ year, month, limit }) {
+export async function getTransactionsByMonth({ year, month, limit }, userId) {
+  if (!userId) return;
   let query = supabase
     .from("transactions")
     .select(
-      "id, amount, created_at, income,  categoryId, agents(fullName, avatar)"
-    );
+      "id, amount, created_at, income,  categoryId, agents(full_name, avatar)"
+    )
+    .eq("userId", userId);
 
   if (year && month) {
     // Select transactions for specified period(month)

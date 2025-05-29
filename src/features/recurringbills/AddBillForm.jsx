@@ -11,6 +11,7 @@ import Spinner from "../../ui/Spinner";
 import { useAddBill } from "./useAddBill";
 import { useForm } from "react-hook-form";
 import { useEditBill } from "./useEditBill";
+import { useUser } from "../authentication/useUser";
 
 function AddBillForm({ billToEdit = {}, onCloseModal }) {
   const { id: editId, ...editValues } = billToEdit;
@@ -24,6 +25,8 @@ function AddBillForm({ billToEdit = {}, onCloseModal }) {
     useForm({
       defaultValues: editingSession ? editValues : {},
     });
+  const { isLoading: userLoading, user, isAuthenticated } = useUser();
+  const userId = user && isAuthenticated ? user.id : null;
 
   const { errors } = formState;
   const editFrequency =
@@ -39,22 +42,22 @@ function AddBillForm({ billToEdit = {}, onCloseModal }) {
     editingSession ? editFrequency : "monthly"
   );
   const [selectedCategory, setSelectedCategory] = useState(
-    editingSession ? editValues.categories.categoryName : "Select category"
+    editingSession ? editValues.categories.category_name : "Select category"
   );
 
   if (loading1 || loading2) return <Spinner />;
 
-  const agentsNames = agents.map((item) => item.fullName);
-  const categoriesNames = categories.map((item) => item.categoryName);
+  const agentsNames = agents.map((item) => item.full_name);
+  const categoriesNames = categories.map((item) => item.category_name);
 
   const isProcessed = isCreating || isEditing;
 
   function onSubmit(data) {
     const newAgentId = agents.filter(
-      (agent) => agent.fullName === selectedAgent
+      (agent) => agent.full_name === selectedAgent
     )?.[0]?.id;
     const newCatId = categories.filter(
-      (cat) => cat.categoryName === selectedCategory
+      (cat) => cat.category_name === selectedCategory
     )?.[0]?.id;
     if (editingSession) {
       editBill(
@@ -70,6 +73,7 @@ function AddBillForm({ billToEdit = {}, onCloseModal }) {
             categoryId: newCatId,
             agentId: newAgentId,
             dueDay: data.dueDay,
+            userId,
           },
           id: editId,
         },
@@ -93,7 +97,7 @@ function AddBillForm({ billToEdit = {}, onCloseModal }) {
           categoryId: newCatId,
           agentId: newAgentId,
           dueDay: data.dueDay,
-          userFinId: 1,
+          userId,
         },
         {
           onSuccess: () => {

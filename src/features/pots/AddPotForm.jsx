@@ -13,6 +13,7 @@ import Button from "../../ui/Button";
 import { useAddPot } from "./useAddPot";
 import { useEditPot } from "./useEditPot";
 import { DEVICE } from "../../styles/screenBreakpoints";
+import { useUser } from "../authentication/useUser";
 
 const PotsLimitMsg = styled.h2`
   width: 496px;
@@ -49,6 +50,8 @@ function AddPotForm({ potToEdit = {}, onCloseModal }) {
 
   const { isCreating, addPot } = useAddPot();
   const { isEditing, editPot } = useEditPot();
+  const { isLoading: userLoading, user, isAuthenticated } = useUser();
+  const userId = user && isAuthenticated ? user.id : null;
 
   const isProcessed = isCreating || isEditing;
 
@@ -77,7 +80,7 @@ function AddPotForm({ potToEdit = {}, onCloseModal }) {
           title: data.title,
           targetAmount: data.targetAmount,
           theme: selectedColor,
-          userFinId: 1,
+          userId,
         },
         {
           onSuccess: () => {

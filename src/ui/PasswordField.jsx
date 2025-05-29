@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Input from "./Input";
 import { PiEyeFill, PiEyeSlashFill } from "react-icons/pi";
 import styled from "styled-components";

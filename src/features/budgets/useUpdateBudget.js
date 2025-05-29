@@ -7,7 +7,7 @@ export function useUpdateBudget() {
   const { mutate: updateBudget, isLoading: isEditing } = useMutation({
     mutationFn: ({ newBudgetData, id }) => addEditBudget(newBudgetData, id),
     onSuccess: () => {
-      toast.success("Budget successfully created/updated");
+      toast.success("Budget successfully updated");
       queryClient.invalidateQueries({ queryKey: ["budgets"] });
     },
     onError: (err) => toast.error(err.message),

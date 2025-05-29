@@ -1,11 +1,15 @@
 import { getBoundaryDate } from "../utils/helpers";
 import supabase from "./supabase";
 
-export async function getBudgets() {
+export async function getBudgets(userId) {
+  if (!userId) return;
   let { data: budgets, error } = await supabase
-    .from("categories")
-    .select("id, budgetLimit, theme, categoryName")
-    .not("budgetLimit", "is", null);
+    .from("budgets")
+    .select(
+      "id, budgetLimit, theme, categoryId, categories(category_name), userId"
+    )
+    .eq("userId", userId);
+  // .not("budgetLimit", "is", null);
   //   console.log(budgets);
 
   if (error) {
@@ -21,7 +25,7 @@ export async function getBudgetsWithTransactions(year, month) {
   let query = supabase
     .from("budgets")
     .select(
-      "id, budgetLimit, theme, categoryId, category:categories(categoryName), transactions!inner(categoryId, amount, income, created_at)"
+      "id, budgetLimit, theme, categoryId, category:categories(category_name), transactions!inner(categoryId, amount, income, created_at)"
     );
 
   if (year && month)
@@ -48,42 +52,35 @@ export async function getBudgetsWithTransactions(year, month) {
 }
 
 export async function addEditBudget(newBudget, id) {
+  console.log(newBudget, id);
   //1. Create budget
 
-  // let query = supabase.from("categories");
+  let query = supabase.from("budgets");
 
   //1.A). Create budget
-  // if (!id) query = query.update(newBudget).eq("id", id);
+  if (!id) query = query.insert([newBudget]);
 
   //1.B). Edit existing budget
-  // if (id) query = query.update(newBudget).eq("id", id);
+  if (id) query = query.update(newBudget).eq("id", id);
 
-  console.log(newBudget, id);
-  const { data: budgets, error } = await supabase
-    .from("categories")
-    .update(newBudget)
-    .eq("id", id);
-  // .select("id, budgetLimit, theme, categoryName")
-  // .not("budgetLimit", "is", null);
+  const { data: budgets, error } = await query;
 
   if (error) {
     console.error(error);
-    if (!id) throw new Error("Select budget category");
-    else throw new Error("Budget could not be created");
+    // if (!id) throw new Error("Select budget category");
+    // else
+    throw new Error("Budget could not be created");
   }
 
   return { budgets, error };
 }
 
 export async function deleteBudget(id) {
-  const { data, error } = await supabase
-    .from("categories")
-    .update({ budgetLimit: null, theme: null })
-    .eq("id", id);
+  const { data, error } = await supabase.from("budgets").delete().eq("id", id);
 
   if (error) {
     console.error(error);
-    throw new Error("Pot could not be deleted");
+    throw new Error("Budget could not be deleted");
   }
 
   return { data };

@@ -18,6 +18,10 @@ const BudgetsInfo = styled.div`
   grid-template-columns: 5fr 7fr;
   gap: var(--spacing-300);
 
+  & section:only-child {
+    grid-column: 1 / span 2;
+  }
+
   @media ${DEVICE.md} {
     display: flex;
     flex-grow: 1;

@@ -80,26 +80,30 @@ function RecurringBillsInfo() {
           See Details
         </ButtonArrow>
       </Header>
-      <BillsInfoTable>
-        <BillsInfoRow $bordercolor={"var(--color-green)"}>
-          <InnerContent>
-            <p>Paid Bills</p>
-            <p>{USDollar.format(paidBills)}</p>
-          </InnerContent>
-        </BillsInfoRow>
-        <BillsInfoRow $bordercolor={"var(--color-yellow)"}>
-          <InnerContent>
-            <p>Total Upcoming</p>
-            <p>{USDollar.format(totalUpcomingBills)}</p>
-          </InnerContent>
-        </BillsInfoRow>
-        <BillsInfoRow $bordercolor={"var(--color-cyan)"}>
-          <InnerContent>
-            <p>Due Soon</p>
-            <p>{USDollar.format(dueSoonBills)}</p>
-          </InnerContent>
-        </BillsInfoRow>
-      </BillsInfoTable>
+      {recurringBills.length === 0 ? (
+        <Heading as="h2">No data to display</Heading>
+      ) : (
+        <BillsInfoTable>
+          <BillsInfoRow $bordercolor={"var(--color-green)"}>
+            <InnerContent>
+              <p>Paid Bills</p>
+              <p>{USDollar.format(paidBills)}</p>
+            </InnerContent>
+          </BillsInfoRow>
+          <BillsInfoRow $bordercolor={"var(--color-yellow)"}>
+            <InnerContent>
+              <p>Total Upcoming</p>
+              <p>{USDollar.format(totalUpcomingBills)}</p>
+            </InnerContent>
+          </BillsInfoRow>
+          <BillsInfoRow $bordercolor={"var(--color-cyan)"}>
+            <InnerContent>
+              <p>Due Soon</p>
+              <p>{USDollar.format(dueSoonBills)}</p>
+            </InnerContent>
+          </BillsInfoRow>
+        </BillsInfoTable>
+      )}
     </Card>
   );
 }

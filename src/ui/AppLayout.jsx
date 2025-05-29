@@ -38,12 +38,12 @@ const StyledMain = styled.main`
 `;
 
 function AppLayout() {
-  const { isAuthenticated } = useUser();
+  // const { isAuthenticated } = useUser();
   return (
     <StyledAppLayout>
       <MainNav />
       <StyledMain>
-        {isAuthenticated && <UserAccountNavLink />}
+        <UserAccountNavLink />
         <div>
           <Outlet />
         </div>

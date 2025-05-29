@@ -37,11 +37,12 @@ const StyledHeader = styled.div`
 `;
 
 function Budget({ budget }) {
-  const { budgetLimit, theme, id, categoryName: budgetTitle } = budget;
+  const { budgetLimit, theme, id, categories, categoryId } = budget;
+  const budgetTitle = categories.category_name;
   const { isLoading, error, transactions } = useTransactionsForBudgets({
     year: 2025,
     month: 4,
-    categoryId: id,
+    categoryId: categoryId,
   });
   const navigate = useNavigate();
   const { removeBudget, isDeleting } = useDeleteBudget();

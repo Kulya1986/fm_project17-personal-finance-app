@@ -55,7 +55,7 @@ function SummaryInfo() {
   if (isLoading || isLoading1 || isLoading2) return <Spinner />;
 
   const currentBalance =
-    finance[0].initialBalance +
+    finance[0]?.initial_balance +
     transactions.reduce((acc, curr) => acc + curr.amount, 0);
   const income = transactions.reduce(
     (acc, curr) => (curr.income ? acc + curr.amount : acc),

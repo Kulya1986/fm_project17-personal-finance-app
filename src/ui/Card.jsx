@@ -58,11 +58,7 @@ const Card = styled.div`
   }
   border-radius: var(--spacing-150);
   ${(props) => variations[props.$variation]}
-  ${(props) => modes[props.$mode]} /* @media ${DEVICE.sm} {
-    &.tab {
-      flex-direction: column;
-    }
-  } */
+  ${(props) => modes[props.$mode]}
 `;
 
 export default Card;

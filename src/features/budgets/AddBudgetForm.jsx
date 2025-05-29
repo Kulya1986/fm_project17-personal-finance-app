@@ -13,8 +13,11 @@ import Button from "../../ui/Button";
 
 import { useUpdateBudget } from "./useUpdateBudget";
 import { useBudgets } from "./useBudgets";
-import { useCategoriesWithoutBudgets } from "../../hooks/useCatgeoriesWithoutBudgets";
+
 import { DEVICE } from "../../styles/screenBreakpoints";
+import { useCategories } from "../../hooks/useCatgeories";
+import { useAddBudget } from "./useAddBudget";
+import { useUser } from "../authentication/useUser";
 
 const BudgetsLimitMsg = styled.h2`
   width: 496px;
@@ -30,23 +33,31 @@ const BudgetsLimitMsg = styled.h2`
 `;
 
 function AddBudgetForm({ budgetToEdit = {}, onCloseModal }) {
-  const { id: updateId, ...editValues } = budgetToEdit;
+  const { id: updateId, categories: category, ...editValues } = budgetToEdit;
   const editingSession = Boolean(updateId);
 
   const { isLoading, error, budgets } = useBudgets();
   const {
     isLoading: loadingCategories,
-    error: errorCategories,
+    error: error1,
     categories,
-  } = useCategoriesWithoutBudgets();
+  } = useCategories();
+  const { isLoading: userLoading, user, isAuthenticated } = useUser();
+  const userId = user && isAuthenticated ? user.id : null;
+
   const { register, handleSubmit, reset, getValues, formState, watch } =
     useForm({
       defaultValues: editingSession ? editValues : {},
     });
 
   const { errors } = formState;
+  const takenCategories = budgets.map((budget) => budget.categoryId);
+
   const budgetsColors = budgets?.map((budget) => budget.theme);
-  const availableCategories = categories?.map((cat) => cat.categoryName);
+  const availableCategories = categories
+    ?.filter((cat) => !takenCategories?.includes(cat.id))
+    .map((item) => item.category_name);
+
   const firstAvailableColor = SYSTEM_COLORS.filter(
     (color) => !budgetsColors?.includes(color)
   )[0];
@@ -54,9 +65,10 @@ function AddBudgetForm({ budgetToEdit = {}, onCloseModal }) {
     editingSession ? editValues.theme : firstAvailableColor
   );
   const [selectedCategory, setSelectedCategory] = useState(
-    editingSession ? editValues.categoryName : "Select budget category"
+    editingSession ? category.category_name : "Select budget category"
   );
   const { isEditing, updateBudget } = useUpdateBudget();
+  const { isCreating, addBudget } = useAddBudget();
 
   if (isLoading || loadingCategories) return <Spinner />;
 
@@ -64,24 +76,42 @@ function AddBudgetForm({ budgetToEdit = {}, onCloseModal }) {
     const newBudgetId =
       !editingSession &&
       categories.filter(
-        (cat) => cat.categoryName.localeCompare(selectedCategory) === 0
+        (cat) => cat.category_name.localeCompare(selectedCategory) === 0
       )[0]?.id;
-    updateBudget(
-      {
-        newBudgetData: {
-          ...editValues,
+
+    if (!editingSession) {
+      addBudget(
+        {
           budgetLimit: parseFloat(data.budgetLimit),
           theme: selectedColor,
+          categoryId: newBudgetId,
+          userId,
         },
-        id: editingSession ? updateId : newBudgetId,
-      },
-      {
-        onSuccess: () => {
-          reset();
-          onCloseModal?.();
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        }
+      );
+    } else {
+      updateBudget(
+        {
+          newBudgetData: {
+            ...editValues,
+            budgetLimit: parseFloat(data.budgetLimit),
+            theme: selectedColor,
+          },
+          id: updateId,
         },
-      }
-    );
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        }
+      );
+    }
   }
 
   function onError(errors) {

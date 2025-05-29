@@ -2,6 +2,7 @@ import { PiSignOutBold, PiUserCircleFill } from "react-icons/pi";
 import styled from "styled-components";
 import { useUser } from "./useUser";
 import { useLogout } from "./useLogout";
+import { useFinAccount } from "../overview/useFinAccount";
 
 const StyledUserAccountNav = styled.div`
   display: flex;
@@ -60,21 +61,18 @@ const Logout = styled.button`
 `;
 
 function UserAccountNavLink() {
-  const { user, isLoading, isAuthenticated } = useUser();
   const { logout, isLogout } = useLogout();
+  const { isLoading, error, finance } = useFinAccount();
 
-  console.log(isAuthenticated);
+  if (isLoading) return;
 
-  if (isLoading || !isAuthenticated) return;
-
-  console.log(user);
   return (
     <StyledUserAccountNav>
       <UserSection>
         <Avatar>
           <PiUserCircleFill />
         </Avatar>
-        <Name>{user.user_metadata.fullName}</Name>
+        <Name>{finance[0]?.full_name}</Name>
       </UserSection>
 
       <Logout onClick={() => logout()} disabled={isLogout}>

@@ -42,7 +42,7 @@ const StyledTotal = styled.p`
 `;
 
 function BudgetSummaryRow({ budget }) {
-  const { id, budgetLimit, categoryName, theme } = budget;
+  const { id, budgetLimit, categories, theme } = budget;
   const { isLoading, error, transactions } = useTransactionsForBudgets({
     year: 2025,
     month: 4,
@@ -64,7 +64,7 @@ function BudgetSummaryRow({ budget }) {
     <>
       <StyledTitle>
         <StyledBorder $boxcolor={budgetColor} />
-        <StyledName>{categoryName}</StyledName>
+        <StyledName>{categories.category_name}</StyledName>
       </StyledTitle>
       <StyledAmount>
         <StyledSpent>{USDollar.format(totalSpent)}</StyledSpent>

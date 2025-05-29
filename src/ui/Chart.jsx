@@ -24,7 +24,7 @@ const ChartTotals = styled.div`
   transform: translate(-50%, -50%);
   @media ${DEVICE.sm} {
     left: 50%;
-    /* left: ${(props) => (props.$legend ? "50%" : "50%")}; */
+
     transform: ${(props) =>
       props.$legend ? "translate(-50%, -100%)" : "translate(-50%, -50%)"};
     top: ${(props) => (props.$legend ? "45%" : "50%")};
@@ -46,11 +46,12 @@ const TotalLimit = styled.p`
 
 function Chart({ legendOn = false, chartData, limit, spent }) {
   const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+
   return (
     <>
       <ResponsiveContainer
         width="100%"
-        height={mobileScreen && legendOn ? 380 : 240}
+        height={mobileScreen && legendOn ? 380 : 304}
         minWidth={240}
       >
         <PieChart height={240}>

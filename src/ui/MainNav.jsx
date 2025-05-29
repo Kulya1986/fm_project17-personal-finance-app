@@ -1,5 +1,4 @@
 import {
-  PiArrowFatLinesLeft,
   PiArrowFatLinesLeftFill,
   PiArrowFatLinesRightFill,
   PiArrowsDownUpFill,
@@ -13,8 +12,6 @@ import styled, { css } from "styled-components";
 import Logo from "./Logo";
 import { useState } from "react";
 import { DEVICE } from "../styles/screenBreakpoints";
-import { useUser } from "../features/authentication/useUser";
-import UserAccountNavLink from "../features/authentication/UserAccountNavLink";
 
 const iconsStorage =
   "https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//";

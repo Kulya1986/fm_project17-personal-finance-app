@@ -7,7 +7,7 @@ export function prepareDataForChart(budgets, transactions) {
 
   const chartData = budgets.map((item, i) => {
     return {
-      budgetName: item.categoryName,
+      budgetName: item.categories.category_name,
       budgetColor: SYSTEM_COLORS_WITH_CODES.filter(
         (col) => col.color === item.theme
       )[0].code,

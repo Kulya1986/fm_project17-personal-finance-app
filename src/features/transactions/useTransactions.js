@@ -2,10 +2,15 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getTransactionsWithAgents } from "../../services/apiTransactions";
 import { useLocation, useSearchParams } from "react-router";
 import { PAGE_SIZE } from "../../utils/constants";
+import { useUser } from "../authentication/useUser";
 
 export function useTransactions() {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
+
+  const { isLoading: userLoading, user, isAuthenticated } = useUser();
+  const userId = user && isAuthenticated ? user.id : null;
+
   let location = useLocation();
 
   // 1. SEARCH FOR TRANSACTION
@@ -53,7 +58,8 @@ export function useTransactions() {
     data: { transactions, count } = {},
   } = useQuery({
     queryKey: ["transactions", filter, sortBy, search, parseInt(page)],
-    queryFn: () => getTransactionsWithAgents({ filter, sortBy, search, page }),
+    queryFn: () =>
+      getTransactionsWithAgents({ filter, sortBy, search, page }, userId),
   });
 
   // PREFETCHING NEXT PAGE
@@ -64,24 +70,30 @@ export function useTransactions() {
     queryClient.prefetchQuery({
       queryKey: ["transactions", filter, sortBy, search, parseInt(page) + 1],
       queryFn: () =>
-        getTransactionsWithAgents({
-          filter,
-          sortBy,
-          search,
-          page: parseInt(page) + 1,
-        }),
+        getTransactionsWithAgents(
+          {
+            filter,
+            sortBy,
+            search,
+            page: parseInt(page) + 1,
+          },
+          userId
+        ),
     });
 
   if (parseInt(page) > 1)
     queryClient.prefetchQuery({
       queryKey: ["transactions", filter, sortBy, search, parseInt(page) - 1],
       queryFn: () =>
-        getTransactionsWithAgents({
-          filter,
-          sortBy,
-          search,
-          page: parseInt(page) - 1,
-        }),
+        getTransactionsWithAgents(
+          {
+            filter,
+            sortBy,
+            search,
+            page: parseInt(page) - 1,
+          },
+          userId
+        ),
     });
 
   return { isLoading, error, transactions, count };

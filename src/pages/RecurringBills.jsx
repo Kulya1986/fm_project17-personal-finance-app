@@ -50,7 +50,17 @@ function RecurringBills() {
   if (!recurringBills.length)
     return (
       <>
-        <Heading as="h1">Recurring Bills</Heading>
+        <BillsHeading>
+          <Heading as="h1">Recurring Bills</Heading>
+          <Modal>
+            <Modal.Open opens={"add"}>
+              <Button $variation={"primary"}>+ Add New Bill</Button>
+            </Modal.Open>
+            <Modal.Window name={"add"} heading={"Add New Bill"}>
+              <AddBillForm />
+            </Modal.Window>
+          </Modal>
+        </BillsHeading>
         <NoDataYet section={"recurring bills"} />
       </>
     );
@@ -72,7 +82,7 @@ function RecurringBills() {
   const sortByValue = searchParams.get("sortByBills");
   const sortByValueComponents = sortByValue ? sortByValue.split("-") : null;
 
-  console.log(sortByValueComponents);
+  // console.log(sortByValueComponents);
   const sortBy = sortByValueComponents
     ? {
         field: sortByValueComponents[0],

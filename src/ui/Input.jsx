@@ -34,15 +34,9 @@ const Input = styled.input`
   border: 1px solid var(--color-beige-500);
   color: var(--color-grey-900);
 
-  ${(props) => variations[props.$variation]} /* &:hover {
-    border-color: var(--color-grey-500);
-  } */
+  ${(props) => variations[props.$variation]}
 
-  /* &:focus {
-    border-color: var(--color-grey-900);
-  } */
-
-    @media ${DEVICE.md} {
+  @media ${DEVICE.md} {
     overflow: hidden;
     text-overflow: ellipsis;
   }

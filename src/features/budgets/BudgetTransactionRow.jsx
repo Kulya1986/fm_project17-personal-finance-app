@@ -57,8 +57,8 @@ function BudgetTransactionRow({ transaction }) {
   return (
     <>
       <StyledAgent>
-        {!mobileScreen && <Avatar src={avatarURL} alt={agents?.fullName} />}
-        <StyledName>{agents?.fullName}</StyledName>
+        {!mobileScreen && <Avatar src={avatarURL} alt={agents?.full_name} />}
+        <StyledName>{agents?.full_name}</StyledName>
       </StyledAgent>
       <StyledInfo>
         <p>{`-${USDollar.format(Math.abs(amount))}`}</p>

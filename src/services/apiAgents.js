@@ -3,7 +3,7 @@ import supabase from "./supabase";
 export async function getAgents() {
   let { data: agents, error } = await supabase
     .from("agents")
-    .select("id, fullName")
+    .select("id, full_name")
     .is("email", null);
 
   if (error) {

@@ -2,6 +2,7 @@
 
 import { addDays, getQuarter, getDayOfYear } from "date-fns";
 import { DAYS_PER_QUARTER } from "./constants";
+import { useCategories } from "../hooks/useCatgeories";
 
 export const removeHyphen = (str) => {
   return str.replace("-", " ");

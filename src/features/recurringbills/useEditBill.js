@@ -7,7 +7,7 @@ export function useEditBill() {
   const { mutate: editBill, isLoading: isEditing } = useMutation({
     mutationFn: ({ newBill, id }) => addEditRecurringBill(newBill, id),
     onSuccess: () => {
-      toast.success("New bill successfully created");
+      toast.success("Bill successfully updated");
       queryClient.invalidateQueries({ queryKey: ["recurringBills"] });
     },
     onError: (err) => toast.error(err.message),

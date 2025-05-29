@@ -28,20 +28,20 @@ function CategoryFilter() {
     !catId || catId === "all"
       ? "All Transactions"
       : categories.filter((item) => item.id === parseInt(catId))[0]
-          .categoryName;
+          .category_name;
 
   function handleCategoryChange(e) {
     const catId =
       e === "All Transactions"
         ? "all"
-        : categories.filter((item) => item.categoryName === e)[0].id;
+        : categories.filter((item) => item.category_name === e)[0].id;
     searchParams.set("category", catId);
     if (searchParams.get("page")) searchParams.set("page", 1);
     setSearchParams(searchParams);
   }
 
   const selectInitial = ["All Transactions"];
-  const selectOptions = categories.map((item) => item.categoryName);
+  const selectOptions = categories?.map((item) => item.category_name);
   const categoriesOptions = selectInitial.concat(selectOptions);
   const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
 

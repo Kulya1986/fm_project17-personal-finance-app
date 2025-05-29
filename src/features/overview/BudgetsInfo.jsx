@@ -15,6 +15,13 @@ const Header = styled.div`
 `;
 const ChartContainer = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  /* & h2 {
+    text-align: center;
+  } */
 `;
 
 function BudgetsInfo({ transactionsForMonth }) {
@@ -46,7 +53,8 @@ function BudgetsInfo({ transactionsForMonth }) {
       </Header>
       <ChartContainer>
         {!chartData || !totalLimit || !totalSpent ? (
-          <Spinner />
+          // <Spinner />
+          <Heading as="h2">No data to display</Heading>
         ) : (
           <Chart
             legendOn={true}

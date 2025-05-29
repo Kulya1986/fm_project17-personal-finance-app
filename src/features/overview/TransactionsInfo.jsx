@@ -38,8 +38,10 @@ function TransactionsInfo({ transactions }) {
         }}
       >
         <Table.Body>
-          {!transactions ? (
-            <Table.Row>No transactions to display</Table.Row>
+          {transactions.length === 0 ? (
+            <Table.Row>
+              <Heading as="h2">No transactions to display</Heading>
+            </Table.Row>
           ) : (
             transactions.map((item) => (
               <Table.Row key={item.id}>

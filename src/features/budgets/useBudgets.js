@@ -1,9 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBudgets } from "../../services/apiBudgets";
-import { getCategoriesWithoutBudgets } from "../../services/apiCategories";
+
+import { useUser } from "../authentication/useUser";
 
 export function useBudgets() {
   const queryClient = useQueryClient();
+  const { isLoading: userLoading, user, isAuthenticated } = useUser();
+  const userId = user && isAuthenticated ? user.id : null;
 
   const {
     isLoading,
@@ -11,7 +14,7 @@ export function useBudgets() {
     data: { budgets } = {},
   } = useQuery({
     queryKey: ["budgets"],
-    queryFn: () => getBudgets(),
+    queryFn: () => getBudgets(userId),
   });
 
   // queryClient.prefetchQuery({

@@ -1,12 +1,14 @@
 import supabase from "./supabase";
 
-export async function getRecurringBillsWithAgents() {
+export async function getRecurringBillsWithAgents(userId) {
+  if (!userId) return;
   let query = supabase
-    .from("recurringBills")
+    .from("recurring_bills")
     .select(
-      "id, frequency, created_at, amount, dueDay, categoryId, agentId, categories(categoryName), agents(fullName, avatar)",
+      "id, frequency, created_at, amount, dueDay, categoryId, agentId, categories(category_name), agents(full_name, avatar)",
       { count: "exact" }
     )
+    .eq("userId", userId)
     .order("dueDay", { ascending: true });
 
   const { data: recurringBills, error, count } = await query;
@@ -20,7 +22,7 @@ export async function getRecurringBillsWithAgents() {
 }
 
 export async function addEditRecurringBill(newBill, id) {
-  let query = supabase.from("recurringBills");
+  let query = supabase.from("recurring_bills");
   if (!id) query = query.insert([newBill]);
   else query = query.update(newBill).eq("id", id);
 
@@ -39,7 +41,7 @@ export async function addEditRecurringBill(newBill, id) {
 
 export async function deleteBill(id) {
   const { data, error } = await supabase
-    .from("recurringBills")
+    .from("recurring_bills")
     .delete()
     .eq("id", id);
 
