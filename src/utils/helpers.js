@@ -2,7 +2,6 @@
 
 import { addDays, getQuarter, getDayOfYear } from "date-fns";
 import { DAYS_PER_QUARTER } from "./constants";
-import { useCategories } from "../hooks/useCatgeories";
 
 export const removeHyphen = (str) => {
   return str.replace("-", " ");
@@ -33,21 +32,18 @@ export const getBoundaryDate = (options = {}) => {
       : new Date();
 
   boundaryDate.setUTCDate(boundaryDate.getDate());
-  // console.log(boundaryDate);
+
   // This is necessary to compare with created_at from Supabase, because it it not at 0.0.0.0, so we need to set the date to be END of the day when we compare it with earlier dates
   if (options?.end) {
     if (options?.year && options?.month) {
-      // console.log("End", boundaryDate.getDate());
       boundaryDate.setUTCDate(boundaryDate.getUTCDate() - 1);
     }
     boundaryDate.setUTCHours(23, 59, 59, 999);
-    console.log("Boundary date end", boundaryDate.toISOString());
   } else {
     boundaryDate.setUTCHours(0, 0, 0, 0);
     if (!options?.year && !options?.month) boundaryDate.setUTCDate(1);
-    console.log("Boundary date start", boundaryDate.toISOString());
   }
-  // console.log("Boundary date", boundaryDate.toDateString());
+
   return boundaryDate.toISOString().split(".")[0].concat("+00:00");
 };
 

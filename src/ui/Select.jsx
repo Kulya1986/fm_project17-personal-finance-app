@@ -25,7 +25,7 @@ const SelectButton = styled.button`
   justify-content: space-between;
   gap: var(--spacing-200);
   height: 45px;
-  width: ${(props) => (props.$mobileImg ? "inherit" : "inherit")};
+  width: ${(props) => (props.$mobileImg ? "inherit" : "100%")};
 
   align-items: center;
   text-transform: capitalize;

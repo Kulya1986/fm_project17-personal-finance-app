@@ -2,8 +2,28 @@ import { PAGE_SIZE } from "../utils/constants";
 import { getBoundaryDate } from "../utils/helpers";
 import supabase from "./supabase";
 
+export async function getTotalSumForTransactions(userId) {
+  if (!userId) return;
+
+  let query = supabase
+    .from("transactions")
+    .select("amount.sum()")
+    .eq("userId", userId);
+
+  const { data: transactionsTotal, error } = await query;
+
+  if (error) {
+    //   console.log(data);
+    console.error(error);
+    throw new Error("Transactions could not be loaded");
+  }
+
+  return { transactionsTotal, error };
+}
+
+// Used on OVERVIEW and TRANSACTIONS pages
 export async function getTransactionsWithAgents(
-  { search, filter, sortBy, page },
+  { search, filter, sortBy, page, month, year },
   userId
 ) {
   if (!userId) return;
@@ -19,7 +39,6 @@ export async function getTransactionsWithAgents(
   //SEARCH BY AGENT
 
   if (search) {
-    // console.log(search);
     query = query.textSearch("agents.full_name", search, {
       type: "plain",
       config: "english",
@@ -35,26 +54,21 @@ export async function getTransactionsWithAgents(
   //SORT (Latest-desc, Oldest-asc, AtoZ - asc, ZtoA -desc, Highest -desc , Lowest-asc)
 
   if (sortBy?.field) {
-    // if (sortBy.field === "amount") {
-    //   query = query
-    //     .order(sortBy.field, {
-    //       ascending: sortBy.direction === "asc",
-    //     })
-    //     .order("income", { ascending: sortBy.direction === "asc" });
-    // } else {
     query = query.order(
       !sortBy?.table ? sortBy.field : `${sortBy.table}(${sortBy.field})`,
       {
         ascending: sortBy.direction === "asc",
       }
     );
-    // }
   } else {
     query = query.order("created_at", { ascending: false });
-    //   .order("income", { ascending: true });
-    // .order("created_at", {
-    //   ascending: true,
-    // });
+  }
+
+  if (year && month) {
+    // Select transactions for specified period(month)
+    query = query
+      .gte("created_at", getBoundaryDate({ year, month }))
+      .lte("created_at", getBoundaryDate({ year, month, end: true }));
   }
 
   // PAGINATION
@@ -66,7 +80,7 @@ export async function getTransactionsWithAgents(
   }
 
   const { data: transactions, error, count } = await query;
-  //   console.log(transactions);
+
   if (error) {
     //   console.log(data);
     console.error(error);
@@ -99,6 +113,7 @@ export async function getTransactionsByCategory(categoryId, num, userId) {
   return { transactionsByCategory, error };
 }
 
+// Used for list of transactions within CURRENT or SELECTED month for each budget. On BUDGET page
 export async function getTransactionsForBudgets(
   {
     year,
@@ -148,14 +163,17 @@ export async function getTransactionsForBudgets(
   return { transactions, error };
 }
 
-export async function getTransactionsByMonth({ year, month, limit }, userId) {
+export async function getTotalSumByCategoryForMonth({ month, year }, userId) {
   if (!userId) return;
+
   let query = supabase
     .from("transactions")
     .select(
-      "id, amount, created_at, income,  categoryId, agents(full_name, avatar)"
+      "categoryId,categories(category_name, budgets!inner(userId, categoryId, theme, budgetLimit)), total_spent:amount.sum(), userId"
     )
-    .eq("userId", userId);
+    .eq("income", false)
+    .eq("userId", userId)
+    .eq("categories.budgets.userId", userId);
 
   if (year && month) {
     // Select transactions for specified period(month)
@@ -169,19 +187,45 @@ export async function getTransactionsByMonth({ year, month, limit }, userId) {
       .gte("created_at", getBoundaryDate({}))
       .lte("created_at", getBoundaryDate({ end: true }));
 
-  query = query.order("created_at", {
-    ascending: false,
-  });
-
-  //Limit returned number of transactions
-  if (limit) query = query.range(0, limit - 1);
-
-  let { data: transactions, error } = await query;
-
+  const { data: transactionsTotalPerBudget, error } = await query;
+  //   console.log(transactions);
   if (error) {
+    //   console.log(data);
     console.error(error);
     throw new Error("Transactions could not be loaded");
   }
 
+  return { transactionsTotalPerBudget, error };
+}
+
+export async function addEditTransaction(newTransaction, id) {
+  let query = supabase.from("transactions");
+  if (!id) query = query.insert([newTransaction]);
+  else query = query.update(newTransaction).eq("id", id);
+
+  const { data: transactions, error } = await query;
+
+  if (error) {
+    console.error(error);
+    if (!newTransaction.agentId) throw new Error("Select agent from the list");
+    else if (!newTransaction.categoryId)
+      throw new Error("Select category for the bill");
+    else throw new Error("Recurring Bill could not be added");
+  }
+
   return { transactions, error };
+}
+
+export async function deleteTransaction(id) {
+  const { data, error } = await supabase
+    .from("transactions")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Transaction could not be deleted");
+  }
+
+  return { data };
 }

@@ -45,6 +45,18 @@ export function useTransactions() {
         }
       : null;
 
+  //5. YEAR & MONTH
+  const month =
+    searchParams.get("month") && searchParams.get("month") !== "all"
+      ? parseInt(searchParams.get("month"))
+      : null;
+
+  const year = searchParams.get("year")
+    ? parseInt(searchParams.get("year"))
+    : location.pathname === "/overview"
+    ? null
+    : new Date().getFullYear();
+
   //4. PAGINATION
 
   const page =
@@ -57,9 +69,20 @@ export function useTransactions() {
     error,
     data: { transactions, count } = {},
   } = useQuery({
-    queryKey: ["transactions", filter, sortBy, search, parseInt(page)],
+    queryKey: [
+      "transactions",
+      filter,
+      sortBy,
+      search,
+      parseInt(page),
+      month,
+      year,
+    ],
     queryFn: () =>
-      getTransactionsWithAgents({ filter, sortBy, search, page }, userId),
+      getTransactionsWithAgents(
+        { filter, sortBy, search, page: parseInt(page), month, year },
+        userId
+      ),
   });
 
   // PREFETCHING NEXT PAGE
@@ -68,7 +91,15 @@ export function useTransactions() {
 
   if (parseInt(page) < pagesCount)
     queryClient.prefetchQuery({
-      queryKey: ["transactions", filter, sortBy, search, parseInt(page) + 1],
+      queryKey: [
+        "transactions",
+        filter,
+        sortBy,
+        search,
+        parseInt(page) + 1,
+        month,
+        year,
+      ],
       queryFn: () =>
         getTransactionsWithAgents(
           {
@@ -76,6 +107,8 @@ export function useTransactions() {
             sortBy,
             search,
             page: parseInt(page) + 1,
+            month,
+            year,
           },
           userId
         ),
@@ -83,7 +116,15 @@ export function useTransactions() {
 
   if (parseInt(page) > 1)
     queryClient.prefetchQuery({
-      queryKey: ["transactions", filter, sortBy, search, parseInt(page) - 1],
+      queryKey: [
+        "transactions",
+        filter,
+        sortBy,
+        search,
+        parseInt(page) - 1,
+        month,
+        year,
+      ],
       queryFn: () =>
         getTransactionsWithAgents(
           {
@@ -91,6 +132,8 @@ export function useTransactions() {
             sortBy,
             search,
             page: parseInt(page) - 1,
+            month,
+            year,
           },
           userId
         ),

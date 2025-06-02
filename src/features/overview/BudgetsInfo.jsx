@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import { useBudgets } from "../budgets/useBudgets";
+// import { useBudgets } from "../budgets/useBudgets";
 import { prepareDataForChart } from "../budgets/prepareDataForChart";
 import Chart from "../../ui/Chart";
 import ButtonArrow from "../../ui/ButtonArrow";
 import Spinner from "../../ui/Spinner";
 import Card from "../../ui/Card";
 import Heading from "../../ui/Heading";
+import { useTotalSumByCategoryForMonth } from "../transactions/useTotalSumByCategoryForMonth";
 
 const Header = styled.div`
   display: flex;
@@ -24,24 +25,19 @@ const ChartContainer = styled.div`
   } */
 `;
 
-function BudgetsInfo({ transactionsForMonth }) {
-  const { isLoading, error, budgets } = useBudgets();
+function BudgetsInfo() {
+  const { isLoading, error, transactionsTotalPerBudget } =
+    useTotalSumByCategoryForMonth();
   const navigate = useNavigate();
 
   if (isLoading) return <Spinner />;
 
-  const budgetsTransactions = budgets.map((budget) =>
-    transactionsForMonth.filter(
-      (item) => item.categoryId === budget.id && !item.income
-    )
+  const existingBudgets = transactionsTotalPerBudget.filter(
+    (item) => item.categories
   );
 
-  if (!budgetsTransactions) return;
-
-  const { chartData, totalLimit, totalSpent } = prepareDataForChart(
-    budgets,
-    budgetsTransactions
-  );
+  const { chartData, totalLimit, totalSpent } =
+    prepareDataForChart(existingBudgets);
 
   return (
     <Card $variation="budget" $mode="light">
@@ -53,7 +49,6 @@ function BudgetsInfo({ transactionsForMonth }) {
       </Header>
       <ChartContainer>
         {!chartData || !totalLimit || !totalSpent ? (
-          // <Spinner />
           <Heading as="h2">No data to display</Heading>
         ) : (
           <Chart

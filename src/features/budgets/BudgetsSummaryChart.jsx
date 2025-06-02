@@ -1,10 +1,8 @@
-import { useTransactionsForBudgets } from "../transactions/useTransactionsForBudgets";
 import styled from "styled-components";
 
 import Spinner from "../../ui/Spinner";
 import Chart from "../../ui/Chart";
 import { prepareDataForChart } from "./prepareDataForChart";
-import { useTransactionsByMonth } from "../transactions/useTransactionsByMonth";
 
 const ChartContainer = styled.div`
   position: relative;
@@ -12,29 +10,7 @@ const ChartContainer = styled.div`
 `;
 
 function BudgetsSummaryChart({ budgets }) {
-  const {
-    isLoading,
-    error,
-    transactions: transactionsForMonth,
-  } = useTransactionsByMonth({
-    year: 2025,
-    month: 4,
-  });
-
-  if (isLoading) return <Spinner />;
-
-  const budgetsTransactions = budgets.map((budget) =>
-    transactionsForMonth.filter(
-      (item) => item.categoryId === budget.id && !item.income
-    )
-  );
-
-  if (!budgetsTransactions) return;
-
-  const { chartData, totalLimit, totalSpent } = prepareDataForChart(
-    budgets,
-    budgetsTransactions
-  );
+  const { chartData, totalLimit, totalSpent } = prepareDataForChart(budgets);
 
   return (
     <ChartContainer>

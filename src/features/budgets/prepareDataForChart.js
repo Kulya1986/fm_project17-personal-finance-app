@@ -1,23 +1,22 @@
 import { SYSTEM_COLORS_WITH_CODES } from "../../utils/constants";
 
-export function prepareDataForChart(budgets, transactions) {
-  const transactionsTotalPerBudget = transactions.map((item) =>
-    item?.reduce((acc, trans) => acc + Math.abs(trans.amount), 0)
-  );
-
-  const chartData = budgets.map((item, i) => {
+export function prepareDataForChart(budgets) {
+  const chartData = budgets.map((item) => {
     return {
       budgetName: item.categories.category_name,
       budgetColor: SYSTEM_COLORS_WITH_CODES.filter(
-        (col) => col.color === item.theme
+        (col) => col.color === item.categories.budgets[0].theme
       )[0].code,
-      budgetSpent: transactionsTotalPerBudget[i],
+      budgetSpent: Math.abs(item.total_spent),
     };
   });
 
-  const totalLimit = budgets.reduce((acc, curr) => acc + curr.budgetLimit, 0);
-  const totalSpent = transactionsTotalPerBudget.reduce(
-    (acc, curr) => acc + curr,
+  const totalLimit = budgets.reduce(
+    (acc, curr) => acc + curr.categories.budgets[0].budgetLimit,
+    0
+  );
+  const totalSpent = budgets.reduce(
+    (acc, curr) => acc + Math.abs(curr.total_spent),
     0
   );
 

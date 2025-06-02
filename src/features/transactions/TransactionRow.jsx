@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { SUPABASE_URL } from "../../utils/constants";
 import { convertCreatedAt } from "../../utils/helpers";
 import { DEVICE, SIZES } from "../../styles/screenBreakpoints";
+import Menus from "../../ui/Menus";
+import Modal from "../../ui/Modal";
+import AddTransactionForm from "./AddTransactionForm";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useDeleteTransaction } from "./useDeleteTransaction";
 
 const GeneralCell = styled.div`
   align-self: center;
@@ -59,7 +64,9 @@ const StyledName = styled.span`
   font-weight: bold;
 `;
 function TransactionRow({ transaction }) {
-  const { amount, categories, agents, created_at } = transaction;
+  const { amount, categories, agents, created_at, id } = transaction;
+  const { isDeleting, removeTransaction } = useDeleteTransaction();
+
   const avatarURL = `${SUPABASE_URL}${agents?.avatar}`;
 
   let USDollar = new Intl.NumberFormat("en-US", {
@@ -103,6 +110,32 @@ function TransactionRow({ transaction }) {
           amount >= 0 ? "+" : "-"
         }${USDollar.format(Math.abs(amount))}`}</StyledAmount>
       )}
+      <Menus>
+        <Modal>
+          <Menus.Menu>
+            <Menus.Toggle id={id} table={true}></Menus.Toggle>
+            <Menus.List id={id}>
+              <Modal.Open opens={"edit"}>
+                <Menus.Item>Edit transaction</Menus.Item>
+              </Modal.Open>
+              <Modal.Open opens={"delete"}>
+                <Menus.Item $isDelete={true}>Delete transaction</Menus.Item>
+              </Modal.Open>
+            </Menus.List>
+
+            <Modal.Window name={"edit"} heading={"Edit Transaction"}>
+              <AddTransactionForm transactionToEdit={transaction} />
+            </Modal.Window>
+            <Modal.Window heading={`Delete transaction?`} name={"delete"}>
+              <ConfirmDelete
+                section={"transaction"}
+                disabled={isDeleting}
+                onConfirm={() => removeTransaction(id)}
+              />
+            </Modal.Window>
+          </Menus.Menu>
+        </Modal>
+      </Menus>
     </>
   );
 }

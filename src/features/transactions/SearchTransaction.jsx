@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router";
 import Input from "../../ui/Input";
 import { useState } from "react";
+import { SIZES } from "../../styles/screenBreakpoints";
 
 function SearchField() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -10,6 +11,13 @@ function SearchField() {
   const [searchedTransaction, setSearchedTransaction] = useState(
     currentSearchedTransaction
   );
+
+  const tabWidth =
+    window.screen.width <= SIZES.sm
+      ? "70%"
+      : window.screen.width <= SIZES.md
+      ? "160px"
+      : false;
 
   function handleSearch(e) {
     if (e.code === "Enter") {
@@ -27,7 +35,7 @@ function SearchField() {
     <Input
       placeholder="Search transaction"
       $variation="iconSearch"
-      $tabWidth="160px"
+      $tabWidth={tabWidth}
       onChange={(e) => handleSearchedTransaction(e.target.value)}
       onKeyUp={(e) => handleSearch(e)}
       maxLength={"100"}

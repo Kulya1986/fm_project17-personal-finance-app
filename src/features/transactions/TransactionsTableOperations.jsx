@@ -1,8 +1,5 @@
-import { useState } from "react";
 import styled from "styled-components";
-import Input from "../../ui/Input";
-import Select from "../../ui/Select";
-import { useSearchParams } from "react-router";
+
 import SearchField from "./SearchTransaction";
 import SortBy from "./SortByTransaction";
 import CategoryFilter from "../../ui/CategoryFilter";

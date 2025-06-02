@@ -29,15 +29,11 @@ function BudgetsSummaryTable({ budgets }) {
           <Heading as="h2">Spending Summary</Heading>
         </StyledHeader>
         <Table.Body>
-          {!budgets ? (
-            <Table.Row>No budgets to display</Table.Row>
-          ) : (
-            budgets.map((budget) => (
-              <Table.Row key={budget.id}>
-                <BudgetSummaryRow budget={budget} key={budget.id} />
-              </Table.Row>
-            ))
-          )}
+          {budgets.map((budget) => (
+            <Table.Row key={budget.categoryId}>
+              <BudgetSummaryRow budget={budget} key={budget.categoryId} />
+            </Table.Row>
+          ))}
         </Table.Body>
       </Table>
     </>

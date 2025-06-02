@@ -6,6 +6,7 @@ import BudgetsTable from "../features/budgets/BudgetsTable";
 import AddBudgetForm from "../features/budgets/AddBudgetForm";
 import Modal from "../ui/Modal";
 import { DEVICE } from "../styles/screenBreakpoints";
+import PeriodFilter from "../ui/PeriodFilter";
 
 const BudgetsHeading = styled.div`
   display: flex;
@@ -43,7 +44,7 @@ function Budgets() {
           </Modal.Window>
         </Modal>
       </BudgetsHeading>
-
+      <PeriodFilter />
       <BudgetsInfo>
         <BudgetsSummary />
         <BudgetsTable />

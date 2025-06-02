@@ -21,6 +21,7 @@ const StyledMenu = styled.nav`
   flex-direction: column;
   justify-content: space-between;
   width: 300px;
+  min-width: 300px;
   background-color: var(--color-grey-900);
   border-top-right-radius: var(--spacing-200);
   border-bottom-right-radius: var(--spacing-200);
@@ -32,6 +33,7 @@ const StyledMenu = styled.nav`
     props.size === "min" &&
     css`
       width: 88px;
+      min-width: 88px;
     `}
 
   @media ${DEVICE.md} {

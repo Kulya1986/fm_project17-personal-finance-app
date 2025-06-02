@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useTransactionsForBudgets } from "../transactions/useTransactionsForBudgets";
+// import { useTransactionsForBudgets } from "../transactions/useTransactionsForBudgets";
 
 const GeneralCell = styled.div`
   display: flex;
@@ -42,33 +42,25 @@ const StyledTotal = styled.p`
 `;
 
 function BudgetSummaryRow({ budget }) {
-  const { id, budgetLimit, categories, theme } = budget;
-  const { isLoading, error, transactions } = useTransactionsForBudgets({
-    year: 2025,
-    month: 4,
-    categoryId: id,
-  });
-
-  if (isLoading) return;
-
   let USDollar = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
-  const budgetColor = `var(--color-${theme})`;
-  const totalSpent = transactions.reduce(
-    (acc, curr) => acc + Math.abs(curr.amount),
-    0
-  );
+  const budgetColor = `var(--color-${budget.categories.budgets[0].theme})`;
+
   return (
     <>
       <StyledTitle>
         <StyledBorder $boxcolor={budgetColor} />
-        <StyledName>{categories.category_name}</StyledName>
+        <StyledName>{budget.categories.category_name}</StyledName>
       </StyledTitle>
       <StyledAmount>
-        <StyledSpent>{USDollar.format(totalSpent)}</StyledSpent>
-        <StyledTotal>{` of ${USDollar.format(budgetLimit)}`}</StyledTotal>
+        <StyledSpent>
+          {USDollar.format(Math.abs(budget.total_spent))}
+        </StyledSpent>
+        <StyledTotal>{` of ${USDollar.format(
+          budget.categories.budgets[0].budgetLimit
+        )}`}</StyledTotal>
       </StyledAmount>
     </>
   );

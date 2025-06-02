@@ -21,35 +21,35 @@ export async function getBudgets(userId) {
 }
 
 // NOT USED FOR NOW, NEED to CHANGE TABLE for FETCH to 'Categories'
-export async function getBudgetsWithTransactions(year, month) {
-  let query = supabase
-    .from("budgets")
-    .select(
-      "id, budgetLimit, theme, categoryId, category:categories(category_name), transactions!inner(categoryId, amount, income, created_at)"
-    );
+// export async function getBudgetsWithTransactions(year, month) {
+//   let query = supabase
+//     .from("budgets")
+//     .select(
+//       "id, budgetLimit, theme, categoryId, category:categories(category_name), transactions!inner(categoryId, amount, income, created_at)"
+//     );
 
-  if (year && month)
-    query = query
-      .gte("transactions.created_at", getBoundaryDate({ year, month }))
-      .lte(
-        "transactions.created_at",
-        getBoundaryDate({ year, month, end: true })
-      );
-  else
-    query = query
-      .gte("transactions.created_at", getBoundaryDate({}))
-      .lte("transactions.created_at", getBoundaryDate({ end: true }));
+//   if (year && month)
+//     query = query
+//       .gte("transactions.created_at", getBoundaryDate({ year, month }))
+//       .lte(
+//         "transactions.created_at",
+//         getBoundaryDate({ year, month, end: true })
+//       );
+//   else
+//     query = query
+//       .gte("transactions.created_at", getBoundaryDate({}))
+//       .lte("transactions.created_at", getBoundaryDate({ end: true }));
 
-  let { data: budgets, error } = await query;
-  //   console.log(budgets);
+//   let { data: budgets, error } = await query;
+//   //   console.log(budgets);
 
-  if (error) {
-    console.error(error);
-    throw new Error("Budgets could not be loaded");
-  }
+//   if (error) {
+//     console.error(error);
+//     throw new Error("Budgets could not be loaded");
+//   }
 
-  return { budgets, error };
-}
+//   return { budgets, error };
+// }
 
 export async function addEditBudget(newBudget, id) {
   console.log(newBudget, id);

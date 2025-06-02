@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getTransactionsForBudgets } from "../../services/apiTransactions";
+import { getTotalSumByCategoryForMonth } from "../../services/apiTransactions";
 import { useUser } from "../authentication/useUser";
 import { useSearchParams } from "react-router";
 
-export function useTransactionsForBudgets({ categoryId = null }) {
+export function useTotalSumByCategoryForMonth() {
   const queryClient = useQueryClient();
   const [searchParams] = useSearchParams();
   const { isLoading: userLoading, user, isAuthenticated } = useUser();
@@ -21,19 +21,18 @@ export function useTransactionsForBudgets({ categoryId = null }) {
   const {
     isLoading,
     error,
-    data: { transactions } = {},
+    data: { transactionsTotalPerBudget } = {},
   } = useQuery({
-    queryKey: ["transactions", year, month, categoryId],
+    queryKey: ["transactions_total_per_budget", year, month],
     queryFn: () =>
-      getTransactionsForBudgets(
+      getTotalSumByCategoryForMonth(
         {
           year,
           month,
-          categoryId,
         },
         userId
       ),
   });
 
-  return { isLoading, error, transactions };
+  return { isLoading, transactionsTotalPerBudget, error };
 }

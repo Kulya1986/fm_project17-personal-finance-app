@@ -39,3 +39,18 @@ export const PAGE_SIZE = 10;
 export const SUPABASE_URL = "https://rxdbotqqmsdjwbnfyykl.supabase.co";
 
 export const DAYS_PER_QUARTER = [90, 91, 92, 92];
+
+export const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];

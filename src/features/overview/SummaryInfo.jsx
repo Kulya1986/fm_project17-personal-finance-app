@@ -4,13 +4,11 @@ import PotsInfo from "./PotsInfo";
 import BudgetsInfo from "./BudgetsInfo";
 import RecurringBillsInfo from "./RecurringBillsInfo";
 import TransactionsInfo from "./TransactionsInfo";
-import { useTransactionsForBudgets } from "../transactions/useTransactionsForBudgets";
-import { useTransactionsByMonth } from "../transactions/useTransactionsByMonth";
 import Spinner from "../../ui/Spinner";
 import { useTransactions } from "../transactions/useTransactions";
 import { useFinAccount } from "./useFinAccount";
-import { useBudgets } from "../budgets/useBudgets";
 import { DEVICE } from "../../styles/screenBreakpoints";
+import { useTransactionsTotal } from "../transactions/useTransactionsTotal";
 
 const StyledSummaryInfo = styled.div`
   display: flex;
@@ -40,23 +38,18 @@ const Column = styled.div`
 `;
 
 function SummaryInfo() {
-  // Hook for case when filtered to selected month or current
+  const { isLoading, error, transactions } = useTransactions();
+  const { isLoading: isLoading1, error: error1, finance } = useFinAccount();
   const {
     isLoading: isLoading2,
     error: error2,
-    transactions: transactionsForMonth,
-  } = useTransactionsByMonth({
-    year: 2025,
-    month: 4,
-  });
-  const { isLoading, error, transactions } = useTransactions();
-  const { isLoading: isLoading1, error: error1, finance } = useFinAccount();
+    transactionsTotal,
+  } = useTransactionsTotal();
 
   if (isLoading || isLoading1 || isLoading2) return <Spinner />;
 
   const currentBalance =
-    finance[0]?.initial_balance +
-    transactions.reduce((acc, curr) => acc + curr.amount, 0);
+    finance[0]?.initial_balance + transactionsTotal[0]?.sum;
   const income = transactions.reduce(
     (acc, curr) => (curr.income ? acc + curr.amount : acc),
     0
@@ -79,7 +72,7 @@ function SummaryInfo() {
           <TransactionsInfo transactions={transactions.slice(0, 5)} />
         </Column>
         <Column>
-          <BudgetsInfo transactionsForMonth={transactionsForMonth} />
+          <BudgetsInfo />
           <RecurringBillsInfo />
         </Column>
       </SummaryPerSection>

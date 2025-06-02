@@ -22,7 +22,7 @@ const variations = {
     }
 
     @media ${DEVICE.sm} {
-      width: 100%;
+      width: ${(props) => (props.$tabWidth ? props.$tabWidth : "100%")};
     }
   `,
 };
@@ -35,6 +35,12 @@ const Input = styled.input`
   color: var(--color-grey-900);
 
   ${(props) => variations[props.$variation]}
+
+  &[type="checkbox"] {
+    align-self: flex-start;
+    width: var(--spacing-250);
+    height: var(--spacing-250);
+  }
 
   @media ${DEVICE.md} {
     overflow: hidden;

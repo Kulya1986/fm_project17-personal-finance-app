@@ -8,7 +8,7 @@ import Table from "../../ui/Table";
 import ButtonArrow from "../../ui/ButtonArrow";
 import BudgetTransactionRow from "./BudgetTransactionRow";
 import Heading from "../../ui/Heading";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import CopyWithColorBar from "../../ui/CopyWithColorBar";
 import Modal from "../../ui/Modal";
 
@@ -37,23 +37,30 @@ const StyledHeader = styled.div`
 `;
 
 function Budget({ budget }) {
+  const [searchParams] = useSearchParams();
   const { budgetLimit, theme, id, categories, categoryId } = budget;
   const budgetTitle = categories.category_name;
   const { isLoading, error, transactions } = useTransactionsForBudgets({
-    year: 2025,
-    month: 4,
     categoryId: categoryId,
   });
   const navigate = useNavigate();
   const { removeBudget, isDeleting } = useDeleteBudget();
 
   if (isLoading) return <SpinnerMini />;
-  //   console.log("Budget transactions:", transactions);
 
   let USDollar = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
+
+  const month =
+    searchParams.get("month") && searchParams.get("month") !== "all"
+      ? parseInt(searchParams.get("month"))
+      : new Date().getMonth() + 1;
+
+  const year = searchParams.get("year")
+    ? parseInt(searchParams.get("year"))
+    : new Date().getFullYear();
 
   const limitedTransactions = transactions.slice(0, 3);
   const budgetColor = `var(--color-${theme})`;
@@ -132,38 +139,40 @@ function Budget({ budget }) {
           </CopyWithColorBar>
         </Range.Legend>
       </Range>
-      <Table
-        columns={"1fr 1fr"}
-        tablecolor={"var(--color-beige-100)"}
-        bordercolor={"var(--color-grey-300)"}
-        spacing={{
-          tablePadding: mobileScreen ? 200 : 250,
-          tableGap: 250,
-          columnsGap: mobileScreen ? 10 : 50,
-          rowXPadding: 10,
-          rowYPadding: mobileScreen ? 150 : 200,
-        }}
-      >
-        <StyledHeader>
-          <Heading as="h3">Latest Spending</Heading>
-          <ButtonArrow
-            handleClick={() => navigate(`/transactions?category=${id}`)}
-          >
-            See All
-          </ButtonArrow>
-        </StyledHeader>
-        <Table.Body>
-          {!transactions ? (
-            <Table.Row>No transactions to display</Table.Row>
-          ) : (
-            limitedTransactions.map((item) => (
+      {transactions.length > 0 && (
+        <Table
+          columns={"1fr 1fr"}
+          tablecolor={"var(--color-beige-100)"}
+          bordercolor={"var(--color-grey-300)"}
+          spacing={{
+            tablePadding: mobileScreen ? 200 : 250,
+            tableGap: 250,
+            columnsGap: mobileScreen ? 10 : 50,
+            rowXPadding: 10,
+            rowYPadding: mobileScreen ? 150 : 200,
+          }}
+        >
+          <StyledHeader>
+            <Heading as="h3">Latest Spending</Heading>
+            <ButtonArrow
+              handleClick={() =>
+                navigate(
+                  `/transactions?category=${categoryId}&month=${month}&year=${year}`
+                )
+              }
+            >
+              See All
+            </ButtonArrow>
+          </StyledHeader>
+          <Table.Body>
+            {limitedTransactions.map((item) => (
               <Table.Row key={item.id}>
                 <BudgetTransactionRow transaction={item} key={item.id} />
               </Table.Row>
-            ))
-          )}
-        </Table.Body>
-      </Table>
+            ))}
+          </Table.Body>
+        </Table>
+      )}
     </Card>
   );
 }

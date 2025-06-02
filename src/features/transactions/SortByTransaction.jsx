@@ -13,11 +13,11 @@ const sortByOptions = [
     label: "Oldest",
   },
   {
-    value: "agents-fullName-asc",
+    value: "agents-full_name-asc",
     label: "A to Z",
   },
   {
-    value: "agents-fullName-desc",
+    value: "agents-full_name-desc",
     label: "Z to A",
   },
   {

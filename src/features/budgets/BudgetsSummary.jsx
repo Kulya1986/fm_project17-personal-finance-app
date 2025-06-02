@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { useBudgets } from "./useBudgets";
+
 import Spinner from "../../ui/Spinner";
 import Card from "../../ui/Card";
 import BudgetsSummaryChart from "./BudgetsSummaryChart";
 import BudgetsSummaryTable from "./BudgetsSummaryTable";
 import NoDataYet from "../../ui/NoDataYet";
 import { DEVICE, SIZES } from "../../styles/screenBreakpoints";
+import { useTotalSumByCategoryForMonth } from "../transactions/useTotalSumByCategoryForMonth";
 
 const StyledBudgetSummary = styled.section`
   display: flex;
@@ -16,9 +17,14 @@ const StyledBudgetSummary = styled.section`
   min-width: 340px;
 `;
 function BudgetsSummary() {
-  const { isLoading, error, budgets } = useBudgets();
+  const { isLoading, error, transactionsTotalPerBudget } =
+    useTotalSumByCategoryForMonth();
 
   if (isLoading) return <Spinner />;
+
+  const existingBudgets = transactionsTotalPerBudget.filter(
+    (item) => item.categories
+  );
 
   const tabScreen =
     window.screen.width <= SIZES.md && window.screen.width > SIZES.sm
@@ -27,20 +33,21 @@ function BudgetsSummary() {
 
   return (
     <StyledBudgetSummary>
-      {!budgets.length ? (
-        <NoDataYet section={"budgets"} />
-      ) : (
-        <Card
-          $variation="budget"
-          $mode="light"
-          className={tabScreen ? "tab" : ""}
-        >
+      <Card
+        $variation="budget"
+        $mode="light"
+        className={tabScreen ? "tab" : ""}
+      >
+        {existingBudgets.length === 0 ? (
+          <NoDataYet section={"spending per budget"} />
+        ) : (
           <>
-            <BudgetsSummaryChart budgets={budgets} />
-            <BudgetsSummaryTable budgets={budgets} />
+            <BudgetsSummaryChart budgets={existingBudgets} />
+            <BudgetsSummaryTable budgets={existingBudgets} />
           </>
-        </Card>
-      )}
+        )}
+      </Card>
+      {/* )} */}
     </StyledBudgetSummary>
   );
 }
