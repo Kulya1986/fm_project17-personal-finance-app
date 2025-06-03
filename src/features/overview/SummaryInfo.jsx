@@ -46,7 +46,7 @@ function SummaryInfo() {
     transactionsTotal,
   } = useTransactionsTotal();
 
-  if (isLoading || isLoading1 || isLoading2) return <Spinner />;
+  if (isLoading || isLoading1 || isLoading2 || !finance) return <Spinner />;
 
   const currentBalance =
     finance[0]?.initial_balance + transactionsTotal[0]?.sum;

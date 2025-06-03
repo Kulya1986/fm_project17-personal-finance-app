@@ -33,7 +33,7 @@ function BudgetsInfo() {
   if (isLoading) return <Spinner />;
 
   const existingBudgets = transactionsTotalPerBudget.filter(
-    (item) => item.categories
+    (item) => item.category_name
   );
 
   const { chartData, totalLimit, totalSpent } =

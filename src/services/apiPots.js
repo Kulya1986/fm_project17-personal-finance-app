@@ -1,3 +1,4 @@
+import { FaBullseye } from "react-icons/fa";
 import supabase from "./supabase";
 
 export async function getPots(userId) {
@@ -5,7 +6,8 @@ export async function getPots(userId) {
   let { data: pots, error } = await supabase
     .from("pots")
     .select("id, title,targetAmount, potAmount,  theme, userId")
-    .eq("userId", userId);
+    .eq("userId", userId)
+    .order("potAmount", { ascending: false });
 
   if (error) {
     console.error(error);

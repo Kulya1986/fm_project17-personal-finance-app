@@ -10,6 +10,7 @@ const StyledTable = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${(props) => props.$tablegap};
+  min-height: ${(props) => props.$minheight};
 `;
 
 const StyledOperations = styled.div`
@@ -75,6 +76,7 @@ function Table({
   tablecolor,
   bordercolor,
   borderradius,
+  minheight,
   spacing,
   children,
 }) {
@@ -105,6 +107,7 @@ function Table({
         headerPadding,
         rowPadding,
         borderradius,
+        minheight,
       }}
     >
       <StyledTable
@@ -113,6 +116,7 @@ function Table({
         $tablegap={tableGap}
         $tablepadding={tablePadding}
         $borderradius={borderradius}
+        $minheight={minheight}
       >
         {children}
       </StyledTable>

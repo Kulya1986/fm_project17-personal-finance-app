@@ -34,7 +34,7 @@ export const SYSTEM_COLORS_WITH_CODES = [
   { color: "orange", code: " #BE6C49" },
 ];
 
-export const PAGE_SIZE = 10;
+export const PAGE_SIZE = 6;
 
 export const SUPABASE_URL = "https://rxdbotqqmsdjwbnfyykl.supabase.co";
 

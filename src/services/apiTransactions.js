@@ -169,7 +169,7 @@ export async function getTotalSumByCategoryForMonth({ month, year }, userId) {
   let query = supabase
     .from("transactions")
     .select(
-      "categoryId,categories(category_name, budgets!inner(userId, categoryId, theme, budgetLimit)), total_spent:amount.sum(), userId"
+      "categoryId, ...categories(category_name, budgets!inner(userId, categoryId, theme, budgetLimit)), total_spent:amount.sum(), userId"
     )
     .eq("income", false)
     .eq("userId", userId)
@@ -188,7 +188,7 @@ export async function getTotalSumByCategoryForMonth({ month, year }, userId) {
       .lte("created_at", getBoundaryDate({ end: true }));
 
   const { data: transactionsTotalPerBudget, error } = await query;
-  //   console.log(transactions);
+
   if (error) {
     //   console.log(data);
     console.error(error);

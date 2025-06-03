@@ -2,7 +2,7 @@ import supabase from "./supabase";
 
 export async function getFinanceInfo(userId) {
   // console.log(userId);
-  if (!userId) return null;
+  if (!userId) return {};
 
   let { data: finance, error } = await supabase
     .from("profiles")

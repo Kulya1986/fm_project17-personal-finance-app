@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useUser } from "./useUser";
 import { useLogout } from "./useLogout";
 import { useFinAccount } from "../overview/useFinAccount";
+import { useEffect } from "react";
 
 const StyledUserAccountNav = styled.div`
   display: flex;
@@ -64,7 +65,14 @@ function UserAccountNavLink() {
   const { logout, isLogout } = useLogout();
   const { isLoading, error, finance } = useFinAccount();
 
-  if (isLoading) return;
+  useEffect(
+    function () {
+      if (!finance) return;
+    },
+    [finance]
+  );
+
+  if (isLoading || !finance) return;
 
   return (
     <StyledUserAccountNav>

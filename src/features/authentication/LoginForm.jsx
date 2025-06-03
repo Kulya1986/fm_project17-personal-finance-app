@@ -62,8 +62,6 @@ function LoginForm() {
   }
 
   function onSubmit({ userName: user_name, email, password }) {
-    console.log(user_name, email, password);
-
     if (!isSignedUp)
       signup({ user_name, email, password }, { onSettled: () => reset() });
     else login({ email, password });

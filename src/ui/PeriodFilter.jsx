@@ -3,6 +3,7 @@ import { MONTHS } from "../utils/constants";
 import Select from "./Select";
 import { useState } from "react";
 import { useSearchParams } from "react-router";
+import { DEVICE, SIZES } from "../styles/screenBreakpoints";
 
 const StyledPeriodFilter = styled.div`
   display: flex;
@@ -34,6 +35,8 @@ function PeriodFilter() {
     monthId && monthId !== "all" ? monthsArray[monthId] : monthsArray[0];
   const selectedYear = year ? year : today.getFullYear();
 
+  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+
   function handleMonthChange(e) {
     if (e === monthsArray[0]) searchParams.set("month", "all");
     else searchParams.set("month", monthsArray.indexOf(e));
@@ -49,7 +52,7 @@ function PeriodFilter() {
 
   return (
     <StyledPeriodFilter>
-      <GroupLabel>Select period:</GroupLabel>
+      {!mobileScreen && <GroupLabel>Select period:</GroupLabel>}
       <Select
         options={monthsArray}
         value={selectedMonth}

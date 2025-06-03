@@ -65,10 +65,11 @@ const SelectDropdown = styled.ul`
   padding: var(--spacing-150) var(--spacing-250);
   margin: var(--spacing-200) 0 0;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  height: ${(props) => props.$dropdownheight};
   max-height: 270px;
   overflow-y: auto;
   transition: all ease-out 0.3s;
-  z-index: 10;
+  z-index: 100;
 
   &.hidden {
     display: none;
@@ -160,6 +161,7 @@ function Select({
   value,
   onChange,
   selectwidth = "auto",
+  height = null,
   color = false,
   used = [],
   disabled,
@@ -226,6 +228,7 @@ function Select({
         id="select-dropdown"
         aria-labelledby="select-button"
         $mobileImg={mobileImg.length > 0 ? true : false}
+        $dropdownheight={height}
       >
         {/* {allOption && <DropdownOption all>All Transactions</DropdownOption>} */}
         {!color &&

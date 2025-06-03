@@ -46,20 +46,20 @@ function BudgetSummaryRow({ budget }) {
     style: "currency",
     currency: "USD",
   });
-  const budgetColor = `var(--color-${budget.categories.budgets[0].theme})`;
+  const budgetColor = `var(--color-${budget.budgets[0].theme})`;
 
   return (
     <>
       <StyledTitle>
         <StyledBorder $boxcolor={budgetColor} />
-        <StyledName>{budget.categories.category_name}</StyledName>
+        <StyledName>{budget.category_name}</StyledName>
       </StyledTitle>
       <StyledAmount>
         <StyledSpent>
           {USDollar.format(Math.abs(budget.total_spent))}
         </StyledSpent>
         <StyledTotal>{` of ${USDollar.format(
-          budget.categories.budgets[0].budgetLimit
+          budget.budgets[0].budgetLimit
         )}`}</StyledTotal>
       </StyledAmount>
     </>

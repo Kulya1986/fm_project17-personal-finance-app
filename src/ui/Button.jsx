@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { DEVICE } from "../styles/screenBreakpoints";
 
 const variations = {
   primary: css`
@@ -33,6 +34,11 @@ const variations = {
     &:hover {
       background-color: var(--color-beige-500);
       color: var(--color-white);
+    }
+    @media ${DEVICE.sm} {
+      min-height: 34px;
+      min-width: 34px;
+      padding: 5.5px var(--spacing-150);
     }
   `,
   danger: css`

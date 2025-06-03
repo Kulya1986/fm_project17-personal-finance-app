@@ -23,7 +23,7 @@ function BudgetsSummary() {
   if (isLoading) return <Spinner />;
 
   const existingBudgets = transactionsTotalPerBudget.filter(
-    (item) => item.categories
+    (item) => item.category_name
   );
 
   const tabScreen =
@@ -38,7 +38,7 @@ function BudgetsSummary() {
         $mode="light"
         className={tabScreen ? "tab" : ""}
       >
-        {existingBudgets.length === 0 ? (
+        {transactionsTotalPerBudget.length === 0 ? (
           <NoDataYet section={"spending per budget"} />
         ) : (
           <>

@@ -41,6 +41,7 @@ function TransactionsTable() {
         }
         tablecolor={"var(--color-white)"}
         bordercolor={"var(--color-grey-100)"}
+        minheight={count <= 1 ? "100%" : ""}
         spacing={{
           tablePadding: deviceScreen <= SIZES.sm ? 250 : 400,
           tableGap: 300,

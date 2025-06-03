@@ -181,3 +181,15 @@ export function resortDueAndUpcomingBillsByDueDate(
       true
     );
 }
+export function monthDayOfTheYear(days) {
+  const daysPerMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let i = 0;
+  let leftDays = days;
+  while (i < daysPerMonth.length) {
+    if (leftDays <= daysPerMonth[i]) return { month: i + 1, day: leftDays };
+    else {
+      leftDays -= daysPerMonth[i];
+      i++;
+    }
+  }
+}
