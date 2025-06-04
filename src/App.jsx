@@ -1,11 +1,4 @@
-import { useState } from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  // ProtectedRoute,
-} from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
 import Overview from "./pages/Overview";
