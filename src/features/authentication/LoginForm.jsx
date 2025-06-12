@@ -182,6 +182,19 @@ function LoginForm() {
       >
         {isSignedUp ? "Login" : "Create Account"}
       </Button>
+      <Button
+        $variation={"primary"}
+        onClick={(e) => {
+          e.preventDefault();
+          onSubmit({
+            email: import.meta.env.VITE_TEST_EMAIL,
+            password: import.meta.env.VITE_TEST_PASS,
+          });
+        }}
+        /*disabled={isAuthorising}> */ style={{ marginTop: "14px" }}
+      >
+        Login as "Test" user
+      </Button>
 
       <BottomText>
         <span>
