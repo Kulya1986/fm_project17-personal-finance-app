@@ -33,6 +33,9 @@ const BottomText = styled.p`
   }
 `;
 
+const test_email = import.meta.env.VITE_TEST_EMAIL;
+const test_pass = import.meta.env.VITE_TEST_PASS;
+
 function LoginForm() {
   const [isSignedUp, setIsSignedUp] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -187,8 +190,8 @@ function LoginForm() {
         onClick={(e) => {
           e.preventDefault();
           onSubmit({
-            email: import.meta.env.VITE_TEST_EMAIL,
-            password: import.meta.env.VITE_TEST_PASS,
+            email: test_email,
+            password: test_pass,
           });
         }}
         /*disabled={isAuthorising}> */ style={{ marginTop: "14px" }}
