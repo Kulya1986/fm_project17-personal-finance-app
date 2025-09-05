@@ -90,7 +90,7 @@ function Login() {
         <ImgBackground>
           <div>
             <img
-              src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//logo-large.svg"
+              src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons/logo-large.svg"
               alt="Finance Application"
             />
           </div>

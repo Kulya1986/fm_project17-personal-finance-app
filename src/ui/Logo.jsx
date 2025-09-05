@@ -22,8 +22,8 @@ function Logo({ small }) {
       <img
         src={
           small
-            ? "https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//logo-small.svg"
-            : "https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//logo-large.svg"
+            ? "https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons/logo-small.svg"
+            : "https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons/logo-large.svg"
         }
         alt="Finance App"
       />

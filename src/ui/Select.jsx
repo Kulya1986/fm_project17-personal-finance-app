@@ -215,7 +215,7 @@ function Select({
             <Arrow style={{ textAlign: "right" }}>
               <img
                 className={showDropdown ? "up" : ""}
-                src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//icon-caret-down.svg"
+                src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons/icon-caret-down.svg"
                 alt={showDropdown ? "close dropdown" : "open dropdown"}
               />
             </Arrow>
@@ -261,7 +261,7 @@ function Select({
                   <Used>Already used</Used>
                 ) : option === value ? (
                   <img
-                    src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//icon-selected.svg"
+                    src="https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons/icon-selected.svg"
                     alt="selected option"
                   />
                 ) : null}

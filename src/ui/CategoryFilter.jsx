@@ -55,7 +55,7 @@ function CategoryFilter() {
         selectwidth={mobileScreen ? "20px" : "180px"}
         mobileImg={
           mobileScreen
-            ? "https://rxdbotqqmsdjwbnfyykl.supabase.co/storage/v1/object/public/icons//icon-filter-mobile.svg"
+            ? "https://rxdbotqqmsdjwbnfyykl.supabase.co/storage/v1/object/public/icons/icon-filter-mobile.svg"
             : ""
         }
       />

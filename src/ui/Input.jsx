@@ -4,14 +4,14 @@ import { DEVICE } from "../styles/screenBreakpoints";
 const variations = {
   iconCurrency: css`
     padding-left: var(--spacing-500);
-    background: url("https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//icons8-us-dollar-24.png")
+    background: url("https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons/icons8-us-dollar-24.png")
       no-repeat var(--spacing-200);
     background-size: 16px;
     background-color: var(--color-white);
   `,
   iconSearch: css`
     padding-right: var(--spacing-500);
-    background: url("https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons//icon-search.svg")
+    background: url("https://ficcbcjzijeblkixdjqt.supabase.co/storage/v1/object/public/icons/icon-search.svg")
       no-repeat calc(100% - var(--spacing-200));
     background-size: 16px;
     width: 320px;
