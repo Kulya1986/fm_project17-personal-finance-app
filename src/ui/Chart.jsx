@@ -45,7 +45,10 @@ const TotalLimit = styled.p`
 `;
 
 function Chart({ legendOn = false, chartData, limit, spent }) {
-  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+  const mobileScreen =
+    window.screen.width <= SIZES.sm || window.innerWidth <= SIZES.sm
+      ? true
+      : false;
 
   return (
     <>

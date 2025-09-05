@@ -73,7 +73,10 @@ function Budget({ budget }) {
       ? 100
       : ((totalSpending / budgetLimit) * 100).toFixed(2);
 
-  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+  const mobileScreen =
+    window.screen.width <= SIZES.sm || window.innerWidth <= SIZES.sm
+      ? true
+      : false;
 
   return (
     <Card $variation="budget" $mode="light">

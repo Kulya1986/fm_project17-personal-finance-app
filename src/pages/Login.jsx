@@ -46,7 +46,7 @@ const ImgBackground = styled.div`
   width: auto;
   border-radius: var(--spacing-150);
   padding: var(--spacing-500);
-  background-image: url("https://rxdbotqqmsdjwbnfyykl.supabase.co/storage/v1/object/public/icons//illustration-authentication.svg");
+  background-image: url("https://rxdbotqqmsdjwbnfyykl.supabase.co/storage/v1/object/public/icons/illustration-authentication.svg");
   background-position: left top;
   background-repeat: no-repeat;
   background-size: cover;

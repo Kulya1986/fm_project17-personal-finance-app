@@ -27,7 +27,8 @@ function BudgetsSummary() {
   );
 
   const tabScreen =
-    window.screen.width <= SIZES.md && window.screen.width > SIZES.sm
+    (window.screen.width <= SIZES.md || window.innerWidth <= SIZES.md) &&
+    (window.screen.width > SIZES.sm || window.innerWidth > SIZES.sm)
       ? true
       : false;
 

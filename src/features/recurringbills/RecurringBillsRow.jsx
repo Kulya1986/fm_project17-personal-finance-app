@@ -120,7 +120,10 @@ function RecurringBillsRow({ bill }) {
 
   const { isDeleting, removeBill } = useDeleteBill();
 
-  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+  const mobileScreen =
+    window.screen.width <= SIZES.sm || window.innerWidth <= SIZES.sm
+      ? true
+      : false;
 
   const dueDateCell = (
     <>

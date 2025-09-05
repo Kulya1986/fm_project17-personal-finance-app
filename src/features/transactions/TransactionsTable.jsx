@@ -25,7 +25,10 @@ function TransactionsTable() {
       )
     : Math.ceil(count / PAGE_SIZE);
 
-  const deviceScreen = window.screen.width;
+  const deviceScreen =
+    window.innerWidth < window.screen.width
+      ? window.innerWidth
+      : window.screen.width;
 
   return (
     <>

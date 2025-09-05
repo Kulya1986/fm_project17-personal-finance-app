@@ -114,7 +114,10 @@ function RecurringBillsSummary({ bills }) {
     { count: 0, amount: 0 }
   );
 
-  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+  const mobileScreen =
+    window.screen.width <= SIZES.sm || window.innerWidth <= SIZES.sm
+      ? true
+      : false;
 
   return (
     <StyledRecurringBillsSummary>

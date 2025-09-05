@@ -43,7 +43,10 @@ function CategoryFilter() {
   const selectInitial = ["All Transactions"];
   const selectOptions = categories?.map((item) => item.category_name);
   const categoriesOptions = selectInitial.concat(selectOptions);
-  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+  const mobileScreen =
+    window.screen.width <= SIZES.sm || window.innerWidth <= SIZES.sm
+      ? true
+      : false;
 
   return (
     <StyledCategoryFilter>

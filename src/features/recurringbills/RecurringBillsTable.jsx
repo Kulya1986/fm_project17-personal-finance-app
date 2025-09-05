@@ -4,7 +4,10 @@ import RecurringBillsRow from "./RecurringBillsRow";
 import RecurringBillsTableOperations from "./RecurringBillsTableOperations";
 
 function RecurringBillsTable({ bills }) {
-  const deviceScreen = window.screen.width;
+  const deviceScreen =
+    window.innerWidth < window.screen.width
+      ? window.innerWidth
+      : window.screen.width;
   return (
     <Table
       columns={deviceScreen <= SIZES.sm ? "1fr" : "1fr 8.5rem 4.5rem 1rem"}

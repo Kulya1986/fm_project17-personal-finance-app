@@ -185,7 +185,10 @@ function Select({
     setShowDropDown((curr) => !curr);
   }
 
-  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+  const mobileScreen =
+    window.screen.width <= SIZES.sm || window.innerWidth <= SIZES.sm
+      ? true
+      : false;
 
   return (
     <StyledSelect ref={ref} {...props} $selectwidth={selectwidth}>

@@ -53,7 +53,10 @@ function BudgetTransactionRow({ transaction }) {
     currency: "USD",
   });
 
-  const mobileScreen = window.screen.width <= SIZES.sm ? true : false;
+  const mobileScreen =
+    window.screen.width <= SIZES.sm || window.innerWidth <= SIZES.sm
+      ? true
+      : false;
   return (
     <>
       <StyledAgent>

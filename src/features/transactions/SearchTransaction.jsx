@@ -13,9 +13,9 @@ function SearchField() {
   );
 
   const tabWidth =
-    window.screen.width <= SIZES.sm
+    window.screen.width <= SIZES.sm || window.innerWidth <= SIZES.sm
       ? "70%"
-      : window.screen.width <= SIZES.md
+      : window.screen.width <= SIZES.md || window.innerWidth <= SIZES.md
       ? "160px"
       : false;
 
